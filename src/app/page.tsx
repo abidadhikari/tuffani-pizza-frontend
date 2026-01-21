@@ -1,65 +1,199 @@
+"use client";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
+  const pizzaRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const target1Ref = useRef<HTMLDivElement>(null);
+  const target2Ref = useRef<HTMLDivElement>(null);
+  const target3Ref = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLDivElement>(null);
+  const listSectionRef = useRef<HTMLDivElement>(null);
+  const wholePizzaSectionRef = useRef<HTMLDivElement>(null);
+  const chefSectionRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!pizzaRef.current || !containerRef.current) return;
+
+    const pizza = pizzaRef.current;
+    const target1 = target1Ref.current;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroSectionRef.current,
+        start: "80% 78%",
+        end: "bottom 10%",
+        scrub: 1,
+        markers: false,
+      },
+    });
+    tl.fromTo(
+      pizza,
+      {
+        scale: 1,
+        rotate: 0,
+        transformOrigin: "center center",
+        // transform: "translate(-50%, 0%)",
+      },
+      {
+        scale: 1,
+        duration: 1,
+        rotate: 180,
+        transformOrigin: "center center",
+        transform: "translate(0%, 0%)",
+        x: target1
+          ? target1.getBoundingClientRect().left -
+            pizza.getBoundingClientRect().left
+          : 0,
+        y: target1
+          ? target1.getBoundingClientRect().top -
+            pizza.getBoundingClientRect().top
+          : 0,
+        translate: "0 0",
+        height: target1
+          ? target1.getBoundingClientRect().height
+          : pizza.getBoundingClientRect().height,
+        width: target1
+          ? target1.getBoundingClientRect().width
+          : pizza.getBoundingClientRect().width,
+        ease: "sine.inOut",
+      },
+    );
+
+    const tl2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: listSectionRef.current,
+        start: "90% 78%",
+        end: "bottom 10%",
+        scrub: 1,
+        markers: true,
+      },
+    });
+
+    tl2.to(pizza, {
+      scale: 1,
+      duration: 1,
+      rotate: 360,
+      transformOrigin: "center center",
+      ease: "sine.inOut",
+      x: target2Ref.current
+        ? target2Ref.current.getBoundingClientRect().left -
+          pizza.getBoundingClientRect().left
+        : 0,
+      y: target2Ref.current
+        ? target2Ref.current.getBoundingClientRect().top -
+          pizza.getBoundingClientRect().top
+        : 0,
+      translate: "0 0",
+      height: target2Ref.current
+        ? target2Ref.current.getBoundingClientRect().height
+        : pizza.getBoundingClientRect().height,
+      width: target2Ref.current
+        ? target2Ref.current.getBoundingClientRect().width
+        : pizza.getBoundingClientRect().width,
+    });
+
+    const tl3 = gsap.timeline({
+      scrollTrigger: {
+        trigger: wholePizzaSectionRef.current,
+        start: "100% 78%",
+        end: "bottom 10%",
+        scrub: 1,
+        markers: true,
+      },
+    });
+
+    tl3.to(pizza, {
+      scale: 1,
+      duration: 1,
+      rotate: 540,
+      transformOrigin: "center center",
+      ease: "sine.inOut",
+      x: target3Ref.current
+        ? target3Ref.current.getBoundingClientRect().left -
+          pizza.getBoundingClientRect().left
+        : 0,
+      y: target3Ref.current
+        ? target3Ref.current.getBoundingClientRect().top -
+          pizza.getBoundingClientRect().top
+        : 0,
+      translate: "0 0",
+      height: target3Ref.current
+        ? target3Ref.current.getBoundingClientRect().height
+        : pizza.getBoundingClientRect().height,
+      width: target3Ref.current
+        ? target3Ref.current.getBoundingClientRect().width
+        : pizza.getBoundingClientRect().width,
+    });
+
+    return () => {
+      tl.kill();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <div ref={containerRef} className="flex flex-col bg-zinc-50 dark:bg-black">
+      {/* Hero Section */}
+      <div
+        className="h-screen bg-amber-300 relative w-full "
+        ref={heroSectionRef}
+      >
+        <div
+          ref={pizzaRef}
+          className="h-260 w-screen  grid place-items-center absolute top-1/2 "
+        >
+          <div className="aspect-square h-full max-w-full rounded-full ">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/Pizza.png"
+              alt="pizza"
+              width={500}
+              height={500}
+              className="w-full "
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
         </div>
-      </main>
+      </div>
+
+      {/* Content Sections */}
+      <div className="space-y-[50vh] pb-96">
+        {/* Section 1 */}
+        <div
+          className="grid grid-cols-3 px-20 py-80 bg-violet-500"
+          ref={listSectionRef}
+        >
+          <div className="size-64 rounded-full bg-red-400"></div>
+          <div
+            className="target-circle size-64 rounded-full bg-yellow-400"
+            ref={target1Ref}
+          ></div>
+          <div className="size-64 rounded-full bg-red-400"></div>
+        </div>
+
+        {/* Section 2 */}
+        <div className="grid grid-cols-3 px-20" ref={wholePizzaSectionRef}>
+          <div className="size-64 rounded-full bg-red-400"></div>
+          <div className="size-64 rounded-full bg-red-400"></div>
+          <div
+            className="target-circle size-64 rounded-full bg-yellow-400 "
+            ref={target2Ref}
+          ></div>
+        </div>
+
+        {/* Section 3 */}
+        <div className="grid grid-cols-3 px-20" ref={chefSectionRef}>
+          <div
+            className="target-circle size-64 rounded-full bg-yellow-400 opacity-20"
+            ref={target3Ref}
+          ></div>
+          <div className="size-64 rounded-full bg-red-400"></div>
+          <div className="size-64 rounded-full bg-red-400"></div>
+        </div>
+      </div>
     </div>
   );
 }
