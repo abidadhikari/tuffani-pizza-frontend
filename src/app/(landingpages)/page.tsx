@@ -1,7 +1,10 @@
 "use client";
+import ChefSection from "@/components/organism/feat/landing/ChefSection";
+import HeroSection from "@/components/organism/feat/landing/HeroSection";
+import MenuGlimpseSection from "@/components/organism/feat/landing/MenuGlimpseSection";
+import WholePizzaSection from "@/components/organism/feat/landing/WholePizzaSection";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -43,6 +46,7 @@ export default function Home() {
         scale: 1,
         duration: 1,
         rotate: 180,
+        zIndex: 200,
         transformOrigin: "center center",
         transform: "translate(0%, 0%)",
         x: target1
@@ -70,7 +74,7 @@ export default function Home() {
         start: "90% 78%",
         end: "bottom 10%",
         scrub: 1,
-        markers: true,
+        markers: false,
       },
     });
 
@@ -103,7 +107,7 @@ export default function Home() {
         start: "100% 78%",
         end: "bottom 10%",
         scrub: 1,
-        markers: true,
+        markers: false,
       },
     });
 
@@ -138,62 +142,11 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="flex flex-col bg-zinc-50 dark:bg-black">
-      {/* Hero Section */}
-      <div
-        className="h-screen bg-amber-300 relative w-full "
-        ref={heroSectionRef}
-      >
-        <div
-          ref={pizzaRef}
-          className="h-260 w-screen  grid place-items-center absolute top-1/2 "
-        >
-          <div className="aspect-square h-full max-w-full rounded-full ">
-            <Image
-              src="/Pizza.png"
-              alt="pizza"
-              width={500}
-              height={500}
-              className="w-full "
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Content Sections */}
-      <div className="space-y-[50vh] pb-96">
-        {/* Section 1 */}
-        <div
-          className="grid grid-cols-3 px-20 py-80 bg-violet-500"
-          ref={listSectionRef}
-        >
-          <div className="size-64 rounded-full bg-red-400"></div>
-          <div
-            className="target-circle size-64 rounded-full bg-yellow-400"
-            ref={target1Ref}
-          ></div>
-          <div className="size-64 rounded-full bg-red-400"></div>
-        </div>
-
-        {/* Section 2 */}
-        <div className="grid grid-cols-3 px-20" ref={wholePizzaSectionRef}>
-          <div className="size-64 rounded-full bg-red-400"></div>
-          <div className="size-64 rounded-full bg-red-400"></div>
-          <div
-            className="target-circle size-64 rounded-full bg-yellow-400 "
-            ref={target2Ref}
-          ></div>
-        </div>
-
-        {/* Section 3 */}
-        <div className="grid grid-cols-3 px-20" ref={chefSectionRef}>
-          <div
-            className="target-circle size-64 rounded-full bg-yellow-400 opacity-20"
-            ref={target3Ref}
-          ></div>
-          <div className="size-64 rounded-full bg-red-400"></div>
-          <div className="size-64 rounded-full bg-red-400"></div>
-        </div>
-      </div>
+      <HeroSection ref={heroSectionRef} pizzaRef={pizzaRef} />
+      <MenuGlimpseSection ref={listSectionRef} targetRef={target1Ref} />
+      <WholePizzaSection ref={wholePizzaSectionRef} targetRef={target2Ref} />
+      <ChefSection ref={chefSectionRef} targetRef={target3Ref} />
+      <div className="py-80"></div>
     </div>
   );
 }
