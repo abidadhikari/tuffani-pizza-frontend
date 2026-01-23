@@ -135,4 +135,13 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .my-width {
+    width: min(90%, 1200px);
+  }
+  .navlink {
+    @apply font-bold py-2 border-b-3 border-transparent hover:text-brand transition-all duration-300;
+  }
+  .active-navlink {
+    @apply text-brand font-bold border-brand;
+  }
 }

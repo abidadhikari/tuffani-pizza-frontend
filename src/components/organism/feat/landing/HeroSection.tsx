@@ -16,7 +16,7 @@ const HeroSection = forwardRef<HTMLDivElement, Props>(
         <div
           ref={pizzaRef}
           className="h-360 w-screen grid place-items-center absolute top-[60%]"
-          // style={{ display: "none" }}
+          style={{ display: "none" }}
         >
           <div className="aspect-square h-full max-w-full rounded-full">
             <Image

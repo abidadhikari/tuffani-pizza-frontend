@@ -1,5 +1,6 @@
 "use client";
 import ChefSection from "@/components/organism/feat/landing/ChefSection";
+import CustomerReviewSection from "@/components/organism/feat/landing/CustomerReviewSection";
 import HeroSection from "@/components/organism/feat/landing/HeroSection";
 import MenuGlimpseSection from "@/components/organism/feat/landing/MenuGlimpseSection";
 import WholePizzaSection from "@/components/organism/feat/landing/WholePizzaSection";
@@ -146,7 +147,7 @@ export default function Home() {
       <MenuGlimpseSection ref={listSectionRef} targetRef={target1Ref} />
       <WholePizzaSection ref={wholePizzaSectionRef} targetRef={target2Ref} />
       <ChefSection ref={chefSectionRef} targetRef={target3Ref} />
-      <div className="py-80"></div>
+      <CustomerReviewSection />
     </div>
   );
 }

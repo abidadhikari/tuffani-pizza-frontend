@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { forwardRef } from "react";
 
@@ -6,12 +7,13 @@ interface PizzaShowcaseCardProps {
   description: string;
   imageUrl?: string;
   targetRef?: React.RefObject<HTMLDivElement | null>;
+  className?: string;
 }
 
 const PizzaShowcaseCard = forwardRef<HTMLDivElement, PizzaShowcaseCardProps>(
-  ({ title, description, imageUrl, targetRef }, ref) => {
+  ({ title, description, imageUrl, targetRef, className }, ref) => {
     return (
-      <div ref={ref} className="flex items-center flex-col">
+      <div ref={ref} className={cn("flex items-center flex-col", className)}>
         <div className="z-2">
           <div className="size-70 rounded-full z-100" ref={targetRef}>
             {imageUrl && (

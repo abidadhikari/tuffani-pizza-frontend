@@ -11,7 +11,7 @@ type Props = {
 
 const ChefSection = forwardRef<HTMLDivElement, Props>(({ targetRef }, ref) => {
   return (
-    <div className="bg-[#FFFFED] pt-25" ref={ref}>
+    <div className="bg-[#FFFFED] pt-25 pb-30" ref={ref}>
       <div className="w-300 max-w-full mx-auto grid grid-cols-2 gap-10 ">
         <div className="flex justify-end items-center flex-col  w-full  relative ">
           <Image src="/chef.png" alt="pizza" width={564} height={500} />
@@ -22,8 +22,10 @@ const ChefSection = forwardRef<HTMLDivElement, Props>(({ targetRef }, ref) => {
         </div>
         <div className="flex flex-col justify-center w-194.25 text-left pb-10 ">
           <div className="text-4xl font-extrabold space-y-1 mb-6">
-            <h2 className="">Here! Two Pizzas For</h2>
-            <WavyText className="">The Price Of One!!</WavyText>
+            <h2 className="">
+              Meet the <WavyText className="inline">Maestro</WavyText>
+            </h2>
+            <WavyText className="">Behind the Magic!</WavyText>
           </div>
           <div className="flex flex-col gap-2 font-light text-base  w-150 max-w-full  mb-10">
             <p className="">
@@ -36,7 +38,7 @@ const ChefSection = forwardRef<HTMLDivElement, Props>(({ targetRef }, ref) => {
             </p>
           </div>
           <Link href="#">
-            <Button className="w-fit">Order Now</Button>
+            <Button className="w-fit">Learn More</Button>
           </Link>
         </div>
       </div>
