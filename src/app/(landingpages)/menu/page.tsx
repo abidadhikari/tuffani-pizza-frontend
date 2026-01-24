@@ -1,7 +1,9 @@
 import Button from "@/components/atom/Button";
 import Title from "@/components/atom/Title";
 import WavyText from "@/components/atom/WavyText";
+import PizzaCard from "@/components/molecule/PizzaCard";
 import PizzaShowcaseCard from "@/components/molecule/PizzaShowcaseCard";
+import { FOOD_TYPE } from "@/lib/constants";
 import Link from "next/link";
 import React from "react";
 
@@ -35,23 +37,30 @@ export default function MenuPage() {
               imageUrl="/Pizza.png"
               title="Vegetable Pizza"
               description="A storm of crispy pepperoni and double mozzarella."
-              className="w-[400px]"
+              className="w-100"
             />
           </div>
         </div>
       </section>
-      <section className="bg-[#FFFFED]">
+      <section className="">
         <div className="my-width mx-auto py-24 flex flex-col gap-16">
-          <Title>The Entire To Menu</Title>
+          <Title>The Tufani Menu</Title>
+          <div className="flex gap-4">
+            <Button>All Items</Button>
+            <Button variant={"outline"}>All Items</Button>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[...Array(10)].map((_, index) => {
               return (
-                <PizzaShowcaseCard
+                <PizzaCard
                   key={index}
                   imageUrl="/Pizza.png"
                   title="Vegetable Pizza"
                   description="A storm of crispy pepperoni and double mozzarella."
+                  price={12.99}
+                  crossedPrice={15.99}
+                  type={index % 2 === 0 ? FOOD_TYPE.VEG : FOOD_TYPE.NON_VEG}
                 />
               );
             })}

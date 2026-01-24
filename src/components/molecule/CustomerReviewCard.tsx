@@ -2,7 +2,7 @@ import React from "react";
 
 export default function CustomerReviewCard() {
   return (
-    <div className="bg-brand-yellow rounded-3xl p-10 px-8.5 w-100">
+    <div className="bg-brand-yellow rounded-3xl p-10 px-8.5 ">
       <h3 className="font-bold text-2xl mb-3.5 leading-[150%]">
         Best pizza in town 😋{" "}
       </h3>
