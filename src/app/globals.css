@@ -57,6 +57,9 @@ body {
   --color-brand-green: #cff7d3;
   --color-brand-pink: #fdd3d0;
   --color-brand-yellow: #fff1c2;
+
+  /* Background/Warning/Tertiary */
+  --color-tertiary: #fffbeb;
 }
 
 :root {

@@ -12,6 +12,7 @@ interface IPizzaCard {
   imageUrl: string;
   type: IFoodType;
   percentageOff?: number;
+  variant?: "default" | "wide";
 }
 
 export default function PizzaCard(props: IPizzaCard) {
@@ -23,13 +24,25 @@ export default function PizzaCard(props: IPizzaCard) {
     imageUrl,
     type,
     percentageOff = 35,
+    variant = "default",
   } = props;
 
-  const baseStyle = type === FOOD_TYPE.VEG ? "bg-[#EBFFEE]" : "bg-[#FEE9E7]";
+  const baseStyle = cn({
+    "bg-[#EBFFEE]": type === FOOD_TYPE.VEG,
+    "bg-[#FEE9E7]": type === FOOD_TYPE.NON_VEG,
+    "w-74": variant === "default",
+    "w-96": variant === "wide",
+  });
+
   return (
-    <div className={cn(`w-74 rounded-2xl`, baseStyle)}>
+    <div className={cn(` rounded-2xl`, baseStyle)}>
       <div className="h-53.25 w-full bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center relative">
-        <Image src={"/pizza-with-bg.jpg"} className="" alt={title} fill />
+        <Image
+          src={"/pizza-with-bg.jpg"}
+          className="object-cover"
+          alt={title}
+          fill
+        />
         {percentageOff && (
           <PercentageOffBadge
             percentageOff={59}
@@ -37,10 +50,17 @@ export default function PizzaCard(props: IPizzaCard) {
           />
         )}
       </div>
-      <div className="px-4.5 py-5 space-y-3.5">
-        <h3 className="font-semibold text-lg leading-[130%]">{title}</h3>
-        <p className="font-light text-sm leading-[150%]">{description}</p>
-        <div className="pt-1">
+      <div
+        className={cn("px-4.5 py-5 space-y-3.5", {
+          "w-74": variant === "default",
+          "flex flex-row": variant === "wide",
+        })}
+      >
+        <div className="space-y-3.5">
+          <h3 className="font-semibold text-lg leading-[130%]">{title}</h3>
+          <p className="font-light text-sm leading-[150%]">{description}</p>
+        </div>
+        <div className={cn("pt-1", { "text-right": variant === "wide" })}>
           {crossedPrice && (
             <div className="italic text-sm text-brand line-through">
               Rs.{crossedPrice}
