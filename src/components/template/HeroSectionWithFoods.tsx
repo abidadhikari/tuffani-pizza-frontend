@@ -4,10 +4,11 @@ import WavyText from "../atom/WavyText";
 interface HeroSectionWithFoodsProps {
   title: string;
   description: string;
+  children?: React.ReactNode;
 }
 
 export default function HeroSectionWithFoods(props: HeroSectionWithFoodsProps) {
-  const { title, description } = props;
+  const { title, description, children } = props;
   return (
     <section>
       <div className="">
@@ -21,7 +22,7 @@ export default function HeroSectionWithFoods(props: HeroSectionWithFoodsProps) {
         </div>
       </div>
       <div className="bg-tertiary">
-        <div className="my-width mx-auto">test</div>
+        <div className="my-width mx-auto">{children}</div>
       </div>
     </section>
   );
