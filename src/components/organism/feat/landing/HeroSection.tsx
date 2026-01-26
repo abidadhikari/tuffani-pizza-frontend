@@ -10,7 +10,7 @@ type Props = {
 const HeroSection = forwardRef<HTMLDivElement, Props>(
   ({ pizzaRef }, heroSectionRef) => {
     return (
-      <div className="h-screen  relative w-full" ref={heroSectionRef}>
+      <div className="h-screen  relative w-screen " ref={heroSectionRef}>
         <HeroCTASection />
         <HeroFoods />
         <div

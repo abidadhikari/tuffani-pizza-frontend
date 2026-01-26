@@ -16,7 +16,7 @@ export default function CustomerReviewSection() {
         What our <WavyText className="inline">Customers are Saying</WavyText>
       </h2>
 
-      <p className="text-light text-[#828282] text-lg mb-16 text-center w-194.25 mx-auto">
+      <p className="text-light text-[#828282] text-lg mb-16 text-center w-194.25 max-w-[90%] mx-auto">
         Subheading that sets up context, shares more info about the website, or
         generally gets people psyched to keep scrolling.
       </p>
@@ -29,12 +29,12 @@ export default function CustomerReviewSection() {
             slidesToScroll: 1,
           }}
         >
-          <CarouselContent className="-ml-[30px]">
+          <CarouselContent className="-ml-7.5">
             {[...Array(10)].map((_, index) => (
               <CarouselItem
                 key={index}
                 className="
-                  pl-[30px]
+                  pl-7.5
                   basis-full        /* small: 1 */
                   md:basis-1/2      /* medium: 2 */
                   lg:basis-1/3      /* large: 3 */

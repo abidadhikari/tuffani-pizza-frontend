@@ -45,7 +45,7 @@ export default function PizzaCard(props: IPizzaCard) {
         />
         {percentageOff && (
           <PercentageOffBadge
-            percentageOff={59}
+            percentageOff={Math.round(percentageOff)}
             className="absolute top-3.5 right-3.5"
           />
         )}

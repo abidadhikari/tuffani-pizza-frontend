@@ -12,7 +12,7 @@ const WholePizzaSection = forwardRef<HTMLDivElement, Props>(
   ({ targetRef }, ref) => {
     return (
       <div className="bg-[#FFFFED] pt-25" ref={ref}>
-        <div className="w-300 max-w-full mx-auto grid grid-cols-2 gap-10">
+        <div className="w-300 max-w-[90%] mx-auto grid md:grid-cols-2 gap-10">
           <div className="flex flex-col justify-center w-194.25 text-left pb-10 ">
             <div className="text-4xl font-extrabold space-y-1 mb-6">
               <h2 className="">Here! Two Pizzas For</h2>

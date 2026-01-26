@@ -41,7 +41,7 @@ export default function Navbar() {
             <Image src="/logo.png" alt="Logo" width={120} height={40} />
           </Link>
         </div>
-        <nav>
+        <nav className="">
           <ul className="flex items-center gap-12 ">
             <li>
               <Link

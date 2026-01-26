@@ -5,27 +5,45 @@ import WavyText from "@/components/atom/WavyText";
 import PizzaCard from "@/components/molecule/PizzaCard";
 import { FOOD_TYPE } from "@/lib/constants";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import MenuFilter from "@/components/molecule/MenuFilter";
 import CheckboxGroup from "@/components/atom/CheckboxGroup";
 import Image from "next/image";
+import menu from "@/data/menu";
 
 export default function MenuPage() {
-  const [selectOptions] = useState([
+  const categories = Array.from(
+    new Set(menu.map((item) => item.category.toLowerCase())),
+  );
+  const defaultOptions = [
     {
       label: "All Items",
       value: "all",
     },
-    {
-      label: "Pizza",
-      value: "pizza",
-    },
-  ]);
+    ...categories.map((category) => ({
+      label: category.charAt(0).toUpperCase() + category.slice(1),
+      value: category,
+    })),
+  ];
+
+  const [selectOptions] = useState(defaultOptions);
   const [foodType, setFoodType] = useState<string[]>([]);
   const [selectedItem, setSelectedItem] = useState<string>(
-    selectOptions[0].value,
+    defaultOptions[0].value,
   );
+
+  let filteredMenu = menu;
+  if (selectedItem !== "all") {
+    filteredMenu = filteredMenu.filter(
+      (item) => item.category.toLowerCase() === selectedItem,
+    );
+  }
+  if (foodType.length > 0) {
+    filteredMenu = filteredMenu.filter((item) =>
+      foodType.includes(item.isVeg ? "veg" : "nonveg"),
+    );
+  }
   return (
     <main>
       <section className="pt-48 pb-37 my-width mx-auto flex items-center justify-center flex-col text-center">
@@ -105,16 +123,19 @@ export default function MenuPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[...Array(10)].map((_, index) => {
+            {filteredMenu.map((item, index) => {
               return (
                 <PizzaCard
                   key={index}
-                  imageUrl="/Pizza.png"
-                  title="Vegetable Pizza"
-                  description="A storm of crispy pepperoni and double mozzarella."
-                  price={12.99}
-                  crossedPrice={15.99}
-                  type={index % 2 === 0 ? FOOD_TYPE.VEG : FOOD_TYPE.NON_VEG}
+                  imageUrl={item.image}
+                  title={item.title}
+                  description={item.description}
+                  price={item.price}
+                  crossedPrice={item.crossedPrice}
+                  type={item.isVeg ? FOOD_TYPE.VEG : FOOD_TYPE.NON_VEG}
+                  percentageOff={
+                    ((item.crossedPrice - item.price) / item.crossedPrice) * 100
+                  }
                 />
               );
             })}

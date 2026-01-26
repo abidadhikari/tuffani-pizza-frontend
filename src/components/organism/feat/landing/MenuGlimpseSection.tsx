@@ -14,7 +14,7 @@ const MenuGlimpseSection = forwardRef<HTMLDivElement, Props>(
         className="flex items-center justify-center flex-col  pt-40 pb-16"
         ref={ref}
       >
-        <div className="flex flex-col w-194.25 text-center space-y-5">
+        <div className="flex flex-col w-194.25 max-w-[90%] text-center space-y-5">
           <h2 className="text-4xl font-extrabold">
             Your <WavyText className="inline">Delicious Pizza Starts</WavyText>{" "}
             Here!
@@ -24,7 +24,7 @@ const MenuGlimpseSection = forwardRef<HTMLDivElement, Props>(
             or generally gets people psyched to keep scrolling.{" "}
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-5 w-300 max-w-full mx-auto mb-13">
+        <div className="grid  lg:grid-cols-3 gap-5 w-300 max-w-[90%] mx-auto mb-13">
           <PizzaShowcaseCard
             title="Vegetable Pizza"
             description="A storm of crispy pepperoni and double mozzarella."
