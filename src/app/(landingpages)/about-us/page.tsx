@@ -1,7 +1,16 @@
 import WavyText from "@/components/atom/WavyText";
+import AboutUsImageCarouselSection from "@/components/organism/feat/landing/AboutUsImageCarouselSection";
 import ChefSection from "@/components/organism/feat/landing/ChefSection";
 import HeroSectionWithFoods from "@/components/template/HeroSectionWithFoods";
+import { Metadata } from "next";
+
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "About Us - Tufani Pizza",
+  description:
+    "Discover the story behind Tufani Pizza, where passion meets flavor. Learn about our journey, values, and commitment to delivering the best pizza experience.",
+};
 
 export default function AboutUsPage() {
   return (
@@ -62,9 +71,37 @@ export default function AboutUsPage() {
       <ChefSection className="bg-white" />
 
       <div className="bg-[#FFFBEB]">
-        <div className="my-width">
-          <div className="italic w-111">
+        <div className="my-width mx-auto pt-18 text-center">
+          <h2 className="text-5xl italic font-bold  mb-6">
+            Inside the <WavyText className="inline">Storm</WavyText>
+          </h2>
+          <p className="w-[777px] max-w-full mx-auto">
+            We’ve designed every corner to match our high-velocity flavor,
+            creating the perfect environment for a legendary pizza experience.
+          </p>
+        </div>
+        <AboutUsImageCarouselSection />
+      </div>
+
+      <div className="bg-[#FFE8A3]">
+        <div className="my-width max-w-[90%] mx-auto py-20 flex items-center justify-between">
+          <div className="italic w-111 text-5xl ">
             Join the <WavyText className="inline">Tufani Pizza</WavyText> Family
+          </div>
+
+          <div className="font-light w-[619px]">
+            Experience the difference that passion, quality, and tradition make.
+            Visit us today and taste why we&apos;ve been bringing families
+            together for nearly three decades. <br />
+            <br />
+            Contact{" "}
+            <a
+              href="mailto:info@tufanipizza.com.np"
+              className="font-bold text-brand"
+            >
+              info@tufanipizza.com.np
+            </a>{" "}
+            for more info.
           </div>
         </div>
       </div>

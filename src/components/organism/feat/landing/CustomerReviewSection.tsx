@@ -1,15 +1,10 @@
 import WavyText from "@/components/atom/WavyText";
 import CustomerReviewCard from "@/components/molecule/CustomerReviewCard";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import React from "react";
+import AppCarousel from "@/components/molecule/AppCarousel";
 
 export default function CustomerReviewSection() {
+  const reviews = Array.from({ length: 10 });
+
   return (
     <div className="py-20">
       <h2 className="font-bold text-3xl mb-4 text-center">
@@ -21,33 +16,11 @@ export default function CustomerReviewSection() {
         generally gets people psyched to keep scrolling.
       </p>
 
-      <div className="my-width mx-auto relative overflow-visible">
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-            slidesToScroll: 1,
-          }}
-        >
-          <CarouselContent className="-ml-7.5">
-            {[...Array(10)].map((_, index) => (
-              <CarouselItem
-                key={index}
-                className="
-                  pl-7.5
-                  basis-full        /* small: 1 */
-                  md:basis-1/2      /* medium: 2 */
-                  lg:basis-1/3      /* large: 3 */
-                "
-              >
-                <CustomerReviewCard />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+      <div className="my-width mx-auto">
+        <AppCarousel
+          items={reviews}
+          renderItem={(_, index) => <CustomerReviewCard key={index} />}
+        />
       </div>
     </div>
   );

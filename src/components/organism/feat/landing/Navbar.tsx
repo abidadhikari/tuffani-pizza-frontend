@@ -1,80 +1,166 @@
 "use client";
+
 import Button from "@/components/atom/Button";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [, startTransition] = useTransition();
+
+  const lastScrollY = useRef(0);
+
+  /* ------------------ Scroll Logic (UP = show, DOWN = hide) ------------------ */
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (headerRef.current) {
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-          headerRef.current?.classList.add(
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Always show at top
+      if (currentScrollY <= 0) {
+        setIsVisible(true);
+      }
+      // Scrolling down → hide
+      else if (currentScrollY > lastScrollY.current) {
+        setIsVisible(false);
+      }
+      // Scrolling up → show
+      else {
+        setIsVisible(true);
+      }
+
+      // Blur effect
+      if (headerRef.current) {
+        if (currentScrollY > 50) {
+          headerRef.current.classList.add(
             "backdrop-blur-sm",
             "bg-white/40",
             "shadow-md",
           );
         } else {
-          headerRef.current?.classList.remove(
+          headerRef.current.classList.remove(
             "backdrop-blur-sm",
             "bg-white/40",
             "shadow-md",
           );
         }
-      });
-    }
-    return () => {
-      window.removeEventListener("scroll", () => {});
+      }
+
+      lastScrollY.current = currentScrollY;
     };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /* ------------------ Close menu on route change ------------------ */
+  useEffect(() => {
+    startTransition(() => {
+      setIsOpen(false);
+    });
+  }, [pathname]);
+
+  /* ------------------ Lock body scroll when menu open ------------------ */
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+  }, [isOpen]);
+
   return (
-    <header className="p-4 fixed top-0 left-0 w-full z-1000000" ref={headerRef}>
-      <section className="flex justify-between items-center w-300 max-w-full mx-auto">
-        <div>
-          <Link href="/">
-            <Image src="/logo.png" alt="Logo" width={120} height={40} />
-          </Link>
-        </div>
-        <nav className="">
-          <ul className="flex items-center gap-12 ">
+    <header
+      ref={headerRef}
+      className={cn(
+        `
+        fixed top-0 left-0 w-full z-[1000000]
+        transition-all duration-300 ease-in-out
+        `,
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full",
+      )}
+    >
+      <section className="flex justify-between items-center px-4 py-4 w-300 max-w-full mx-auto">
+        {/* Logo */}
+        <Link href="/">
+          <Image src="/logo.png" alt="Logo" width={120} height={40} />
+        </Link>
+
+        {/* Hamburger (mobile only) */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="sm:hidden relative z-[1000001] flex flex-col gap-1.5"
+        >
+          <span
+            className={cn(
+              "h-0.5 w-6 bg-black transition",
+              isOpen && "rotate-45 translate-y-2",
+            )}
+          />
+          <span
+            className={cn(
+              "h-0.5 w-6 bg-black transition",
+              isOpen && "opacity-0",
+            )}
+          />
+          <span
+            className={cn(
+              "h-0.5 w-6 bg-black transition",
+              isOpen && "-rotate-45 -translate-y-2",
+            )}
+          />
+        </button>
+
+        {/* Navigation */}
+        <nav
+          className={cn(
+            `
+            fixed sm:static top-0 left-0
+            h-screen sm:h-auto
+            w-screen sm:w-auto
+            bg-white sm:bg-transparent
+            flex items-center justify-center
+            transition-transform duration-300
+            `,
+            isOpen ? "translate-x-0" : "-translate-x-full sm:translate-x-0",
+          )}
+        >
+          <ul className="flex flex-col sm:flex-row items-center gap-12">
             <li>
               <Link
                 href="/"
-                className={
-                  pathname === "/" ? " navlink active-navlink" : "navlink"
-                }
+                className={cn("navlink", pathname === "/" && "active-navlink")}
               >
                 Home
               </Link>
             </li>
+
             <li>
               <Link
                 href="/menu"
-                className={
-                  pathname === "/menu" ? " navlink active-navlink" : "navlink"
-                }
+                className={cn(
+                  "navlink",
+                  pathname === "/menu" && "active-navlink",
+                )}
               >
                 Menu
               </Link>
             </li>
+
             <li>
               <Link
                 href="/about-us"
-                className={
-                  pathname === "/about-us"
-                    ? " navlink active-navlink"
-                    : "navlink"
-                }
+                className={cn(
+                  "navlink",
+                  pathname === "/about-us" && "active-navlink",
+                )}
               >
                 About Us
               </Link>
             </li>
+
             <li>
               <Link href="/contact-us">
                 <Button>Contact Us</Button>
