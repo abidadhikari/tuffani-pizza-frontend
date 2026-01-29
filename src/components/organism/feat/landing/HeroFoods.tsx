@@ -34,6 +34,16 @@ export default function HeroFoods() {
       alt: "mushroom",
       className: "bottom-[30vh] right-[10vw] scale-120",
     },
+    {
+      src: "/tomato.png",
+      alt: "tomato",
+      className: "top-[30vh] left-[10vw] scale-120",
+    },
+    {
+      src: "/pork.png",
+      alt: "pork",
+      className: "top-[45vh] left-[12vw] scale-60 blur-[4px]",
+    },
   ];
   return (
     <>
@@ -45,7 +55,10 @@ export default function HeroFoods() {
           height={100}
           key={index}
           priority
-          className={cn("absolute  animate-bounce-slow", item.className)}
+          className={cn(
+            "absolute hidden lg:block  animate-bounce-slow",
+            item.className,
+          )}
         />
       ))}
     </>

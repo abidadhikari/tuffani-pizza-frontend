@@ -11,15 +11,15 @@ const MenuGlimpseSection = forwardRef<HTMLDivElement, Props>(
   ({ targetRef }, ref) => {
     return (
       <div
-        className="flex items-center justify-center flex-col  pt-40 pb-16"
+        className="flex items-center justify-center flex-col py-15 md:pt-40 pb-16"
         ref={ref}
       >
         <div className="flex flex-col w-194.25 max-w-[90%] text-center space-y-5">
-          <h2 className="text-4xl font-extrabold">
+          <h2 className="text-2xl md:text-4xl font-extrabold">
             Your <WavyText className="inline">Delicious Pizza Starts</WavyText>{" "}
             Here!
           </h2>
-          <p className="font-light text-xl mb-8">
+          <p className="font-light text-lg md:text-xl mb-8">
             Subheading that sets up context, shares more info about the website,
             or generally gets people psyched to keep scrolling.{" "}
           </p>

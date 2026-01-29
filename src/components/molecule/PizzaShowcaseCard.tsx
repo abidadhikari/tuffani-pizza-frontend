@@ -19,6 +19,15 @@ const PizzaShowcaseCard = forwardRef<HTMLDivElement, PizzaShowcaseCardProps>(
             {imageUrl && (
               <Image src={imageUrl} alt="Pizza" width={280} height={280} />
             )}
+            {targetRef && !imageUrl && (
+              <Image
+                src="/Pizza.png"
+                alt="Pizza"
+                className="block lg:hidden"
+                width={280}
+                height={280}
+              />
+            )}
           </div>
         </div>
 

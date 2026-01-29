@@ -13,7 +13,6 @@ import React, { useEffect, useState } from "react";
 export default function HeroCTASection() {
   const [api, setApi] = useState<UseEmblaCarouselType[1]>();
 
-  // Autoplay logic
   useEffect(() => {
     if (!api || api?.scrollNext === undefined) return;
     const interval = setInterval(() => api?.scrollNext(), 8000); // every 5s
@@ -56,11 +55,11 @@ export default function HeroCTASection() {
               return (
                 <CarouselItem key={index}>
                   <div className="flex flex-col items-center justify-center">
-                    <div className="font-extrabold text-[48px] text-center mb-4">
+                    <div className="font-extrabold max-w-[95vw] text-2xl md:text-[48px] text-center mb-4">
                       <h1 className="italic">{item.title}</h1>
                       <WavyText>{item.wavyText}</WavyText>
                     </div>
-                    <p className="w-195 text-center font-light text-xl mb-8">
+                    <p className="w-[95vw] md:w-195 text-center font-light text-xl mb-8">
                       {item.description}
                     </p>
                   </div>
