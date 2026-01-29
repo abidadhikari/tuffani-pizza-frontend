@@ -8,10 +8,14 @@ interface PizzaShowcaseCardProps {
   imageUrl?: string;
   targetRef?: React.RefObject<HTMLDivElement | null>;
   className?: string;
+  variant?: "veg" | "non-veg" | "yellow";
 }
 
 const PizzaShowcaseCard = forwardRef<HTMLDivElement, PizzaShowcaseCardProps>(
-  ({ title, description, imageUrl, targetRef, className }, ref) => {
+  (
+    { title, description, imageUrl, targetRef, className, variant = "veg" },
+    ref,
+  ) => {
     return (
       <div ref={ref} className={cn("flex items-center flex-col", className)}>
         <div className="z-2">
@@ -31,10 +35,16 @@ const PizzaShowcaseCard = forwardRef<HTMLDivElement, PizzaShowcaseCardProps>(
           </div>
         </div>
 
-        <div className="bg-brand-green rounded-4xl pt-36 -mt-36 z-1 px-5 pb-5">
+        <div
+          className={cn("rounded-4xl pt-36 -mt-36 z-1 px-5 pb-5", {
+            "bg-brand-green": variant === "veg",
+            "bg-secondary": variant === "non-veg",
+            "bg-brand-yellow": variant === "yellow",
+          })}
+        >
           <div className="flex flex-col items-center justify-center text-center pt-2 space-y-4">
             <h3 className="text-2xl font-extrabold">{title}</h3>
-            <p className="text-xl text-[#404040]">{description}</p>
+            <p className="text-lg font-light text-[#404040]">{description}</p>
           </div>
         </div>
       </div>

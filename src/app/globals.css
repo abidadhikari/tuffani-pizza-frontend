@@ -58,6 +58,9 @@ body {
   --color-brand-pink: #fdd3d0;
   --color-brand-yellow: #fff1c2;
 
+  /* Background/Danger/Secondary */
+  --color-secondary: #fdd3d0;
+
   /* Background/Warning/Tertiary */
   --color-tertiary: #fffbeb;
 }

@@ -28,7 +28,7 @@ const WholePizzaSection = forwardRef<HTMLDivElement, Props>(
                 website, or generally gets people psyched to keep scrolling.
               </p>
             </div>
-            <Link href="#">
+            <Link href="/menu">
               <Button className="w-fit">Order Now</Button>
             </Link>
           </div>

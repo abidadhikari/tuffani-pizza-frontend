@@ -29,7 +29,7 @@ export default function CheckboxGroup({
 
   return (
     <div
-      className={`flex ${orientation === "horizontal" ? "gap-4" : "flex-col gap-2"}`}
+      className={`flex flex-wrap ${orientation === "horizontal" ? "gap-4" : "flex-col gap-2"}`}
     >
       {options.map((option) => (
         <Field

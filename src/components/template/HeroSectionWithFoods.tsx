@@ -16,7 +16,7 @@ export default function HeroSectionWithFoods(props: HeroSectionWithFoodsProps) {
           <h1 className="text-5xl">
             <WavyText>{title}</WavyText>
           </h1>
-          <p className="w-199 text-center text-xl text-[#000000BF]">
+          <p className="w-199 max-w-full text-center text-xl text-[#000000BF]">
             {description}
           </p>
         </div>

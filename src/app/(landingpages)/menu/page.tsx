@@ -5,7 +5,7 @@ import WavyText from "@/components/atom/WavyText";
 import PizzaCard from "@/components/molecule/PizzaCard";
 import { FOOD_TYPE } from "@/lib/constants";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import MenuFilter from "@/components/molecule/MenuFilter";
 import CheckboxGroup from "@/components/atom/CheckboxGroup";
@@ -71,8 +71,8 @@ export default function MenuPage() {
           height={250}
           className="absolute bottom-0 right-0  translate-y-[50%] translate-x-25 blur-[2px]"
         />
-        <div className="my-width mx-auto pt-10   gap-16 flex items-center justify-between py-15 pb-25">
-          <div className="w-[528px]">
+        <div className="my-width mx-auto pt-10   gap-16 flex flex-col md:flex-row items-center justify-between py-15 pb-25">
+          <div className="w-[528px] max-w-full">
             <Title variant="h1" className="italic">
               Today’s <WavyText className="inline">Flash Deal</WavyText>
             </Title>
@@ -122,7 +122,7 @@ export default function MenuPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="flex flex-wrap items-center justify-center lg:grid grid-cols-3 min-[1330px]:grid-cols-4 gap-5">
             {filteredMenu.map((item, index) => {
               return (
                 <PizzaCard

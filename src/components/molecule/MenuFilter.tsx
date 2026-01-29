@@ -16,7 +16,7 @@ export default function MenuFilter({
 }: MenuFilterProps) {
   return (
     <>
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         {selectOptions?.map((option) => {
           return (
             <FilterToggleButton

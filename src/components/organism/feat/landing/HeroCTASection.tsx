@@ -69,7 +69,7 @@ export default function HeroCTASection() {
           </CarouselContent>
         </Carousel>
 
-        <Link href="#" className="z-100">
+        <Link href="/menu" className="z-100">
           <Button>Grab Now</Button>
         </Link>
       </div>

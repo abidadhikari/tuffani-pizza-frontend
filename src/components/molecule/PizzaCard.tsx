@@ -52,7 +52,7 @@ export default function PizzaCard(props: IPizzaCard) {
       </div>
       <div
         className={cn("px-4.5 py-5 space-y-3.5", {
-          "w-74": variant === "default",
+          "max-w-full w-74": variant === "default",
           "flex flex-row": variant === "wide",
         })}
       >

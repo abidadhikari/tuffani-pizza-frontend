@@ -1,6 +1,7 @@
 import Button from "@/components/atom/Button";
 import WavyText from "@/components/atom/WavyText";
 import PizzaShowcaseCard from "@/components/molecule/PizzaShowcaseCard";
+import Link from "next/link";
 import React, { forwardRef } from "react";
 
 type Props = {
@@ -26,24 +27,27 @@ const MenuGlimpseSection = forwardRef<HTMLDivElement, Props>(
         </div>
         <div className="grid  lg:grid-cols-3 gap-5 w-300 max-w-[90%] mx-auto mb-13">
           <PizzaShowcaseCard
-            title="Vegetable Pizza"
-            description="A storm of crispy pepperoni and double mozzarella."
+            title="Tufani Veg Pizza"
+            description="Fresh seasonal vegetables, rich tomato sauce, and mozzarella cheese on a crispy base."
             imageUrl="/Pizza.png"
+            variant="veg"
           />
           <PizzaShowcaseCard
-            title="Vegetable Pizza"
-            description="A storm of crispy pepperoni and double mozzarella."
+            title="Tufani Non-Veg Pizza"
+            description="Loaded with chicken toppings, mozzarella cheese, and our special Tufani sauce."
             targetRef={targetRef}
+            variant="non-veg"
           />
           <PizzaShowcaseCard
-            title="Vegetable Pizza"
-            description="A storm of crispy pepperoni and double mozzarella."
+            title="Chicken Peri Peri Pizza"
+            description="Loaded with chicken toppings, mozzarella cheese, and our special Tufani sauce."
             imageUrl="/Pizza.png"
+            variant="yellow"
           />
         </div>
-        <div>
+        <Link href="/menu">
           <Button>Explore the Full Menu</Button>
-        </div>
+        </Link>
       </div>
     );
   },
