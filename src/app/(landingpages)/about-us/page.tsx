@@ -19,7 +19,7 @@ export default function AboutUsPage() {
         title="About Us"
         description=" From light breezes to category 5 cravings, explore our storm-baked crusts and signature toppings. Your delicious pizza starts here."
       >
-        <div className="flex gap-5 py-16">
+        <div className="flex flex-wrap items-center justify-center lg:items-center  gap-5 py-16">
           <Image
             src="/pizzaGroup.png"
             alt="Pizza Group"
@@ -28,7 +28,7 @@ export default function AboutUsPage() {
             // className="mx-auto py-20"
           />
           <div className="flex flex-1 items-center justify-center flex-col">
-            <div className="w-135.75 space-y-5">
+            <div className="w-full text-center lg:text-left lg:w-135.75 space-y-5">
               <h2 className="italic text-5xl font-bold leading-[130%]">
                 Where Every Slice{" "}
                 <WavyText className="">Tells a Story</WavyText>
@@ -45,7 +45,7 @@ export default function AboutUsPage() {
       </HeroSectionWithFoods>
 
       <section className="pt-36">
-        <div className="my-width mx-auto flex justify-center divide-x ">
+        <div className="my-width mx-auto flex flex-wrap   justify-center md:divide-x ">
           {[
             { value: "10+", label: "Years of Experience" },
             { value: "450K+", label: "Happy Customers" },
@@ -54,7 +54,7 @@ export default function AboutUsPage() {
           ].map((item, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-between px-20"
+              className="flex flex-col items-center justify-between py-5 md:py-0 px-20"
             >
               <WavyText className="text-4xl font-bold ">{item.value}</WavyText>
               <div
@@ -68,7 +68,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <ChefSection className="bg-white" />
+      <ChefSection className="bg-white" showPizza />
 
       <div className="bg-[#FFFBEB]">
         <div className="my-width mx-auto pt-18 text-center">
@@ -84,12 +84,12 @@ export default function AboutUsPage() {
       </div>
 
       <div className="bg-[#FFE8A3]">
-        <div className="my-width max-w-[90%] mx-auto py-20 flex items-center justify-between">
-          <div className="italic w-111 text-5xl ">
+        <div className="my-width max-w-[90%] mx-auto py-20 flex flex-col lg:flex-row gap-10 items-center   justify-center lg:justify-between ">
+          <div className="italic w-111 text-5xl text-center lg:text-left ">
             Join the <WavyText className="inline">Tufani Pizza</WavyText> Family
           </div>
 
-          <div className="font-light w-[619px]">
+          <div className="font-light w-full md:w-[619px] text-center lg:text-left">
             Experience the difference that passion, quality, and tradition make.
             Visit us today and taste why we&apos;ve been bringing families
             together for nearly three decades. <br />

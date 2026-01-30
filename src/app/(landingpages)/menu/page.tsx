@@ -46,16 +46,32 @@ export default function MenuPage() {
   }
   return (
     <main>
-      <section className="pt-48 pb-37 my-width mx-auto flex items-center justify-center flex-col text-center">
-        <h1 className="text-[56px] italic">
-          Explore
-          <WavyText className="inline"> The STORM</WavyText>
-        </h1>
-        <p className="font-light w-[769px] max-w-full  text-xl">
-          From light breezes to category 5 cravings, explore our storm-baked
-          crusts and signature toppings. Your delicious pizza starts here.
-        </p>
-      </section>
+      <div className="relative">
+        <section className="pt-48 pb-37 my-width mx-auto flex items-center justify-center flex-col text-center ">
+          <h1 className="text-[56px] italic">
+            Explore
+            <WavyText className="inline"> The STORM</WavyText>
+          </h1>
+          <p className="font-light w-[769px] max-w-full  text-xl">
+            From light breezes to category 5 cravings, explore our storm-baked
+            crusts and signature toppings. Your delicious pizza starts here.
+          </p>
+        </section>
+        <Image
+          src={"/ham.png"}
+          alt="ham"
+          width={183}
+          height={250}
+          className="absolute right-0 top-0 translate-x-[50%] translate-y-[50%]"
+        />
+        <Image
+          src={"/basil1.png"}
+          alt="basil"
+          width={80}
+          height={250}
+          className="absolute left-1/5 top-1/2 translate-x-[-50%] translate-y-[-50%]"
+        />
+      </div>
       <section className="bg-tertiary relative">
         <Image
           src={"/tomato.png"}
@@ -134,7 +150,10 @@ export default function MenuPage() {
                   crossedPrice={item.crossedPrice}
                   type={item.isVeg ? FOOD_TYPE.VEG : FOOD_TYPE.NON_VEG}
                   percentageOff={
-                    ((item.crossedPrice - item.price) / item.crossedPrice) * 100
+                    item?.crossedPrice
+                      ? ((item.crossedPrice - item.price) / item.crossedPrice) *
+                        100
+                      : undefined
                   }
                 />
               );

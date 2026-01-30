@@ -107,11 +107,12 @@ export default function AppCarousel<T>({
                   md:basis-1/2
                   lg:basis-1/3
                   transition-all duration-500 ease-out
+                  flex items-center justify-center
                   `,
                   centerScale &&
                     (isActive
-                      ? "scale-110 z-20 opacity-100"
-                      : "scale-90 opacity-60"),
+                      ? "md:scale-110 z-20 opacity-100"
+                      : "md:scale-90 opacity-60"),
                 )}
               >
                 {renderItem(item, realIndex)}

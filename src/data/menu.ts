@@ -16,6 +16,7 @@ const menu: MenuItem[] = [
     description:
       "Fresh seasonal vegetables, rich tomato sauce, and mozzarella cheese.",
     price: 250,
+    crossedPrice: 300,
     image: "/images/pizza.png",
     isVeg: true,
     category: "Pizza",

@@ -85,7 +85,7 @@ export default function Navbar() {
       <section className="flex justify-between items-center px-4 py-4 w-300 max-w-full mx-auto">
         {/* Logo */}
         <Link href="/">
-          <Image src="/logo.png" alt="Logo" width={120} height={40} />
+          <Image src="/logonew.png" alt="Logo" width={120} height={40} />
         </Link>
 
         {/* Hamburger (mobile only) */}

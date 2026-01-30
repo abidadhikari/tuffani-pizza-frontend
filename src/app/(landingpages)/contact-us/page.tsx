@@ -41,13 +41,13 @@ export default function ContactUsPage() {
         description="Our team is dedicated to providing the best Tufani experience. Whether you have feedback, an inquiry, or an order question, we are here to help. 
 Send us a message, and we will respond as quickly as possible."
       >
-        <div className="flex gap-5 py-20">
+        <div className="flex gap-5 py-20 flex-wrap">
           <div className="bg-white p-8 rounded-2xl flex-1">
             <h2 className="font-bold text-3xl mb-11.5">Send a Message</h2>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <fieldset className="space-y-4">
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="flex flex-col md:grid grid-cols-2 gap-6">
                     <FormInputItem
                       form={form}
                       name="fullname"
@@ -93,7 +93,7 @@ Send us a message, and we will respond as quickly as possible."
               </form>
             </Form>
           </div>
-          <div className="bg-white p-8 rounded-2xl space-y-[46px] w-[500px]">
+          <div className="bg-white p-8 rounded-2xl space-y-[46px] w-[500px] max-w-full">
             {[...Array(4)].map((_, index: number) => {
               return (
                 <div key={index} className="space-y-2.5">

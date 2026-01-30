@@ -23,7 +23,7 @@ export default function PizzaCard(props: IPizzaCard) {
     crossedPrice,
     imageUrl,
     type,
-    percentageOff = 35,
+    percentageOff,
     variant = "default",
   } = props;
 

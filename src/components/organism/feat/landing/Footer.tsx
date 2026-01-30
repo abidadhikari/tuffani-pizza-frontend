@@ -7,16 +7,16 @@ import React from "react";
 export default function Footer() {
   return (
     <footer className="bg-brand">
-      <div className="my-width mx-auto  grid md:grid-cols-3 gap-10 py-25">
+      <div className="my-width max-w-full mx-auto  grid  lg:grid-cols-3 gap-10 py-25">
         <div className="flex flex-col gap-2 [&>p]:text-white order-1">
           <h3 className="font-bold text-white text-2xl">Get In Touch</h3>
           <p>+012-345-6789</p>
           <p>Pizzalicious@contact.com</p>
           <p>9889 lorem ipsum street, Pellentesque, CA, USA</p>
         </div>
-        <div className="order-3 md:order-2 px-18.5 border-l border-r border-transparent md:border-white flex flex-col items-center gap-5">
+        <div className="order-3 lg:order-2 px-18.5 border-l border-r border-transparent lg:border-white flex flex-col items-center gap-5">
           <Image
-            src="/logowhite.png"
+            src="/logonew.png"
             alt="Logo"
             width={200}
             height={117}
@@ -37,7 +37,7 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        <div className="order-2 md:order-3flex justify-end items-center">
+        <div className="order-2 md:order-3 flex lg:justify-end items-center">
           <div className="flex flex-col gap-2 [&>p]:text-white ">
             <h3 className="font-bold text-white text-2xl">Opening Hours</h3>
             <p>Monday/Friday 9:00-23:00</p>

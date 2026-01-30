@@ -8,10 +8,11 @@ import React, { forwardRef } from "react";
 type Props = {
   targetRef?: React.RefObject<HTMLDivElement | null>;
   className?: string;
+  showPizza?: boolean;
 };
 
 const ChefSection = forwardRef<HTMLDivElement, Props>(
-  ({ targetRef, className }, ref) => {
+  ({ targetRef, className, showPizza }, ref) => {
     return (
       <div className={`bg-[#FFFFED] pt-25 pb-30 ${className}`} ref={ref}>
         <div className="my-width max-w-full mx-auto grid lg:grid-cols-2 gap-10  ">
@@ -34,6 +35,15 @@ const ChefSection = forwardRef<HTMLDivElement, Props>(
                   width={156}
                   height={156}
                   className="lg:hidden"
+                />
+              )}
+              {showPizza && (
+                <Image
+                  src="/Pizza.png"
+                  alt="pizza"
+                  width={156}
+                  height={156}
+                  className=""
                 />
               )}
             </div>
