@@ -34,7 +34,7 @@ const ChefSection = forwardRef<HTMLDivElement, Props>(
                   alt="pizza"
                   width={156}
                   height={156}
-                  className="lg:hidden"
+                  className="mdlg:hidden"
                 />
               )}
               {showPizza && (

@@ -56,7 +56,7 @@ export default function HeroFoods() {
           key={index}
           priority
           className={cn(
-            "absolute hidden lg:block  animate-bounce-slow",
+            "absolute hidden z-100 mdlg:z-1 lg:block  animate-bounce-slow",
             item.className,
           )}
         />

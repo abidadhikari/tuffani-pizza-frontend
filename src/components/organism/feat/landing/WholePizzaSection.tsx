@@ -41,7 +41,7 @@ const WholePizzaSection = forwardRef<HTMLDivElement, Props>(
             <Image
               src="/Pizza.png"
               alt="Pizza"
-              className="block max-w-[50%] lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="block max-w-[50%] mdlg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
               width={280}
               height={280}
             />

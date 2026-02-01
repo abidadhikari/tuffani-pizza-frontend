@@ -15,7 +15,7 @@ const HeroSection = forwardRef<HTMLDivElement, Props>(
         <HeroFoods />
         <div
           ref={pizzaRef}
-          className="h-360 w-screen hidden lg:grid place-items-center absolute top-[60%]"
+          className="h-360 w-screen hidden mdlg:grid place-items-center absolute top-[60%]"
         >
           <div className="aspect-square h-full max-w-full rounded-full">
             <Image
@@ -28,7 +28,7 @@ const HeroSection = forwardRef<HTMLDivElement, Props>(
             />
           </div>
         </div>
-        <div className="block lg:hidden aspect-square w-full  absolute bottom-0 left-0 h-[30vh] md:h-[40vh] overflow-hidden">
+        <div className="block mdlg:hidden aspect-square w-full  absolute bottom-0 left-0 h-[30vh] md:h-[40vh] overflow-hidden">
           <Image
             src="/Pizza.png"
             alt="pizza"
@@ -38,7 +38,7 @@ const HeroSection = forwardRef<HTMLDivElement, Props>(
             priority
           />
         </div>
-        <div className="z-50 w-full absolute bottom-0 left-0 h-45 bg-linear-to-b from-white/0 to-[#FDFDFD] block lg:hidden"></div>
+        <div className="z-50 w-full absolute bottom-0 left-0 h-45 bg-linear-to-b from-white/0 to-[#FDFDFD] block mdlg:hidden"></div>
       </div>
     );
   },

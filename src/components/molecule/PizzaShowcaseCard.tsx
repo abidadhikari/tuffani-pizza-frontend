@@ -27,7 +27,7 @@ const PizzaShowcaseCard = forwardRef<HTMLDivElement, PizzaShowcaseCardProps>(
               <Image
                 src="/Pizza.png"
                 alt="Pizza"
-                className="block lg:hidden"
+                className="block mdlg:hidden"
                 width={280}
                 height={280}
               />
