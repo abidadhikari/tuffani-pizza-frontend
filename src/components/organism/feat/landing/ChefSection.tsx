@@ -55,14 +55,17 @@ const ChefSection = forwardRef<HTMLDivElement, Props>(
               </h2>
               <WavyText className="">Behind the Magic!</WavyText>
             </div>
-            <div className="flex flex-col gap-2 font-light text-base w-full  md:w-150 mx-auto lg:mx-0 max-w-full md:max-w-[70%]  mb-10">
+            <div className="flex flex-col gap-2 font-light text-base w-full  md:w-150 mx-auto lg:mx-0 max-w-full md:max-w-[80%]  mb-10">
               <p className="">
-                Subheading that sets up context, shares more info about the
-                website, or generally gets people psyched to keep scrolling.
+                With 15+ years of experience in fast food and flavor crafting,
+                Tuffani’s master chef brings expert skills to every pizza,
+                crunchy fried chicken, juicy burger, and loaded wrap. From fresh
+                ingredients to perfect seasoning and cooking techniques, every
+                bite is made with passion, precision, and consistency.
               </p>
               <p className="">
-                Subheading that sets up context, shares more info about the
-                website, or generally gets people psyched to keep scrolling.
+                At Tuffani Baneshwor, great taste isn’t luck — it’s years of
+                mastery.
               </p>
             </div>
             {targetRef && (

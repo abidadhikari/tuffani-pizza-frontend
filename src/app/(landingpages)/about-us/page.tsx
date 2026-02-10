@@ -34,10 +34,15 @@ export default function AboutUsPage() {
                 <WavyText className="">Tells a Story</WavyText>
               </h2>
               <p className="font-light leading-[130%] ">
-                From our ovens to your table, every step is inspired by passion,
-                care, and a promise to deliver more than just great taste. we
-                proudly live up to that name by offering over 50 different
-                flavors of pizza with 5 unique crust options.
+                Proudly serving Baneshwor and Kathmandu, Tuffani blends 15+
+                years of experience with fresh ingredients, bold recipes, and
+                expert cooking techniques to deliver delicious pizzas, crunchy
+                fried chicken, juicy burgers, and flavorful wraps that customers
+                love coming back for. Known as a go-to fast food and hangout
+                spot, we prepare every dish fresh daily, offering quality taste,
+                generous portions, and unforgettable flavors for families,
+                friends, and food lovers searching for the best pizza and fried
+                chicken near them.
               </p>
             </div>
           </div>
@@ -76,8 +81,8 @@ export default function AboutUsPage() {
             Inside the <WavyText className="inline">Storm</WavyText>
           </h2>
           <p className="w-[777px] max-w-full mx-auto">
-            We’ve designed every corner to match our high-velocity flavor,
-            creating the perfect environment for a legendary pizza experience.
+            Explore the Tuffani store in Baneshwor — a perfect hangout spot for
+            pizza, fried chicken, burgers, and wraps lovers in Kathmandu.
           </p>
         </div>
         <AboutUsImageCarouselSection />
