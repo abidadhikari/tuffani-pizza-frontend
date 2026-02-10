@@ -58,13 +58,13 @@ const ChefSection = forwardRef<HTMLDivElement, Props>(
             <div className="flex flex-col gap-2 font-light text-base w-full  md:w-150 mx-auto lg:mx-0 max-w-full md:max-w-[80%]  mb-10">
               <p className="">
                 With 15+ years of experience in fast food and flavor crafting,
-                Tuffani’s master chef brings expert skills to every pizza,
+                Tufani’s master chef brings expert skills to every pizza,
                 crunchy fried chicken, juicy burger, and loaded wrap. From fresh
                 ingredients to perfect seasoning and cooking techniques, every
                 bite is made with passion, precision, and consistency.
               </p>
               <p className="">
-                At Tuffani Baneshwor, great taste isn’t luck — it’s years of
+                At Tufani Baneshwor, great taste isn’t luck — it’s years of
                 mastery.
               </p>
             </div>

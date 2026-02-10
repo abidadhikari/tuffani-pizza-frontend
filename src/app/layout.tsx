@@ -27,6 +27,11 @@ const tradeWinds = Trade_Winds({
 export const metadata: Metadata = {
   title: "Tufani Pizza",
   description: "",
+  icons: {
+    icon: "/favicon.jpeg",
+    shortcut: "/favicon.jpeg",
+    apple: "/favicon.jpeg",
+  },
 };
 
 export default function RootLayout({
@@ -36,6 +41,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="shortcut icon" href="favicon.jpeg" type="image/x-icon" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${tradeWinds.variable} antialiased overflow-x-hidden`}
       >

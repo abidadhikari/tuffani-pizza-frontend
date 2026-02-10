@@ -17,7 +17,9 @@ export default function AboutUsPage() {
     <section>
       <HeroSectionWithFoods
         title="About Us"
-        description=" From light breezes to category 5 cravings, explore our storm-baked crusts and signature toppings. Your delicious pizza starts here."
+        description={
+          "Welcome to Tuffani, one of the most loved fast food and pizza cafes in Baneshwor, Kathmandu. We created Tuffani with one simple goal to bring people together over fresh, flavorful food and a comfortable place to hang out"
+        }
       >
         <div className="flex flex-wrap items-center justify-center lg:items-center  gap-5 py-16">
           <Image
@@ -34,15 +36,15 @@ export default function AboutUsPage() {
                 <WavyText className="">Tells a Story</WavyText>
               </h2>
               <p className="font-light leading-[130%] ">
-                Proudly serving Baneshwor and Kathmandu, Tuffani blends 15+
-                years of experience with fresh ingredients, bold recipes, and
-                expert cooking techniques to deliver delicious pizzas, crunchy
-                fried chicken, juicy burgers, and flavorful wraps that customers
-                love coming back for. Known as a go-to fast food and hangout
-                spot, we prepare every dish fresh daily, offering quality taste,
-                generous portions, and unforgettable flavors for families,
-                friends, and food lovers searching for the best pizza and fried
-                chicken near them.
+                Proudly serving Baneshwor and Kathmandu, Tufani blends 15+ years
+                of experience with fresh ingredients, bold recipes, and expert
+                cooking techniques to deliver delicious pizzas, crunchy fried
+                chicken, juicy burgers, and flavorful wraps that customers love
+                coming back for. Known as a go-to fast food and hangout spot, we
+                prepare every dish fresh daily, offering quality taste, generous
+                portions, and unforgettable flavors for families, friends, and
+                food lovers searching for the best pizza and fried chicken near
+                them.
               </p>
             </div>
           </div>
@@ -54,7 +56,7 @@ export default function AboutUsPage() {
           {[
             { value: "10+", label: "Years of Experience" },
             { value: "450K+", label: "Happy Customers" },
-            { value: "50+", label: "Pizza Varieties" },
+            { value: "10+", label: "Pizza Varieties" },
             { value: "4.9", label: "Average Rating" },
           ].map((item, index) => (
             <div
@@ -81,7 +83,7 @@ export default function AboutUsPage() {
             Inside the <WavyText className="inline">Storm</WavyText>
           </h2>
           <p className="w-[777px] max-w-full mx-auto">
-            Explore the Tuffani store in Baneshwor — a perfect hangout spot for
+            Explore the Tufani store in Baneshwor — a perfect hangout spot for
             pizza, fried chicken, burgers, and wraps lovers in Kathmandu.
           </p>
         </div>
@@ -101,10 +103,10 @@ export default function AboutUsPage() {
             <br />
             Contact{" "}
             <a
-              href="mailto:info@tufanipizza.com.np"
+              href="mailto:tufanipizza@gmail.com"
               className="font-bold text-brand"
             >
-              info@tufanipizza.com.np
+              tufanipizza@gmail.com
             </a>{" "}
             for more info.
           </div>

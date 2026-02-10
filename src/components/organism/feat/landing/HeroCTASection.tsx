@@ -21,22 +21,33 @@ export default function HeroCTASection() {
 
   const heroSectionList = [
     {
-      title: <>Hold your crust,</>,
-      wavyText: <>We&apos;re Blowing You Away!</>,
+      title: <>Best Spicy Pizza,</>,
+      wavyText: <>in Baneshwor & Kathmandu</>,
       description:
-        "Subheading that sets up context, shares more info about the website, or generally gets people psyched to keep scrolling. ",
+        "Looking for pizza near me in Kathmandu or Baneshwor? Try Tuffani’s signature spicy pizzas, freshly baked with bold flavors and gooey cheese  loved by students, office teams, and pizza enthusiasts.",
     },
     {
-      title: <>Two Pizzas For</>,
-      wavyText: <>The Price Of One!!</>,
+      title: <>Juicy Burgers in Baneshwor,</>,
+      wavyText: <>A Flavor You Can&apos;t Resist </>,
       description:
-        "Subheading that sets up context, shares more info about the website, or generally gets people psyched to keep scrolling. ",
+        "Craving burgers near me? Tuffani serves fresh, loaded burgers in Baneshwor and Kathmandu with juicy chicken, cheese, and bold spices  perfect for quick lunches or hangouts.",
     },
     {
-      title: <>Order on Happy Hours</>,
-      wavyText: <>To Get 25% Off on All Pizzas</>,
+      title: <>Opening Offer</>,
+      wavyText: <>(Valid Feb 11, 12 & 13 only)</>,
       description:
-        "Subheading that sets up context, shares more info about the website, or generally gets people psyched to keep scrolling. ",
+        "Free Coke or Ice Cream on every purchase First 50 customers get to play our Spin & Win game and grab exciting gifts and special discounts.",
+    },
+    {
+      title: <>Best Crunchy Chicken in Baneshwor</>,
+      wavyText: <>Crispy Outside, Juicy Inside | Tuffani</>,
+      description: (
+        <>
+          Craving crispy fried chicken in Baneshwor? Tuffani&apos;s hot, golden
+          Crunchy Chicken is freshly fried, juicy inside, and packed with bold
+          flavor.
+        </>
+      ),
     },
   ];
 

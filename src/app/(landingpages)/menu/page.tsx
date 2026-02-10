@@ -90,13 +90,14 @@ export default function MenuPage() {
         <div className="my-width mx-auto pt-10   gap-16 flex flex-col md:flex-row items-center justify-between py-15 pb-25">
           <div className="w-[528px] max-w-full">
             <Title variant="h1" className="italic">
-              Today’s <WavyText className="inline">Flash Deal</WavyText>
+              Opening
+              <WavyText className="inline"> Offer </WavyText>
             </Title>
             <div className="mt-3.5 mb-7 text-xl font-light">
-              A sudden surge of savings has hit the menu! For the next two hours
-              only, we’re blowing{" "}
-              <WavyText className="inline">20% off</WavyText> the price of all
-              your favorite signature pizzas.
+              Free Coke or Ice Cream on every purchase First 50 customers get to
+              play our Spin & Win game and grab exciting
+              <WavyText className="inline"> gifts</WavyText> and{" "}
+              <WavyText className="inline">special discounts.</WavyText>
             </div>
             <Link href="#" className="text-blue-600 underline">
               <Button>Grab Now</Button>
@@ -105,10 +106,10 @@ export default function MenuPage() {
           <div>
             <PizzaCard
               imageUrl="/Pizza.png"
-              title="Vegetable Pizza"
-              description="A storm of crispy pepperoni and double mozzarella."
-              price={12.99}
-              crossedPrice={15.99}
+              title="Super तुफानी (Large)"
+              description="Spicy grilled chicken sandheko, chicken ham, spanish, onion, capsium, green chilli, mozzarella cheese and a smoky flavour."
+              price={590}
+              crossedPrice={650}
               type={FOOD_TYPE.NON_VEG}
               variant="wide"
             />

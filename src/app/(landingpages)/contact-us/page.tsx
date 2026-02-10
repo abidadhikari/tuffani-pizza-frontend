@@ -3,7 +3,7 @@ import Button from "@/components/atom/Button";
 import FormInputItem from "@/components/molecule/FormInputItem";
 import HeroSectionWithFoods from "@/components/template/HeroSectionWithFoods";
 
-import { PhoneIcon } from "lucide-react";
+import { Hourglass, Mail, Map, Phone, PhoneIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -21,6 +21,34 @@ const formSchema = z.object({
   address: z.string().min(1, "Address must be at least 1 characters."),
   message: z.string().min(1, "Message must be at least 1 characters."),
 });
+
+const contactInfo = [
+  {
+    title: "Phone Number",
+    value: "+977 9744411211 , 01-5312904",
+    description: "Available during opening times for orders",
+    icon: Phone,
+  },
+  {
+    title: "Email",
+    value: "tufanipizza@gmail.com",
+    description:
+      "Email us for general inquiries, feedback, or partnership opportunities",
+    icon: Mail,
+  },
+  {
+    title: "Location",
+    value: "Kathmandu",
+    description: "चक्कु बक्कु गल्लि, Kathmandu oppostite to K&K college",
+    icon: Map,
+  },
+  // {
+  //   title: "Opening Hours",
+  //   value: "",
+  //   description: "Available during opening times for orders",
+  //   icon: Hourglass,
+  // },
+];
 
 export default function ContactUsPage() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -94,19 +122,19 @@ Send us a message, and we will respond as quickly as possible."
             </Form>
           </div>
           <div className="bg-white p-8 rounded-2xl space-y-[46px] w-[500px] max-w-full">
-            {[...Array(4)].map((_, index: number) => {
+            {contactInfo.map((item: (typeof contactInfo)[0], index: number) => {
               return (
                 <div key={index} className="space-y-2.5">
-                  <div className="text-sm text-black/75">Phone Number</div>
+                  <div className="text-sm text-black/75">{item.title}</div>
                   <div className="flex gap-2">
                     <div className="size-6 grid place-items-center">
-                      <PhoneIcon className="text-brand size-4" />
+                      <item.icon className="text-brand size-4" />
                     </div>
                     <div className="flex flex-col gap-1.75">
-                      <div className="font-bold text-base">
-                        info@tufanipizza.com.np
+                      <div className="font-bold text-base">{item.value}</div>
+                      <div className="text-sm text-black/75">
+                        {item.description}
                       </div>
-                      <div className="text-xs text-black/75">Available</div>
                     </div>
                   </div>
                 </div>
@@ -117,8 +145,8 @@ Send us a message, and we will respond as quickly as possible."
       </HeroSectionWithFoods>
       <div>
         <div className="my-width mx-auto py-10 space-y-5">
-          <MapSection lat={48.8583736} lng={2.2919064} />
-          <MapSection searchText="Tuffani Pizza Skywalk Tower Kathmandu" />
+          {/* <MapSection lat={48.8583736} lng={2.2919064} />
+          <MapSection searchText="Tufani Pizza Skywalk Tower Kathmandu" /> */}
           <MapSection searchText="चक्कु बक्कु गल्लि, Kathmandu oppostite to K&K college" />
         </div>
       </div>

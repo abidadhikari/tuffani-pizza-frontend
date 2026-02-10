@@ -12,7 +12,7 @@ const menu: MenuItem[] = [
   // 🍕 SIGNATURE PIZZA
 
   {
-    title: "Tufani Veg Pizza (Small)",
+    title: "Tufani Non Pizza (Small)",
     description:
       "Fresh seasonal vegetables, rich tomato sauce, and mozzarella cheese.",
     price: 250,
@@ -21,6 +21,7 @@ const menu: MenuItem[] = [
     isVeg: true,
     category: "Pizza",
   },
+
   {
     title: "Tufani Veg Pizza (Medium)",
     description:

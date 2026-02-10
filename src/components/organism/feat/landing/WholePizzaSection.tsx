@@ -15,17 +15,21 @@ const WholePizzaSection = forwardRef<HTMLDivElement, Props>(
         <div className="w-300 max-w-[90%] mx-auto flex flex-col lg:grid md:grid-cols-2 gap-10">
           <div className="flex flex-col justify-center w-full lg:w-194.25 text-center lg:text-left pb-10 ">
             <div className="text-2xl md:text-4xl font-extrabold space-y-1 mb-6">
-              <h2 className="">Here! Two Pizzas For</h2>
-              <WavyText className="">The Price Of One!!</WavyText>
+              <h2 className="">Super तुफानी Pizza - </h2>
+              <WavyText className="">Spicy, Smoky & Fully Loaded</WavyText>
             </div>
             <div className="flex flex-col gap-2 font-light text-base  w-150 mx-auto lg:mx-0 max-w-full md:max-w-[70%]  mb-10">
               <p className="">
-                Subheading that sets up context, shares more info about the
-                website, or generally gets people psyched to keep scrolling.
+                Looking for the best pizza in Baneshwor or Kathmandu? Super
+                तुफानी Pizza is topped with spicy grilled chicken sandheko,
+                chicken ham, Spanish seasoning, fresh onions, capsicum, green
+                chilli, and gooey mozzarella cheese — finished with a bold smoky
+                flavor in every bite.
               </p>
               <p className="">
-                Subheading that sets up context, shares more info about the
-                website, or generally gets people psyched to keep scrolling.
+                Perfect for spice lovers, hangouts, and sharing with friends.
+                Freshly baked, hot, and packed with authentic tufani taste —
+                only at Tufani Pizza.
               </p>
             </div>
             <Link href="/menu">
