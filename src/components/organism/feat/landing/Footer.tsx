@@ -53,8 +53,8 @@ export default function Footer() {
         <div className="order-2 md:order-3 flex lg:justify-end items-center">
           <div className="flex flex-col gap-2 [&>p]:text-white ">
             <h3 className="font-bold text-white text-2xl">Opening Hours</h3>
-            <p>Monday/Friday 9:00-9:00</p>
-            <p>Saturday 9:00-9:00</p>
+            <p>Open 7 days a week</p>
+            <p>9:00 am to 9:00 pm</p>
             <p className="h-10"></p>
           </div>
         </div>

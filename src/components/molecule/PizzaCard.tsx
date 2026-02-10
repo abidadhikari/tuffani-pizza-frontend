@@ -38,7 +38,7 @@ export default function PizzaCard(props: IPizzaCard) {
     <div className={cn(` rounded-2xl h-full`, baseStyle)}>
       <div className="h-53.25 w-full bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center relative">
         <Image
-          src={"/pizza-with-bg.jpg"}
+          src={imageUrl || "/images/pizza.jpg"}
           className="object-cover"
           alt={title}
           fill
