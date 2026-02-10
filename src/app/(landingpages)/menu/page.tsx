@@ -137,7 +137,7 @@ export default function MenuPage() {
           </div>
 
           <PizzaCard
-            imageUrl="/Pizza.png"
+            imageUrl="/images/pizza.jpg"
             title="Super तुफानी (Large)"
             description="Spicy grilled chicken sandheko, chicken ham, spanish onion, capsicum, green chilli, mozzarella cheese and a smoky flavour."
             price={590}
