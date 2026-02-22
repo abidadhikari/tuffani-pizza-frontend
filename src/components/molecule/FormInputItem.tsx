@@ -31,7 +31,7 @@ export default function FormInputItem({
             placeholder={placeholder}
             type={showPassword ? "text" : "password"}
             maxLength={maxLength}
-            className={cn("rounded-full ")}
+            className={cn(" ")}
           />
         </div>
       )}

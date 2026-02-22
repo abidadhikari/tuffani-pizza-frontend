@@ -30,7 +30,7 @@ export default function FormTextAreaInputItem({
             {...field}
             placeholder={placeholder}
             maxLength={maxLength}
-            className={cn("rounded-3xl", className)}
+            className={cn("", className)}
           />
         </div>
       )}

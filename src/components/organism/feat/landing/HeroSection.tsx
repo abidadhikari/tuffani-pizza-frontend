@@ -1,7 +1,9 @@
+"use client";
 import React, { forwardRef } from "react";
 import Image from "next/image";
 import HeroCTASection from "./HeroCTASection";
 import HeroFoods from "./HeroFoods";
+import { useGetStaticContent } from "@/hooks/services/static-content/useGetStaticContent";
 
 type Props = {
   pizzaRef: React.RefObject<HTMLDivElement | null>;

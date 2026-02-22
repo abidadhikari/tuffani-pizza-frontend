@@ -1,8 +1,16 @@
 import WavyText from "@/components/atom/WavyText";
 import CustomerReviewCard from "@/components/molecule/CustomerReviewCard";
 import AppCarousel from "@/components/molecule/AppCarousel";
+import { useGetStaticContent } from "@/hooks/services/static-content/useGetStaticContent";
+import { fetchStaticContent } from "@/lib/fetch-static-content";
+import { STATIC_CONTENT_KEYS } from "@/lib/constants";
 
 export default function CustomerReviewSection() {
+  const { data: staticContent } = useGetStaticContent();
+  const testimonialStaticContent = fetchStaticContent(
+    STATIC_CONTENT_KEYS.TESTIMONIAL_SECTION,
+    staticContent,
+  );
   const data = [
     {
       title: "Pizza Perfection!",
@@ -35,12 +43,25 @@ export default function CustomerReviewSection() {
   return (
     <div className="py-20">
       <h2 className="font-bold text-2xl max-w-[90%] md:text-3xl mb-4 text-center mx-auto">
-        What our <WavyText className="inline">Customers are Saying</WavyText>
+        {testimonialStaticContent?.value?.title ? (
+          <>
+            {testimonialStaticContent?.value.title.prefix}{" "}
+            <WavyText className="inline">
+              {testimonialStaticContent?.value.title.highlight}
+            </WavyText>{" "}
+            {testimonialStaticContent?.value.title.suffix}
+          </>
+        ) : (
+          <>
+            What our{" "}
+            <WavyText className="inline">Customers are Saying</WavyText>
+          </>
+        )}
       </h2>
 
       <p className="text-light text-[#828282] text-base md:text-lg mb-16 text-center w-194.25 max-w-[90%] mx-auto ">
-        See why food lovers call Tufani the best pizza, fried chicken, and
-        burger spot in Baneshwor and Kathmandu.
+        {testimonialStaticContent?.value.description ||
+          "See why food lovers call Tufani the best pizza, fried chicken, and burger spot in Baneshwor and Kathmandu."}
       </p>
 
       <div className="my-width mx-auto">
