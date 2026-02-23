@@ -7,121 +7,201 @@ import FormSwitch from "@/components/molecule/FormSwitch";
 import FormTextAreaInputItem from "@/components/molecule/FormTextAreaInputItem";
 import { Form } from "@/components/ui/form";
 import { useGetAllCategories } from "@/hooks/services/categories/useGetAllCategories";
+import { useCreateProduct } from "@/hooks/services/products/useCreateProduct";
 import { usePatchProduct } from "@/hooks/services/products/usePatchProduct";
 import { FOOD_TYPE } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { memo, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Product name is required.",
-  }),
-  description: z.string().optional(),
-  price: z.string().min(1, {
-    message: "Price must be greater than 0.",
-  }),
-  crossedPrice: z.string().optional(),
-  categoryId: z.string(),
-  type: z
-    .string()
-    .refine((value) => value === FOOD_TYPE.VEG || value === FOOD_TYPE.NON_VEG, {
-      message: "Type must be either VEG or NON_VEG.",
-    }),
-  visible: z.boolean().optional(),
-});
+const formSchema = z
+  .object({
+    name: z.string().trim().min(1, "Product name is required."),
+    description: z.string().trim().min(1, "Description is required."),
+    price: z.string().min(1, "Price is required."),
+    crossedPrice: z.string().optional(),
+    categoryId: z.string().min(1, "Category is required."),
+    hasDiscount: z.boolean().optional(),
+    type: z
+      .string()
+      .refine((val) => val === FOOD_TYPE.VEG || val === FOOD_TYPE.NON_VEG, {
+        message: "Invalid type.",
+      }),
+    visible: z.boolean().optional(),
+  })
+  .refine(
+    (data) => {
+      // If crossedPrice is empty or not provided, it's valid
+      if (
+        !data.crossedPrice ||
+        data.crossedPrice === "" ||
+        data.crossedPrice === "0"
+      )
+        return true;
 
-export default function CreateUpdateProduct({
-  id,
-  defaultValues,
-  type = "create",
-}: {
-  id: string;
-  defaultValues: any;
-  type?: "create" | "update";
-}) {
-  const { mutate: patchProduct, isPending } = usePatchProduct(id);
-  const { data: categories } = useGetAllCategories();
-  const categoryOptions = categories?.map(
-    (category: { name: string; id: string }) => ({
-      label: `${category.name} `,
-      value: category.id,
-    }),
+      // Convert to numbers for comparison
+      const priceNum = parseFloat(data.price);
+      const crossedPriceNum = parseFloat(data.crossedPrice);
+
+      // Validation: Crossed Price must be > Original Price
+      return crossedPriceNum > priceNum;
+    },
+    {
+      message: "Crossed price must be greater than the original price",
+      path: ["crossedPrice"], // This sets the error specifically on the crossedPrice field
+    },
   );
+
+type FormValues = z.infer<typeof formSchema>;
+
+interface ICreateUpdateProduct {
+  id: string;
+  type?: "create" | "update";
+  defaultValues?: {
+    name: string;
+    description: string;
+    price: number;
+    crossedPrice?: number;
+    categoryId: string;
+    type: string;
+    visible?: boolean;
+  };
+}
+
+function CreateUpdateProduct({
+  id,
+  type = "create",
+  defaultValues,
+}: ICreateUpdateProduct) {
+  const { mutate: patchProduct, isPending: isUpdating } = usePatchProduct();
+  const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
+  const { data: categories, isLoading: isCategoriesLoading } =
+    useGetAllCategories();
+
+  // 1. Reactive values: This handles the "sometimes selected" issue.
+  // When categories load or defaultValues arrive, useForm will automatically re-sync.
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    values: {
+      name: defaultValues?.name ?? "",
+      description: defaultValues?.description ?? "",
+      price: defaultValues?.price ? String(defaultValues.price) : "",
+      hasDiscount: !!(
+        defaultValues?.crossedPrice && defaultValues.crossedPrice > 0
+      ),
+      crossedPrice: defaultValues?.crossedPrice
+        ? String(defaultValues.crossedPrice)
+        : "",
+      categoryId: defaultValues?.categoryId ?? "",
+      type: defaultValues?.type ?? "",
+      visible: defaultValues?.visible ?? false,
+    },
+  });
+
+  const categoryOptions = useMemo(() => {
+    return (
+      categories?.map((cat) => ({
+        label: cat.name,
+        value: cat.id,
+      })) || []
+    );
+  }, [categories]);
 
   const foodTypeOptions = [
     { label: "Veg", value: FOOD_TYPE.VEG },
     { label: "Non-Veg", value: FOOD_TYPE.NON_VEG },
   ];
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {},
-  });
+  function onSubmit(values: FormValues) {
+    const payload = {
+      ...values,
+      price: +values.price,
+      crossedPrice: values.crossedPrice ? +values.crossedPrice : undefined,
+    };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
     if (type === "create") {
-      // Call create product API here
-      console.log("Creating product with values:", values);
-      return;
-    } else if (type === "update") {
-      // patchProduct({
-      //   body: {
-      //     name: values.name,
-      //     description: values.description,
-      //     price: +values.price,
-      //     crossedPrice: +values.crossedPrice,
-      //     categoryId: values.categoryId,
-      //     type: values.type,
-      //   },
-      // });
+      createProduct({ body: payload });
+    } else {
+      patchProduct({ id, body: payload });
     }
   }
+
+  const isPending = isCreating || isUpdating;
+
+  const hasDiscount = form.watch("hasDiscount");
+
+  useEffect(() => {
+    // If user unchecks "Apply Discount", clear the crossedPrice field
+    if (!hasDiscount) {
+      form.setValue("crossedPrice", "0");
+    }
+  }, [hasDiscount, form]);
 
   return (
     <section>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <fieldset className=" space-y-5" disabled={isPending}>
+          <fieldset className="space-y-5" disabled={isPending}>
             <FormSwitch form={form} name="visible" label="Visible" />
+
             <FormInputItem
               form={form}
               name="name"
               label="Product Name"
-              placeholder="Enter product name"
+              placeholder="Name"
             />
 
             <FormTextAreaInputItem
               form={form}
               name="description"
               label="Description"
-              placeholder="Enter description"
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
               <FormInputItem
                 form={form}
                 name="price"
-                label="Price"
+                label="Selling Price"
                 type="number"
-                placeholder=""
               />
-              <FormInputItem
-                form={form}
-                name="crossedPrice"
-                label="Crossed Price"
-                type="number"
-                placeholder=""
-              />
+
+              <div className="space-y-2">
+                <FormSwitch
+                  form={form}
+                  name="hasDiscount"
+                  label="Apply Discount/Crossed Price"
+                />
+              </div>
             </div>
+
+            {/* Conditionally reveal the Crossed Price input */}
+            {hasDiscount && (
+              <div className="bg-slate-50 p-4 rounded-lg border border-dashed border-slate-200 animate-in fade-in slide-in-from-top-2">
+                <FormInputItem
+                  form={form}
+                  name="crossedPrice"
+                  label="Crossed Price (Original Price)"
+                  type="number"
+                  placeholder="0"
+                />
+                <p className="text-xs text-muted-foreground mt-2">
+                  This price will appear with a strike-through next to the
+                  selling price.
+                </p>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <FormSelectItem
                 form={form}
                 name="categoryId"
                 label="Category"
-                data={categoryOptions || []}
-                placeholder="Select category"
+                data={categoryOptions}
+                // Important: Show loading state so user knows why it's empty
+                placeholder={
+                  isCategoriesLoading ? "Loading..." : "Select category"
+                }
               />
 
               <FormSelectItem
@@ -133,21 +213,16 @@ export default function CreateUpdateProduct({
               />
             </div>
 
-            <div className="flex justify-end gap-3 py-5  bg-white">
-              <Button
-                variant={"default"}
-                type="submit"
-                isLoading={isPending}
-                disabled={isPending}
-              >
-                Update Product
+            <div className="flex justify-end gap-3 py-5 bg-white">
+              <Button type="submit" isLoading={isPending}>
+                {type === "create" ? "Create Product" : "Update Product"}
               </Button>
             </div>
           </fieldset>
         </form>
       </Form>
-
-      <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
     </section>
   );
 }
+
+export default memo(CreateUpdateProduct);

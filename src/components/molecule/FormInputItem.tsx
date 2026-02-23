@@ -20,8 +20,6 @@ export default function FormInputItem({
   type = "text",
   maxLength,
 }: IFormInputItemProps) {
-  const [showPassword, setShowPassword] = useState(type !== "password");
-
   return (
     <FormItemWrapper form={form} name={name} label={label} required={required}>
       {(field) => (
@@ -29,7 +27,7 @@ export default function FormInputItem({
           <Input
             {...field}
             placeholder={placeholder}
-            type={showPassword ? "text" : "password"}
+            type={type}
             maxLength={maxLength}
             className={cn(" ")}
           />

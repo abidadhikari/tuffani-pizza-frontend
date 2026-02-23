@@ -79,6 +79,31 @@ export type CreateCategoryDto = {
     name: string;
 };
 
+export type ProductResponseDto = {
+    id: string;
+    name: string;
+    description: string;
+    price: string;
+    crossedPrice: string | null;
+    categoryId: string;
+    mainImageId: {
+        [key: string]: unknown;
+    } | null;
+    type: string;
+    visible: boolean;
+    isDeleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type CategoryResponseDto = {
+    id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    products: Array<ProductResponseDto>;
+};
+
 export type CreateProductDto = {
     /**
      * The name of the product
@@ -279,6 +304,17 @@ export type AuthControllerVerifyAccountResponses = {
     201: unknown;
 };
 
+export type AuthControllerLogoutData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/auth/logout';
+};
+
+export type AuthControllerLogoutResponses = {
+    200: unknown;
+};
+
 export type UserControllerFindUserByIdData = {
     body?: never;
     path?: never;
@@ -320,8 +356,13 @@ export type CategoryControllerFindAllData = {
 };
 
 export type CategoryControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * List of categories with products
+     */
+    200: Array<CategoryResponseDto>;
 };
+
+export type CategoryControllerFindAllResponse = CategoryControllerFindAllResponses[keyof CategoryControllerFindAllResponses];
 
 export type CategoryControllerCreateData = {
     body: CreateCategoryDto;

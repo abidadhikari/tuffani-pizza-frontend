@@ -15,7 +15,6 @@ export default function FormSwitch({
   form,
   name,
   label,
-  description,
   disabled,
 }: FormSwitchProps) {
   return (

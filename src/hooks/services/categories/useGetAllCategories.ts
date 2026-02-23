@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { queryKeys } from "../queryKeys";
 
 export const useGetAllCategories = () => {
-  const query = useQuery<unknown | undefined, Error>({
+  const query = useQuery({
     queryKey: [queryKeys.ALL_CATEGORIES],
     queryFn: async () => {
       const { data } = await categoryControllerFindAll();

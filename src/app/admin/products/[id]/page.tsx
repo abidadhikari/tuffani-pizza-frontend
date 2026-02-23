@@ -14,7 +14,9 @@ export default function SingleProductPage() {
   return (
     <section>
       <SiteHeader title="Update Product"></SiteHeader>
-      <ImageUploadOrPreview
+      {!isLoading && data ? (
+        <>
+          {/* <ImageUploadOrPreview
         value={data?.mainImage?.url}
         onUpload={async (file) => {
           console.log("Uploading file:", file);
@@ -25,31 +27,14 @@ export default function SingleProductPage() {
             },
           });
         }}
-      />
-      <CreateUpdateProduct
-        id={id as string}
-        defaultValues={data}
-        type="update"
-      />
-      <div>
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Error loading product.</p>}
-        {data ? (
-          <>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
-            <button
-              onClick={() =>
-                patchProduct({
-                  body: { name: "Abid Product Name", visible: true },
-                  id: id as string,
-                })
-              }
-            >
-              Update Product
-            </button>
-          </>
-        ) : null}
-      </div>
+      /> */}
+          <CreateUpdateProduct
+            id={id as string}
+            defaultValues={data}
+            type="update"
+          />
+        </>
+      ) : null}
     </section>
   );
 }

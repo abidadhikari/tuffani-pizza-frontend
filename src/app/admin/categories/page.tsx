@@ -43,9 +43,9 @@ export default function CategoriesPage() {
         </Button>
       </div>
       <div className="grid gap-4 grid-cols-4">
-        {data && !isLoading ? (
+        {data && Array.isArray(data) && !isLoading ? (
           <>
-            {data?.map((category: { name: string; products: any[] }) => (
+            {data?.map((category) => (
               <div
                 key={category.id}
                 className=" border shadow p-4 rounded cursor-pointer hover:shadow-lg transition"
@@ -90,7 +90,9 @@ export default function CategoriesPage() {
         }}
         defaultValues={{
           name: isEditMode
-            ? data?.find((cat) => cat.id === currentCategoryId)?.name || ""
+            ? Array.isArray(data)
+              ? data?.find((cat) => cat.id === currentCategoryId)?.name || ""
+              : ""
             : "",
         }}
         loading={isCreatingCategory || isUpdatingCategory}
