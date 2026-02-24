@@ -1,7 +1,6 @@
 import { FOOD_TYPE, IFoodType } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import WavyText from "../atom/WavyText";
 import PercentageOffBadge from "../atom/PercentageOffBadge";
 
 interface IPizzaCard {
@@ -61,11 +60,11 @@ export default function PizzaCard(props: IPizzaCard) {
           <p className="font-light text-sm leading-[150%]">{description}</p>
         </div>
         <div className={cn("pt-1", { "text-right": variant === "wide" })}>
-          {crossedPrice && (
+          {crossedPrice && crossedPrice > 0 ? (
             <div className="italic text-sm text-brand line-through">
               Rs.{crossedPrice}
             </div>
-          )}
+          ) : null}
           <div className="font-bold text-xl">Rs.{price}</div>
         </div>
       </div>

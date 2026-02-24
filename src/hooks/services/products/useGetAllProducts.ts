@@ -1,6 +1,6 @@
 // useGetMe.tsx
 
-import { productControllerFindAll } from "@/client";
+import { productControllerFindAllAdmin } from "@/client";
 import { useQuery } from "@tanstack/react-query";
 
 import { useEffect } from "react";
@@ -10,7 +10,7 @@ export const useGetAllProducts = () => {
   const query = useQuery<unknown | undefined, Error>({
     queryKey: [queryKeys.ALL_PRODUCTS],
     queryFn: async () => {
-      const { data } = await productControllerFindAll();
+      const { data } = await productControllerFindAllAdmin();
       return data;
     },
   });

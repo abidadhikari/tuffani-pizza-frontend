@@ -99,8 +99,8 @@ export default function AppTable<TData, TValue>({
   });
 
   return (
-    <div className="w-full overflow-auto ">
-      <Table className="overflow-hidden bg-white rounded-md">
+    <div className="w-full overflow-auto  border rounded-md">
+      <Table className="overflow-hidden bg-white rounded-md ">
         <TableHeader className="font-extrabold bg-white2">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="">
@@ -111,7 +111,7 @@ export default function AppTable<TData, TValue>({
                   <TableHead
                     key={header.id}
                     className={cn(
-                      "text-base py-4 select-none rounded-none! transition-colors",
+                      "text-sm py-4 select-none rounded-none! transition-colors bg-gray-200",
                       // isSortable ? "cursor-pointer hover:bg-gray-100" : ""
                     )}
                     onClick={header.column.getToggleSortingHandler()}

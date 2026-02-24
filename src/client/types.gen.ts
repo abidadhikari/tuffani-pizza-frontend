@@ -79,6 +79,13 @@ export type CreateCategoryDto = {
     name: string;
 };
 
+export type BaseCategoryResponseDto = {
+    id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export type ProductResponseDto = {
     id: string;
     name: string;
@@ -86,6 +93,7 @@ export type ProductResponseDto = {
     price: string;
     crossedPrice: string | null;
     categoryId: string;
+    category: BaseCategoryResponseDto;
     mainImageId: {
         [key: string]: unknown;
     } | null;
@@ -232,6 +240,12 @@ export type CreateAssetDto = {
      * The type of the asset
      */
     type: 'IMAGE' | 'VIDEO' | 'DOCUMENT';
+    /**
+     * Additional metadata for the asset
+     */
+    metadata: {
+        [key: string]: unknown;
+    };
 };
 
 export type CreateOrderDto = {
@@ -253,10 +267,84 @@ export type UpdateStaticContentDto = {
 };
 
 export type CreateTestimonialDto = {
-    [key: string]: unknown;
+    /**
+     * Name of the person giving the testimonial
+     */
+    name: string;
+    /**
+     * Designation of the person giving the testimonial
+     */
+    designation: string;
+    /**
+     * Title of the testimonial
+     */
+    title: string;
+    /**
+     * Content of the testimonial
+     */
+    testimonial: string;
+    /**
+     * ID of the asset associated with the testimonial
+     */
+    assetId?: string;
+};
+
+export type TestimonialResponseDto = {
+    readonly id: string;
+    readonly name: string;
+    readonly designation: string;
+    readonly title: string;
+    readonly testimonial: string;
+    readonly assetId: string;
+    readonly Asset: {
+        [key: string]: unknown;
+    };
 };
 
 export type UpdateTestimonialDto = {
+    /**
+     * Name of the person giving the testimonial
+     */
+    name?: string;
+    /**
+     * Designation of the person giving the testimonial
+     */
+    designation?: string;
+    /**
+     * Title of the testimonial
+     */
+    title?: string;
+    /**
+     * Content of the testimonial
+     */
+    testimonial?: string;
+    /**
+     * ID of the asset associated with the testimonial
+     */
+    assetId?: string;
+};
+
+export type CreateOperationLogDto = {
+    [key: string]: unknown;
+};
+
+export type UpdateOperationLogDto = {
+    [key: string]: unknown;
+};
+
+export type CreateStaticContentDtoWritable = {
+    [key: string]: unknown;
+};
+
+export type UpdateStaticContentDtoWritable = {
+    [key: string]: unknown;
+};
+
+export type CreateOperationLogDtoWritable = {
+    [key: string]: unknown;
+};
+
+export type UpdateOperationLogDtoWritable = {
     [key: string]: unknown;
 };
 
@@ -409,8 +497,13 @@ export type ProductControllerFindAllData = {
 };
 
 export type ProductControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * List of visible products for users
+     */
+    200: Array<ProductResponseDto>;
 };
+
+export type ProductControllerFindAllResponse = ProductControllerFindAllResponses[keyof ProductControllerFindAllResponses];
 
 export type ProductControllerCreateData = {
     body: CreateProductDto;
@@ -422,6 +515,22 @@ export type ProductControllerCreateData = {
 export type ProductControllerCreateResponses = {
     201: unknown;
 };
+
+export type ProductControllerFindAllAdminData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/product/admin';
+};
+
+export type ProductControllerFindAllAdminResponses = {
+    /**
+     * List of all products for admin
+     */
+    200: Array<ProductResponseDto>;
+};
+
+export type ProductControllerFindAllAdminResponse = ProductControllerFindAllAdminResponses[keyof ProductControllerFindAllAdminResponses];
 
 export type ProductControllerRemoveData = {
     body?: never;
@@ -446,8 +555,13 @@ export type ProductControllerFindOneData = {
 };
 
 export type ProductControllerFindOneResponses = {
-    200: unknown;
+    /**
+     * Product details
+     */
+    200: ProductResponseDto;
 };
+
+export type ProductControllerFindOneResponse = ProductControllerFindOneResponses[keyof ProductControllerFindOneResponses];
 
 export type ProductControllerUpdateData = {
     body: UpdateProductDto;
@@ -651,7 +765,7 @@ export type StaticContentControllerFindAllResponses = {
 };
 
 export type StaticContentControllerCreateData = {
-    body: CreateStaticContentDto;
+    body: CreateStaticContentDtoWritable;
     path?: never;
     query?: never;
     url: '/api/static-content';
@@ -688,7 +802,7 @@ export type StaticContentControllerFindOneResponses = {
 };
 
 export type StaticContentControllerUpdateWithKeyData = {
-    body: UpdateStaticContentDto;
+    body: UpdateStaticContentDtoWritable;
     path: {
         key: string;
     };
@@ -708,8 +822,13 @@ export type TestimonialControllerFindAllData = {
 };
 
 export type TestimonialControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * List of all testimonials
+     */
+    200: Array<TestimonialResponseDto>;
 };
+
+export type TestimonialControllerFindAllResponse = TestimonialControllerFindAllResponses[keyof TestimonialControllerFindAllResponses];
 
 export type TestimonialControllerCreateData = {
     body: CreateTestimonialDto;
@@ -758,5 +877,66 @@ export type TestimonialControllerUpdateData = {
 };
 
 export type TestimonialControllerUpdateResponses = {
+    200: unknown;
+};
+
+export type OperationLogControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/operation-log';
+};
+
+export type OperationLogControllerFindAllResponses = {
+    200: unknown;
+};
+
+export type OperationLogControllerCreateData = {
+    body: CreateOperationLogDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/operation-log';
+};
+
+export type OperationLogControllerCreateResponses = {
+    201: unknown;
+};
+
+export type OperationLogControllerRemoveData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/operation-log/{id}';
+};
+
+export type OperationLogControllerRemoveResponses = {
+    200: unknown;
+};
+
+export type OperationLogControllerFindOneData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/operation-log/{id}';
+};
+
+export type OperationLogControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type OperationLogControllerUpdateData = {
+    body: UpdateOperationLogDtoWritable;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/operation-log/{id}';
+};
+
+export type OperationLogControllerUpdateResponses = {
     200: unknown;
 };

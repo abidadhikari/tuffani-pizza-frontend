@@ -32,6 +32,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { HomeIcon, PizzaIcon } from "lucide-react";
 
 const data = {
   user: {
@@ -135,7 +136,12 @@ const data = {
     {
       name: "Home Page",
       url: "/admin/static-content",
-      icon: IconDatabase,
+      icon: HomeIcon,
+    },
+    {
+      name: "Menu Page",
+      url: "/admin/static-content/menu",
+      icon: PizzaIcon,
     },
   ],
 };

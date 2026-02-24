@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { AppControllerGetHelloData, AppControllerGetHelloResponses, AssetsControllerCreateData, AssetsControllerCreateResponses, AssetsControllerFindAllData, AssetsControllerFindAllResponses, AssetsControllerUploadData, AssetsControllerUploadResponses, AuthControllerLoginData, AuthControllerLoginResponses, AuthControllerLogoutData, AuthControllerLogoutResponses, AuthControllerRegisterData, AuthControllerRegisterResponses, AuthControllerVerifyAccountData, AuthControllerVerifyAccountResponses, CategoryControllerCreateData, CategoryControllerCreateResponses, CategoryControllerFindAllData, CategoryControllerFindAllResponses, CategoryControllerFindOneData, CategoryControllerFindOneResponses, CategoryControllerUpdateData, CategoryControllerUpdateResponses, ContactControllerCreateData, ContactControllerCreateResponses, ContactControllerFindAllData, ContactControllerFindAllResponses, ContactControllerFindOneData, ContactControllerFindOneResponses, ContactControllerRemoveData, ContactControllerRemoveResponses, ContactControllerUpdateData, ContactControllerUpdateResponses, OrderControllerCreateData, OrderControllerCreateResponses, OrderControllerFindAllData, OrderControllerFindAllResponses, OrderControllerFindOneData, OrderControllerFindOneResponses, OrderControllerGetAllOrderGroupData, OrderControllerGetAllOrderGroupResponses, OrderControllerRemoveData, OrderControllerRemoveResponses, OrderControllerUpdateData, OrderControllerUpdateResponses, ProductControllerCreateData, ProductControllerCreateResponses, ProductControllerFindAllData, ProductControllerFindAllResponses, ProductControllerFindOneData, ProductControllerFindOneResponses, ProductControllerRemoveData, ProductControllerRemoveResponses, ProductControllerUpdateData, ProductControllerUpdateResponses, StaticContentControllerCreateData, StaticContentControllerCreateResponses, StaticContentControllerFindAllData, StaticContentControllerFindAllResponses, StaticContentControllerFindOneData, StaticContentControllerFindOneResponses, StaticContentControllerRemoveData, StaticContentControllerRemoveResponses, StaticContentControllerUpdateWithKeyData, StaticContentControllerUpdateWithKeyResponses, StatsControllerGetDashboardStatsData, StatsControllerGetDashboardStatsResponses, TestimonialControllerCreateData, TestimonialControllerCreateResponses, TestimonialControllerFindAllData, TestimonialControllerFindAllResponses, TestimonialControllerFindOneData, TestimonialControllerFindOneResponses, TestimonialControllerRemoveData, TestimonialControllerRemoveResponses, TestimonialControllerUpdateData, TestimonialControllerUpdateResponses, UserControllerFindUserByIdData, UserControllerFindUserByIdResponses, UserControllerGetAllUsersData, UserControllerGetAllUsersResponses, UserControllerInviteUserData, UserControllerInviteUserResponses } from './types.gen';
+import type { AppControllerGetHelloData, AppControllerGetHelloResponses, AssetsControllerCreateData, AssetsControllerCreateResponses, AssetsControllerFindAllData, AssetsControllerFindAllResponses, AssetsControllerUploadData, AssetsControllerUploadResponses, AuthControllerLoginData, AuthControllerLoginResponses, AuthControllerLogoutData, AuthControllerLogoutResponses, AuthControllerRegisterData, AuthControllerRegisterResponses, AuthControllerVerifyAccountData, AuthControllerVerifyAccountResponses, CategoryControllerCreateData, CategoryControllerCreateResponses, CategoryControllerFindAllData, CategoryControllerFindAllResponses, CategoryControllerFindOneData, CategoryControllerFindOneResponses, CategoryControllerUpdateData, CategoryControllerUpdateResponses, ContactControllerCreateData, ContactControllerCreateResponses, ContactControllerFindAllData, ContactControllerFindAllResponses, ContactControllerFindOneData, ContactControllerFindOneResponses, ContactControllerRemoveData, ContactControllerRemoveResponses, ContactControllerUpdateData, ContactControllerUpdateResponses, OperationLogControllerCreateData, OperationLogControllerCreateResponses, OperationLogControllerFindAllData, OperationLogControllerFindAllResponses, OperationLogControllerFindOneData, OperationLogControllerFindOneResponses, OperationLogControllerRemoveData, OperationLogControllerRemoveResponses, OperationLogControllerUpdateData, OperationLogControllerUpdateResponses, OrderControllerCreateData, OrderControllerCreateResponses, OrderControllerFindAllData, OrderControllerFindAllResponses, OrderControllerFindOneData, OrderControllerFindOneResponses, OrderControllerGetAllOrderGroupData, OrderControllerGetAllOrderGroupResponses, OrderControllerRemoveData, OrderControllerRemoveResponses, OrderControllerUpdateData, OrderControllerUpdateResponses, ProductControllerCreateData, ProductControllerCreateResponses, ProductControllerFindAllAdminData, ProductControllerFindAllAdminResponses, ProductControllerFindAllData, ProductControllerFindAllResponses, ProductControllerFindOneData, ProductControllerFindOneResponses, ProductControllerRemoveData, ProductControllerRemoveResponses, ProductControllerUpdateData, ProductControllerUpdateResponses, StaticContentControllerCreateData, StaticContentControllerCreateResponses, StaticContentControllerFindAllData, StaticContentControllerFindAllResponses, StaticContentControllerFindOneData, StaticContentControllerFindOneResponses, StaticContentControllerRemoveData, StaticContentControllerRemoveResponses, StaticContentControllerUpdateWithKeyData, StaticContentControllerUpdateWithKeyResponses, StatsControllerGetDashboardStatsData, StatsControllerGetDashboardStatsResponses, TestimonialControllerCreateData, TestimonialControllerCreateResponses, TestimonialControllerFindAllData, TestimonialControllerFindAllResponses, TestimonialControllerFindOneData, TestimonialControllerFindOneResponses, TestimonialControllerRemoveData, TestimonialControllerRemoveResponses, TestimonialControllerUpdateData, TestimonialControllerUpdateResponses, UserControllerFindUserByIdData, UserControllerFindUserByIdResponses, UserControllerGetAllUsersData, UserControllerGetAllUsersResponses, UserControllerInviteUserData, UserControllerInviteUserResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -92,7 +92,11 @@ export const categoryControllerUpdate = <ThrowOnError extends boolean = false>(o
     }
 });
 
-export const productControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<ProductControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<ProductControllerFindAllResponses, unknown, ThrowOnError>({ url: '/api/product', ...options });
+export const productControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<ProductControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<ProductControllerFindAllResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/product',
+    ...options
+});
 
 export const productControllerCreate = <ThrowOnError extends boolean = false>(options: Options<ProductControllerCreateData, ThrowOnError>) => (options.client ?? client).post<ProductControllerCreateResponses, unknown, ThrowOnError>({
     ...formDataBodySerializer,
@@ -104,9 +108,19 @@ export const productControllerCreate = <ThrowOnError extends boolean = false>(op
     }
 });
 
+export const productControllerFindAllAdmin = <ThrowOnError extends boolean = false>(options?: Options<ProductControllerFindAllAdminData, ThrowOnError>) => (options?.client ?? client).get<ProductControllerFindAllAdminResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/product/admin',
+    ...options
+});
+
 export const productControllerRemove = <ThrowOnError extends boolean = false>(options: Options<ProductControllerRemoveData, ThrowOnError>) => (options.client ?? client).delete<ProductControllerRemoveResponses, unknown, ThrowOnError>({ url: '/api/product/{id}', ...options });
 
-export const productControllerFindOne = <ThrowOnError extends boolean = false>(options: Options<ProductControllerFindOneData, ThrowOnError>) => (options.client ?? client).get<ProductControllerFindOneResponses, unknown, ThrowOnError>({ url: '/api/product/{id}', ...options });
+export const productControllerFindOne = <ThrowOnError extends boolean = false>(options: Options<ProductControllerFindOneData, ThrowOnError>) => (options.client ?? client).get<ProductControllerFindOneResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/product/{id}',
+    ...options
+});
 
 export const productControllerUpdate = <ThrowOnError extends boolean = false>(options: Options<ProductControllerUpdateData, ThrowOnError>) => (options.client ?? client).patch<ProductControllerUpdateResponses, unknown, ThrowOnError>({
     ...formDataBodySerializer,
@@ -228,7 +242,11 @@ export const staticContentControllerUpdateWithKey = <ThrowOnError extends boolea
     }
 });
 
-export const testimonialControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<TestimonialControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<TestimonialControllerFindAllResponses, unknown, ThrowOnError>({ url: '/api/testimonial', ...options });
+export const testimonialControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<TestimonialControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<TestimonialControllerFindAllResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/testimonial',
+    ...options
+});
 
 export const testimonialControllerCreate = <ThrowOnError extends boolean = false>(options: Options<TestimonialControllerCreateData, ThrowOnError>) => (options.client ?? client).post<TestimonialControllerCreateResponses, unknown, ThrowOnError>({
     url: '/api/testimonial',
@@ -245,6 +263,30 @@ export const testimonialControllerFindOne = <ThrowOnError extends boolean = fals
 
 export const testimonialControllerUpdate = <ThrowOnError extends boolean = false>(options: Options<TestimonialControllerUpdateData, ThrowOnError>) => (options.client ?? client).patch<TestimonialControllerUpdateResponses, unknown, ThrowOnError>({
     url: '/api/testimonial/{id}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const operationLogControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<OperationLogControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<OperationLogControllerFindAllResponses, unknown, ThrowOnError>({ url: '/api/operation-log', ...options });
+
+export const operationLogControllerCreate = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerCreateData, ThrowOnError>) => (options.client ?? client).post<OperationLogControllerCreateResponses, unknown, ThrowOnError>({
+    url: '/api/operation-log',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const operationLogControllerRemove = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerRemoveData, ThrowOnError>) => (options.client ?? client).delete<OperationLogControllerRemoveResponses, unknown, ThrowOnError>({ url: '/api/operation-log/{id}', ...options });
+
+export const operationLogControllerFindOne = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerFindOneData, ThrowOnError>) => (options.client ?? client).get<OperationLogControllerFindOneResponses, unknown, ThrowOnError>({ url: '/api/operation-log/{id}', ...options });
+
+export const operationLogControllerUpdate = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerUpdateData, ThrowOnError>) => (options.client ?? client).patch<OperationLogControllerUpdateResponses, unknown, ThrowOnError>({
+    url: '/api/operation-log/{id}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
