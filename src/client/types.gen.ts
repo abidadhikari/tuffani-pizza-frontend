@@ -268,6 +268,10 @@ export type UpdateStaticContentDto = {
 
 export type CreateTestimonialDto = {
     /**
+     * The image file to upload
+     */
+    image?: Blob | File;
+    /**
      * Name of the person giving the testimonial
      */
     name: string;
@@ -275,6 +279,7 @@ export type CreateTestimonialDto = {
      * Designation of the person giving the testimonial
      */
     designation: string;
+    isVisible: boolean;
     /**
      * Title of the testimonial
      */
@@ -295,6 +300,7 @@ export type TestimonialResponseDto = {
     readonly designation: string;
     readonly title: string;
     readonly testimonial: string;
+    readonly isVisible: boolean;
     readonly assetId: string;
     readonly Asset: {
         [key: string]: unknown;
@@ -303,6 +309,10 @@ export type TestimonialResponseDto = {
 
 export type UpdateTestimonialDto = {
     /**
+     * The image file to upload
+     */
+    image?: Blob | File;
+    /**
      * Name of the person giving the testimonial
      */
     name?: string;
@@ -310,6 +320,7 @@ export type UpdateTestimonialDto = {
      * Designation of the person giving the testimonial
      */
     designation?: string;
+    isVisible?: boolean;
     /**
      * Title of the testimonial
      */
@@ -332,6 +343,14 @@ export type UpdateOperationLogDto = {
     [key: string]: unknown;
 };
 
+export type CreateBlogDto = {
+    [key: string]: unknown;
+};
+
+export type UpdateBlogDto = {
+    [key: string]: unknown;
+};
+
 export type CreateStaticContentDtoWritable = {
     [key: string]: unknown;
 };
@@ -345,6 +364,14 @@ export type CreateOperationLogDtoWritable = {
 };
 
 export type UpdateOperationLogDtoWritable = {
+    [key: string]: unknown;
+};
+
+export type CreateBlogDtoWritable = {
+    [key: string]: unknown;
+};
+
+export type UpdateBlogDtoWritable = {
     [key: string]: unknown;
 };
 
@@ -938,5 +965,66 @@ export type OperationLogControllerUpdateData = {
 };
 
 export type OperationLogControllerUpdateResponses = {
+    200: unknown;
+};
+
+export type BlogControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/blog';
+};
+
+export type BlogControllerFindAllResponses = {
+    200: unknown;
+};
+
+export type BlogControllerCreateData = {
+    body: CreateBlogDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/blog';
+};
+
+export type BlogControllerCreateResponses = {
+    201: unknown;
+};
+
+export type BlogControllerRemoveData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/blog/{id}';
+};
+
+export type BlogControllerRemoveResponses = {
+    200: unknown;
+};
+
+export type BlogControllerFindOneData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/blog/{id}';
+};
+
+export type BlogControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type BlogControllerUpdateData = {
+    body: UpdateBlogDtoWritable;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/blog/{id}';
+};
+
+export type BlogControllerUpdateResponses = {
     200: unknown;
 };

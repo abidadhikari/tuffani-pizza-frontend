@@ -15,7 +15,9 @@ export const axiosInstance = new Axios({
 
 export const getMenu = async () => {
   try {
-    const response = await axiosInstance.get(`/api/product`);
+    const response = await axiosInstance.get(`/api/product`, {
+      withCredentials: false,
+    });
     const menuData = JSON.parse(response.data);
     return menuData;
   } catch (error) {
@@ -26,11 +28,26 @@ export const getMenu = async () => {
 
 export const getStaticPageData = async () => {
   try {
-    const response = await axiosInstance.get(`/api/static-content`);
+    const response = await axiosInstance.get(`/api/static-content`, {
+      withCredentials: false,
+    });
     const staticPageData = JSON.parse(response.data);
     return staticPageData;
   } catch (error) {
     console.error("Error fetching static page data:", error);
+    throw error;
+  }
+};
+
+export const getTestimonials = async () => {
+  try {
+    const response = await axiosInstance.get(`/api/testimonial`, {
+      withCredentials: false,
+    });
+    const testimonialsData = JSON.parse(response.data);
+    return testimonialsData;
+  } catch (error) {
+    console.error("Error fetching testimonials:", error);
     throw error;
   }
 };

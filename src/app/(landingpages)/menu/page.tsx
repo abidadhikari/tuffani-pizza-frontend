@@ -10,7 +10,7 @@ import { fetchStaticContent } from "@/lib/fetch-static-content";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function TestPage() {
+export default async function MenuPage() {
   const menuData: ProductResponseDto[] = await getMenu();
   const staticContent = await getStaticPageData();
   const rawData = fetchStaticContent(
@@ -18,8 +18,6 @@ export default async function TestPage() {
     staticContent,
   );
   const heroSection = rawData?.value;
-
-  console.log(rawData, staticContent);
 
   return (
     <main>

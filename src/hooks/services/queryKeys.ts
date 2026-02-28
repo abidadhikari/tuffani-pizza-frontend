@@ -4,4 +4,6 @@ export const queryKeys = {
   SINGLE_PRODUCT: ["single-product"],
   ALL_CATEGORIES: ["all-categories"],
   SINGLE_CATEGORY: ["single-category"],
+  ALL_TESTIMONIALS: ["all-testimonials"],
+  SINGLE_TESTIMONIAL: ["single-testimonial"],
 };

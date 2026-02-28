@@ -4,16 +4,18 @@ import Image from "next/image";
 import HeroCTASection from "./HeroCTASection";
 import HeroFoods from "./HeroFoods";
 import { useGetStaticContent } from "@/hooks/services/static-content/useGetStaticContent";
+import { IStaticContent } from "@/types/staticContent.type";
 
 type Props = {
   pizzaRef: React.RefObject<HTMLDivElement | null>;
+  staticContent: IStaticContent;
 };
 
 const HeroSection = forwardRef<HTMLDivElement, Props>(
-  ({ pizzaRef }, heroSectionRef) => {
+  ({ pizzaRef, staticContent }, heroSectionRef) => {
     return (
       <div className="h-screen  relative w-screen " ref={heroSectionRef}>
-        <HeroCTASection />
+        <HeroCTASection staticContent={staticContent} />
         <HeroFoods />
         <div
           ref={pizzaRef}

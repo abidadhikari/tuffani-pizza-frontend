@@ -7,22 +7,29 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { useGetStaticContent } from "@/hooks/services/static-content/useGetStaticContent";
+import { STATIC_CONTENT_KEYS } from "@/lib/constants";
 import { fetchStaticContent } from "@/lib/fetch-static-content";
+import { IStaticContent } from "@/types/staticContent.type";
 import { UseEmblaCarouselType } from "embla-carousel-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export default function HeroCTASection() {
+export default function HeroCTASection(props: {
+  staticContent: IStaticContent;
+}) {
+  const { staticContent } = props;
   const [api, setApi] = useState<UseEmblaCarouselType[1]>();
-  const { data } = useGetStaticContent();
 
   useEffect(() => {
     if (!api || api?.scrollNext === undefined) return;
-    const interval = setInterval(() => api?.scrollNext(), 8000); // every 5s
+    const interval = setInterval(() => api?.scrollNext(), 8000);
     return () => clearInterval(interval);
   }, [api]);
 
-  const rawData = fetchStaticContent("HERO_SECTION", data);
+  const rawData = fetchStaticContent(
+    STATIC_CONTENT_KEYS.HERO_SECTION,
+    staticContent,
+  );
 
   const heroSectionList = rawData?.value?.map((item: any) => ({
     title: item?.title?.prefix,

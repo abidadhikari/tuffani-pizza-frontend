@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 
 interface SiteHeaderProps {
   title: string;
+  description?: string;
   children?: React.ReactNode;
 }
 
-export function SiteHeader({ title, children }: SiteHeaderProps) {
+export function SiteHeader({ title, description, children }: SiteHeaderProps) {
   const navigate = useRouter();
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)  mb-4 py-8">
@@ -25,7 +26,12 @@ export function SiteHeader({ title, children }: SiteHeaderProps) {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-base font-medium">{title}</h1>
+        <div>
+          <h1 className="text-base font-medium">{title}</h1>
+          {description && (
+            <p className="text-xs text-gray-500">{description}</p>
+          )}
+        </div>
         {children && <div className="ml-auto">{children}</div>}
       </div>
     </header>
