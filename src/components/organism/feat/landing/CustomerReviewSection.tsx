@@ -48,10 +48,12 @@ export default function CustomerReviewSection({
         )}
       </h2>
 
-      <p className="text-light text-[#828282] text-base md:text-lg mb-16 text-center w-194.25 max-w-[90%] mx-auto ">
-        {testimonialStaticContent?.value.description ||
-          "See why food lovers call Tufani the best pizza, fried chicken, and burger spot in Baneshwor and Kathmandu."}
-      </p>
+      <p
+        className="text-light text-[#828282] text-base md:text-lg mb-16 text-center w-194.25 max-w-[90%] mx-auto "
+        dangerouslySetInnerHTML={{
+          __html: testimonialStaticContent?.value?.description,
+        }}
+      ></p>
 
       <div className="my-width mx-auto">
         <AppCarousel

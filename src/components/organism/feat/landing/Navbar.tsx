@@ -162,6 +162,18 @@ export default function Navbar() {
             </li>
 
             <li>
+              <Link
+                href="/blog"
+                className={cn(
+                  "navlink",
+                  pathname.startsWith("/blog") && "active-navlink",
+                )}
+              >
+                Blogs
+              </Link>
+            </li>
+
+            <li>
               <Link href="/contact-us">
                 <Button>Contact Us</Button>
               </Link>

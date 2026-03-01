@@ -10,14 +10,20 @@ type Payload = BodyOf<AuthControllerLoginData>;
 export const usePostLogin = () => {
   const navigate = useRouter();
   return useMutation({
-    mutationFn: async (payload: Payload) => {
+    mutationFn: async (
+      payload: Payload,
+    ): Promise<{ accessToken: string; user: { isVerified: boolean } }> => {
       const { data } = await authControllerLogin({
         body: payload,
       });
-      return data;
+      return data as { accessToken: string; user: { isVerified: boolean } };
     },
-    onSuccess: (response) => {
-      console.log(response);
+    onSuccess: (response: {
+      accessToken: string;
+      user: {
+        isVerified: boolean;
+      };
+    }) => {
       if (response?.user?.isVerified) {
         console.log("User is verified, navigating to dashboard", response);
         localStorage.setItem("token", response?.accessToken);

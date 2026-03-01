@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { TestimonialResponseDto } from "@/client";
 import Button from "@/components/atom/Button";
-import { Edit, EyeIcon, EyeOff } from "lucide-react";
+import { Edit, EyeIcon, EyeOff, Trash2 } from "lucide-react";
 
 export type ITestimonialTableType = TestimonialResponseDto;
 
@@ -20,6 +20,7 @@ interface ITestimonialTableProps extends ICommonTableProps {
   onActionClick?: (id: string) => void;
   onEditButtonClick: (id: string) => void;
   onEyeButtonClick: (id: string, value: boolean) => void;
+  onDeleteButtonClick: (id: string) => void;
 }
 
 export default function TestimonialTable({
@@ -30,6 +31,7 @@ export default function TestimonialTable({
   loading,
   onEditButtonClick,
   onEyeButtonClick,
+  onDeleteButtonClick,
 }: ITestimonialTableProps) {
   const columns: ColumnDef<ITestimonialTableType>[] = [
     {
@@ -88,6 +90,15 @@ export default function TestimonialTable({
               }}
             >
               <Edit />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                onDeleteButtonClick(row.original.id);
+              }}
+            >
+              <Trash2 />
             </Button>
           </TableActionCol>
         );

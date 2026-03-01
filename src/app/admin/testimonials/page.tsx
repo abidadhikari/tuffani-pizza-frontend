@@ -10,6 +10,7 @@ import TestimonialModal from "@/components/organism/modals/TestimonialModal";
 import { usePatchTestimonial } from "@/hooks/services/testimonials/usePatchTestimonial";
 import { useCreateTestimonial } from "@/hooks/services/testimonials/useCreateTestimonial";
 import TestimonialTable from "@/components/organism/feat/dashboard/TestimonialTable";
+import { useDeleteTestimonialById } from "@/hooks/services/testimonials/useDeleteTestimonialById";
 
 export default function TestimonialsPage() {
   const [open, setOpen] = useState(false);
@@ -27,7 +28,10 @@ export default function TestimonialsPage() {
       setOpen(false);
     });
 
-  // const { mutate: deleteTestimonial } = ();
+  const { mutate: deleteTestimonial } = useDeleteTestimonialById(() => {
+    setCurrentId(null);
+    setOpen(false);
+  });
 
   return (
     <section>
@@ -61,6 +65,11 @@ export default function TestimonialsPage() {
             updateTestimonial({
               id: singleId,
               body: { isVisible: value },
+            });
+          }}
+          onDeleteButtonClick={(singleId) => {
+            deleteTestimonial({
+              id: singleId,
             });
           }}
         />

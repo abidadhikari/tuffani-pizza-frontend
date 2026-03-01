@@ -60,7 +60,7 @@ export default function BaseModal({
             <Button
               onClick={onSubmit}
               disabled={disabled || loading}
-              variant={type}
+              // variant={type}
               isLoading={loading}
             >
               {submitText ?? "Proceed"}

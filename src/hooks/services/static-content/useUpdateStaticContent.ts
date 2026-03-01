@@ -28,7 +28,7 @@ export const useUpdateStaticContent = () => {
       });
       return data;
     },
-    onSuccess: (response) => {
+    onSuccess: () => {
       toast.success("Static content updated successfully");
       queryClient.invalidateQueries({ queryKey: [queryKeys.ALL_PRODUCTS] });
       queryClient.invalidateQueries({ queryKey: [queryKeys.SINGLE_PRODUCT] });

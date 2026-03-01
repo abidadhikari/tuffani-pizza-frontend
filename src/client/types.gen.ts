@@ -259,11 +259,39 @@ export type UpdateOrderDto = {
 };
 
 export type CreateStaticContentDto = {
-    [key: string]: unknown;
+    isVisible: boolean;
+    title: string;
+    /**
+     * The image file to upload
+     */
+    image: Blob | File;
 };
 
 export type UpdateStaticContentDto = {
-    [key: string]: unknown;
+    isVisible?: boolean;
+    title?: string;
+    /**
+     * The image file to upload
+     */
+    image?: Blob | File;
+};
+
+export type AssetResponseDto = {
+    readonly url: string;
+};
+
+export type GalleryResponseDto = {
+    readonly id: string;
+    readonly title: string;
+    Asset: AssetResponseDto;
+    readonly isVisible: boolean;
+    readonly createdAt: string;
+    readonly updatedAt: string;
+};
+
+export type UpdateGalleryDto = {
+    title: string;
+    isVisible: boolean;
 };
 
 export type CreateTestimonialDto = {
@@ -344,19 +372,48 @@ export type UpdateOperationLogDto = {
 };
 
 export type CreateBlogDto = {
-    [key: string]: unknown;
+    /**
+     * The image file to upload
+     */
+    image?: Blob | File;
+    title: string;
+    description: string;
+    content: string;
+    slug: string;
+    /**
+     * Whether the blog is visible to public or not
+     */
+    isVisible: boolean;
+};
+
+export type BlogResponseDto = {
+    readonly id: string;
+    readonly title: string;
+    readonly description: string;
+    readonly content: string;
+    readonly slug: string;
+    readonly author: {
+        [key: string]: unknown;
+    };
+    coverImage: AssetResponseDto;
+    readonly isVisible: boolean;
+    readonly createdAt: string;
+    readonly updatedAt: string;
 };
 
 export type UpdateBlogDto = {
-    [key: string]: unknown;
-};
-
-export type CreateStaticContentDtoWritable = {
-    [key: string]: unknown;
-};
-
-export type UpdateStaticContentDtoWritable = {
-    [key: string]: unknown;
+    /**
+     * The image file to upload
+     */
+    image?: Blob | File;
+    title?: string;
+    description?: string;
+    content?: string;
+    slug?: string;
+    /**
+     * Whether the blog is visible to public or not
+     */
+    isVisible?: boolean;
 };
 
 export type CreateOperationLogDtoWritable = {
@@ -364,14 +421,6 @@ export type CreateOperationLogDtoWritable = {
 };
 
 export type UpdateOperationLogDtoWritable = {
-    [key: string]: unknown;
-};
-
-export type CreateBlogDtoWritable = {
-    [key: string]: unknown;
-};
-
-export type UpdateBlogDtoWritable = {
     [key: string]: unknown;
 };
 
@@ -792,7 +841,7 @@ export type StaticContentControllerFindAllResponses = {
 };
 
 export type StaticContentControllerCreateData = {
-    body: CreateStaticContentDtoWritable;
+    body: CreateStaticContentDto;
     path?: never;
     query?: never;
     url: '/api/static-content';
@@ -802,34 +851,8 @@ export type StaticContentControllerCreateResponses = {
     201: unknown;
 };
 
-export type StaticContentControllerRemoveData = {
-    body?: never;
-    path: {
-        id: string;
-    };
-    query?: never;
-    url: '/api/static-content/{id}';
-};
-
-export type StaticContentControllerRemoveResponses = {
-    200: unknown;
-};
-
-export type StaticContentControllerFindOneData = {
-    body?: never;
-    path: {
-        id: string;
-    };
-    query?: never;
-    url: '/api/static-content/{id}';
-};
-
-export type StaticContentControllerFindOneResponses = {
-    200: unknown;
-};
-
 export type StaticContentControllerUpdateWithKeyData = {
-    body: UpdateStaticContentDtoWritable;
+    body: UpdateStaticContentDto;
     path: {
         key: string;
     };
@@ -838,6 +861,43 @@ export type StaticContentControllerUpdateWithKeyData = {
 };
 
 export type StaticContentControllerUpdateWithKeyResponses = {
+    200: unknown;
+};
+
+export type StaticContentControllerFindAllGalleryItemsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/static-content/gallery';
+};
+
+export type StaticContentControllerFindAllGalleryItemsResponses = {
+    default: Array<GalleryResponseDto>;
+};
+
+export type StaticContentControllerFindAllGalleryItemsResponse = StaticContentControllerFindAllGalleryItemsResponses[keyof StaticContentControllerFindAllGalleryItemsResponses];
+
+export type StaticContentControllerAddToGalleryData = {
+    body: CreateStaticContentDto;
+    path?: never;
+    query?: never;
+    url: '/api/static-content/gallery';
+};
+
+export type StaticContentControllerAddToGalleryResponses = {
+    201: unknown;
+};
+
+export type StaticContentControllerUpdateGalleryItemData = {
+    body: UpdateGalleryDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/static-content/gallery/{id}';
+};
+
+export type StaticContentControllerUpdateGalleryItemResponses = {
     200: unknown;
 };
 
@@ -976,11 +1036,16 @@ export type BlogControllerFindAllData = {
 };
 
 export type BlogControllerFindAllResponses = {
-    200: unknown;
+    /**
+     * List of all blogs
+     */
+    200: Array<BlogResponseDto>;
 };
 
+export type BlogControllerFindAllResponse = BlogControllerFindAllResponses[keyof BlogControllerFindAllResponses];
+
 export type BlogControllerCreateData = {
-    body: CreateBlogDtoWritable;
+    body: CreateBlogDto;
     path?: never;
     query?: never;
     url: '/api/blog';
@@ -989,6 +1054,24 @@ export type BlogControllerCreateData = {
 export type BlogControllerCreateResponses = {
     201: unknown;
 };
+
+export type BlogControllerFindRecommendedData = {
+    body?: never;
+    path: {
+        slug: string;
+    };
+    query?: never;
+    url: '/api/blog/recommended/{slug}';
+};
+
+export type BlogControllerFindRecommendedResponses = {
+    /**
+     * List of recommended Blogs
+     */
+    200: Array<BlogResponseDto>;
+};
+
+export type BlogControllerFindRecommendedResponse = BlogControllerFindRecommendedResponses[keyof BlogControllerFindRecommendedResponses];
 
 export type BlogControllerRemoveData = {
     body?: never;
@@ -1013,11 +1096,16 @@ export type BlogControllerFindOneData = {
 };
 
 export type BlogControllerFindOneResponses = {
-    200: unknown;
+    /**
+     * Blog found by id
+     */
+    200: BlogResponseDto;
 };
 
+export type BlogControllerFindOneResponse = BlogControllerFindOneResponses[keyof BlogControllerFindOneResponses];
+
 export type BlogControllerUpdateData = {
-    body: UpdateBlogDtoWritable;
+    body: UpdateBlogDto;
     path: {
         id: string;
     };
@@ -1028,3 +1116,21 @@ export type BlogControllerUpdateData = {
 export type BlogControllerUpdateResponses = {
     200: unknown;
 };
+
+export type BlogControllerFindOneBySlugData = {
+    body?: never;
+    path: {
+        slug: string;
+    };
+    query?: never;
+    url: '/api/blog/slug/{slug}';
+};
+
+export type BlogControllerFindOneBySlugResponses = {
+    /**
+     * Blog found by slug
+     */
+    200: BlogResponseDto;
+};
+
+export type BlogControllerFindOneBySlugResponse = BlogControllerFindOneBySlugResponses[keyof BlogControllerFindOneBySlugResponses];

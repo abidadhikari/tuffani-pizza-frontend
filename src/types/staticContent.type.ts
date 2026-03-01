@@ -10,6 +10,7 @@ export interface IStaticContentValue {
   title: {
     prefix: string;
     highlight: string;
+    suffix?: string;
   };
   description: string;
 }

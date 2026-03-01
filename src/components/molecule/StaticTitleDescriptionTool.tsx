@@ -7,6 +7,7 @@ import FormInputItem from "./FormInputItem";
 import { Button } from "../ui/button";
 import FormTextAreaInputItem from "./FormTextAreaInputItem";
 import { Plus, Trash2 } from "lucide-react";
+import FormRichTextEditor from "./FormRichTextInputItem";
 
 // ---------------- Schema ----------------
 const titleSchema = z.object({
@@ -154,11 +155,10 @@ export default function StaticTitleDescriptionTool({
                   label="Title Suffix (optional)"
                 />
               </div>
-
-              <FormTextAreaInputItem
+              <FormRichTextEditor
                 form={form}
                 name="value.description"
-                label="Description"
+                label="Description (Rich Text)"
               />
             </div>
           )}

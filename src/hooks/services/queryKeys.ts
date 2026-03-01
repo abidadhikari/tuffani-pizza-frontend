@@ -6,4 +6,8 @@ export const queryKeys = {
   SINGLE_CATEGORY: ["single-category"],
   ALL_TESTIMONIALS: ["all-testimonials"],
   SINGLE_TESTIMONIAL: ["single-testimonial"],
+  ALL_BLOGS: ["all-blogs"],
+  SINGLE_BLOG: ["single-blog"],
+  POPULAR_BLOGS: ["popular-blogs"],
+  ALL_GALLERY: ["all-gallery"],
 };

@@ -8,7 +8,7 @@ export default function CreateProductPage() {
   return (
     <section>
       <SiteHeader title="Create Product"></SiteHeader>
-      <CreateUpdateProduct id={id as string} defaultValues={{}} type="create" />
+      <CreateUpdateProduct id={id as string} type="create" />
     </section>
   );
 }

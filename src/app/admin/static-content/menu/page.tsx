@@ -22,7 +22,7 @@ export default function StaticContentPage() {
 
   return (
     <div className="space-y-4">
-      <SiteHeader title="Home Page Static Content" />
+      <SiteHeader title="Menu Page Static Content" />
       {data ? (
         <>
           <StaticTitleDescriptionTool

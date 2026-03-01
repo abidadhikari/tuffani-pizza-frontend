@@ -181,9 +181,21 @@ export default function Home({
         pizzaRef={pizzaRef}
         staticContent={staticContent}
       />
-      <MenuGlimpseSection ref={listSectionRef} targetRef={target1Ref} />
-      <WholePizzaSection ref={wholePizzaSectionRef} targetRef={target2Ref} />
-      <ChefSection ref={chefSectionRef} targetRef={target3Ref} />
+      <MenuGlimpseSection
+        ref={listSectionRef}
+        targetRef={target1Ref}
+        staticContent={staticContent}
+      />
+      <WholePizzaSection
+        ref={wholePizzaSectionRef}
+        targetRef={target2Ref}
+        staticContent={staticContent}
+      />
+      <ChefSection
+        ref={chefSectionRef}
+        targetRef={target3Ref}
+        staticContent={staticContent}
+      />
       <CustomerReviewSection
         testimonials={testimonials}
         staticContent={staticContent}

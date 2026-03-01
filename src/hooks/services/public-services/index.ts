@@ -51,3 +51,42 @@ export const getTestimonials = async () => {
     throw error;
   }
 };
+
+export const getAllPublicBlogs = async () => {
+  try {
+    const response = await axiosInstance.get(`/api/blog`, {
+      withCredentials: false,
+    });
+    const blogsData = JSON.parse(response.data);
+    return blogsData;
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    throw error;
+  }
+};
+
+export const getPublicBlogBySlug = async (slug: string) => {
+  try {
+    const response = await axiosInstance.get(`/api/blog/slug/${slug}`, {
+      withCredentials: false,
+    });
+    const blogData = JSON.parse(response.data);
+    return blogData;
+  } catch (error) {
+    console.error("Error fetching blog by slug:", error);
+    throw error;
+  }
+};
+
+export const getAllPublicGallery = async () => {
+  try {
+    const response = await axiosInstance.get(`/api/static-content/gallery`, {
+      withCredentials: false,
+    });
+    const galleryData = JSON.parse(response.data);
+    return galleryData;
+  } catch (error) {
+    console.error("Error fetching gallery:", error);
+    throw error;
+  }
+};

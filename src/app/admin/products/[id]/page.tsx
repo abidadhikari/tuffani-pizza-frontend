@@ -30,7 +30,9 @@ export default function SingleProductPage() {
       /> */}
           <CreateUpdateProduct
             id={id as string}
-            defaultValues={data}
+            defaultValues={
+              data as Parameters<typeof CreateUpdateProduct>[0]["defaultValues"]
+            }
             type="update"
           />
         </>

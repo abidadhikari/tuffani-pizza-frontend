@@ -11,6 +11,7 @@ import {
   IconFileWord,
   IconFolder,
   IconHelp,
+  IconHome,
   IconInnerShadowTop,
   IconListDetails,
   IconReport,
@@ -32,7 +33,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { HomeIcon, PizzaIcon } from "lucide-react";
+import { IconBook } from "@tabler/icons-react";
 
 const data = {
   user: {
@@ -45,6 +46,11 @@ const data = {
       title: "Dashboard",
       url: "/admin",
       icon: IconDashboard,
+    },
+    {
+      title: "Blogs",
+      url: "/admin/blogs",
+      icon: IconFileWord,
     },
     {
       title: "Categories",
@@ -60,6 +66,11 @@ const data = {
       title: "Testimonials",
       url: "/admin/testimonials",
       icon: IconUsers,
+    },
+    {
+      title: "Gallery",
+      url: "/admin/gallery",
+      icon: IconFolder,
     },
   ],
   navClouds: [
@@ -130,13 +141,23 @@ const data = {
   pages: [
     {
       name: "Home Page",
-      url: "/admin/static-content",
-      icon: HomeIcon,
+      url: "/admin/static-content/home",
+      icon: IconHome,
     },
     {
       name: "Menu Page",
       url: "/admin/static-content/menu",
-      icon: PizzaIcon,
+      icon: IconChartBar,
+    },
+    {
+      name: "About Page",
+      url: "/admin/static-content/about",
+      icon: IconBook,
+    },
+    {
+      name: "Blog Page",
+      url: "/admin/static-content/blog",
+      icon: IconFileDescription,
     },
   ],
 };

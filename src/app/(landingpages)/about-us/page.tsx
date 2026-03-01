@@ -2,6 +2,13 @@ import WavyText from "@/components/atom/WavyText";
 import AboutUsImageCarouselSection from "@/components/organism/feat/landing/AboutUsImageCarouselSection";
 import ChefSection from "@/components/organism/feat/landing/ChefSection";
 import HeroSectionWithFoods from "@/components/template/HeroSectionWithFoods";
+import {
+  getAllPublicGallery,
+  getStaticPageData,
+} from "@/hooks/services/public-services";
+import { STATIC_CONTENT_KEYS } from "@/lib/constants";
+import { fetchStaticContent } from "@/lib/fetch-static-content";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 import { Metadata } from "next";
 
 import Image from "next/image";
@@ -12,14 +19,39 @@ export const metadata: Metadata = {
     "Discover the story behind Tufani Pizza, where passion meets flavor. Learn about our journey, values, and commitment to delivering the best pizza experience.",
 };
 
-export default function AboutUsPage() {
+export default async function AboutUsPage() {
+  const staticContents = await getStaticPageData();
+  const galleryContent = await getAllPublicGallery();
+
+  const heroSectionContent = fetchStaticContent(
+    STATIC_CONTENT_KEYS.ABOUT_PAGE_HERO_SECTION,
+    staticContents,
+  )?.value;
+
+  const pizzaSectionContent = fetchStaticContent(
+    STATIC_CONTENT_KEYS.ABOUT_PAGE_PIZZA_SECTION,
+    staticContents,
+  )?.value;
+
+  const statsSectionContent = fetchStaticContent(
+    STATIC_CONTENT_KEYS.ABOUT_PAGE_STATS_SECTION,
+    staticContents,
+  )?.value;
+
+  const carouselSectionContent = fetchStaticContent(
+    STATIC_CONTENT_KEYS.ABOUT_PAGE_CAROUSEL_SECTION,
+    staticContents,
+  )?.value;
+
   return (
     <section>
       <HeroSectionWithFoods
-        title="About Us"
-        description={
-          "Welcome to Tuffani, one of the most loved fast food and pizza cafes in Baneshwor, Kathmandu. We created Tuffani with one simple goal to bring people together over fresh, flavorful food and a comfortable place to hang out"
-        }
+        title={{
+          prefix: heroSectionContent.title?.prefix || "",
+          highlight: heroSectionContent.title?.highlight || "",
+          suffix: heroSectionContent.title?.suffix || "",
+        }}
+        description={heroSectionContent.description || ""}
       >
         <div className="flex flex-wrap items-center justify-center lg:items-center  gap-5 py-16">
           <Image
@@ -32,20 +64,18 @@ export default function AboutUsPage() {
           <div className="flex flex-1 items-center justify-center flex-col">
             <div className="w-full text-center lg:text-left lg:w-135.75 space-y-5">
               <h2 className="italic text-5xl font-bold leading-[130%]">
-                Where Every Slice{" "}
-                <WavyText className="">Tells a Story</WavyText>
+                {pizzaSectionContent?.title?.prefix}{" "}
+                <WavyText className="inline">
+                  {pizzaSectionContent?.title?.highlight}
+                </WavyText>{" "}
+                {pizzaSectionContent?.title?.suffix}
               </h2>
-              <p className="font-light leading-[130%] ">
-                Proudly serving Baneshwor and Kathmandu, Tufani blends 15+ years
-                of experience with fresh ingredients, bold recipes, and expert
-                cooking techniques to deliver delicious pizzas, crunchy fried
-                chicken, juicy burgers, and flavorful wraps that customers love
-                coming back for. Known as a go-to fast food and hangout spot, we
-                prepare every dish fresh daily, offering quality taste, generous
-                portions, and unforgettable flavors for families, friends, and
-                food lovers searching for the best pizza and fried chicken near
-                them.
-              </p>
+              <div
+                className="font-light leading-[130%] "
+                dangerouslySetInnerHTML={{
+                  __html: pizzaSectionContent?.description || "",
+                }}
+              ></div>
             </div>
           </div>
         </div>
@@ -53,41 +83,71 @@ export default function AboutUsPage() {
 
       <section className="pt-36">
         <div className="my-width mx-auto flex flex-wrap   justify-center md:divide-x ">
-          {[
-            { value: "10+", label: "Years of Experience" },
-            { value: "450K+", label: "Happy Customers" },
-            { value: "10+", label: "Pizza Varieties" },
-            { value: "4.9", label: "Average Rating" },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center justify-between py-5 md:py-0 px-20"
-            >
-              <WavyText className="text-4xl font-bold ">{item.value}</WavyText>
+          {statsSectionContent?.map(
+            (
+              item: {
+                value: string;
+                label: string;
+              },
+              index: number,
+            ) => (
               <div
-                className="text-lg font-medium w-30
-              text-black/75 text-center mt-2 leading-[120%]"
+                key={index}
+                className="flex flex-col items-center justify-between py-5 md:py-0 px-20"
               >
-                {item.label}
+                <WavyText className="text-4xl font-bold ">
+                  {item.value}
+                </WavyText>
+                <div
+                  className="text-lg font-medium w-30
+              text-black/75 text-center mt-2 leading-[120%]"
+                >
+                  {item.label}
+                </div>
               </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </section>
 
-      <ChefSection className="bg-white" showPizza />
+      <ChefSection
+        className="bg-white"
+        showPizza
+        staticContent={staticContents}
+      />
 
       <div className="bg-[#FFFBEB]">
         <div className="my-width mx-auto pt-18 text-center">
           <h2 className="text-5xl italic font-bold  mb-6">
-            Inside the <WavyText className="inline">Storm</WavyText>
+            {carouselSectionContent?.title?.prefix}{" "}
+            <WavyText className="inline">
+              {carouselSectionContent?.title?.highlight}
+            </WavyText>{" "}
+            {carouselSectionContent?.title?.suffix}
           </h2>
-          <p className="w-[777px] max-w-full mx-auto">
-            Explore the Tufani store in Baneshwor — a perfect hangout spot for
-            pizza, fried chicken, burgers, and wraps lovers in Kathmandu.
-          </p>
+          <div
+            className="w-194.25 max-w-full mx-auto"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(carouselSectionContent?.description),
+            }}
+          ></div>
         </div>
-        <AboutUsImageCarouselSection />
+
+        <AboutUsImageCarouselSection
+          images={galleryContent?.map(
+            (item: {
+              title: string;
+              Asset: {
+                url: string;
+              };
+            }) => {
+              return {
+                title: item?.title,
+                url: item?.Asset?.url,
+              };
+            },
+          )}
+        />
       </div>
 
       <div className="bg-[#FFE8A3]">
