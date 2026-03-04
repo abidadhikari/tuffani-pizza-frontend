@@ -12,7 +12,11 @@ import { toast } from "sonner";
 type bodyPayload = BodyOf<StaticContentControllerUpdateWithKeyData>;
 
 interface Payload {
-  body: bodyPayload;
+  body:
+    | {
+        value: JSON;
+      }
+    | bodyPayload;
   key: string;
 }
 
@@ -21,7 +25,7 @@ export const useUpdateStaticContent = () => {
   return useMutation({
     mutationFn: async (payload: Payload) => {
       const { data } = await staticContentControllerUpdateWithKey({
-        ...payload,
+        body: payload.body as bodyPayload,
         path: {
           key: payload.key,
         },
@@ -30,8 +34,6 @@ export const useUpdateStaticContent = () => {
     },
     onSuccess: () => {
       toast.success("Static content updated successfully");
-      queryClient.invalidateQueries({ queryKey: [queryKeys.ALL_PRODUCTS] });
-      queryClient.invalidateQueries({ queryKey: [queryKeys.SINGLE_PRODUCT] });
     },
     onError: (error: AxiosError) => {
       console.log(error?.response);

@@ -90,11 +90,14 @@ export type ProductResponseDto = {
     id: string;
     name: string;
     description: string;
-    price: string;
-    crossedPrice: string | null;
+    price: number;
+    crossedPrice: number | null;
     categoryId: string;
     category: BaseCategoryResponseDto;
     mainImageId: {
+        [key: string]: unknown;
+    } | null;
+    mainImage: {
         [key: string]: unknown;
     } | null;
     type: string;
@@ -416,11 +419,82 @@ export type UpdateBlogDto = {
     isVisible?: boolean;
 };
 
+export type CreateOfferDto = {
+    title: string;
+    description?: string;
+    discountType: 'PERCENTAGE' | 'FIXED';
+    /**
+     * Percentage or fixed discount value
+     */
+    discountValue: number;
+    validFrom?: string;
+    validUntil?: string;
+    /**
+     * Format HH:mm:ss
+     */
+    startsAt?: string;
+    /**
+     * Format HH:mm:ss
+     */
+    endsAt?: string;
+    daysOfWeek?: Array<'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY'>;
+    productId?: string;
+    categoryId?: string;
+    isVisible?: boolean;
+};
+
+export type OfferResponseDto = {
+    readonly id: string;
+    readonly title: string;
+    readonly description: string;
+    discountType: 'PERCENTAGE' | 'FIXED';
+    readonly discountValue: number;
+    readonly validFrom: string;
+    readonly validUntil: string;
+    readonly startsAt: string;
+    readonly endsAt: string;
+    readonly daysOfWeek: Array<string>;
+    readonly productId: string;
+    product: ProductResponseDto;
+    readonly categoryId: string;
+    readonly isVisible: boolean;
+    readonly createdAt: string;
+    readonly updatedAt: string;
+};
+
+export type UpdateOfferDto = {
+    title?: string;
+    description?: string;
+    discountType?: 'PERCENTAGE' | 'FIXED';
+    /**
+     * Percentage or fixed discount value
+     */
+    discountValue?: number;
+    validFrom?: string;
+    validUntil?: string;
+    /**
+     * Format HH:mm:ss
+     */
+    startsAt?: string;
+    /**
+     * Format HH:mm:ss
+     */
+    endsAt?: string;
+    daysOfWeek?: Array<'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY'>;
+    productId?: string;
+    categoryId?: string;
+    isVisible?: boolean;
+};
+
 export type CreateOperationLogDtoWritable = {
     [key: string]: unknown;
 };
 
 export type UpdateOperationLogDtoWritable = {
+    [key: string]: unknown;
+};
+
+export type OfferResponseDtoWritable = {
     [key: string]: unknown;
 };
 
@@ -1134,3 +1208,69 @@ export type BlogControllerFindOneBySlugResponses = {
 };
 
 export type BlogControllerFindOneBySlugResponse = BlogControllerFindOneBySlugResponses[keyof BlogControllerFindOneBySlugResponses];
+
+export type OfferControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/offer';
+};
+
+export type OfferControllerFindAllResponses = {
+    /**
+     * List of offers
+     */
+    200: Array<OfferResponseDto>;
+};
+
+export type OfferControllerFindAllResponse = OfferControllerFindAllResponses[keyof OfferControllerFindAllResponses];
+
+export type OfferControllerCreateData = {
+    body: CreateOfferDto;
+    path?: never;
+    query?: never;
+    url: '/api/offer';
+};
+
+export type OfferControllerCreateResponses = {
+    201: unknown;
+};
+
+export type OfferControllerRemoveData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/offer/{id}';
+};
+
+export type OfferControllerRemoveResponses = {
+    200: unknown;
+};
+
+export type OfferControllerFindOneData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/offer/{id}';
+};
+
+export type OfferControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type OfferControllerUpdateData = {
+    body: UpdateOfferDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/offer/{id}';
+};
+
+export type OfferControllerUpdateResponses = {
+    200: unknown;
+};

@@ -151,7 +151,7 @@ Send us a message, and we will respond as quickly as possible."
         <div className="my-width mx-auto py-10 space-y-5">
           {/* <MapSection lat={48.8583736} lng={2.2919064} />
           <MapSection searchText="Tufani Pizza Skywalk Tower Kathmandu" /> */}
-          <MapSection searchText="चक्कु बक्कु गल्लि, Kathmandu oppostite to K&K college" />
+          <MapSection searchText="Tufani Pizza" />
         </div>
       </div>
     </section>

@@ -90,3 +90,16 @@ export const getAllPublicGallery = async () => {
     throw error;
   }
 };
+
+export const getPublicOffers = async () => {
+  try {
+    const response = await axiosInstance.get(`/api/offer`, {
+      withCredentials: false,
+    });
+    const offersData = JSON.parse(response.data);
+    return offersData;
+  } catch (error) {
+    console.error("Error fetching offers:", error);
+    throw error;
+  }
+};

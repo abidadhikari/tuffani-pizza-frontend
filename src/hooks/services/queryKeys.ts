@@ -10,4 +10,6 @@ export const queryKeys = {
   SINGLE_BLOG: ["single-blog"],
   POPULAR_BLOGS: ["popular-blogs"],
   ALL_GALLERY: ["all-gallery"],
+  ALL_OFFERS: ["all-offers"],
+  SINGLE_OFFER: ["single-offer"],
 };

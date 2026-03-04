@@ -10,6 +10,7 @@ import {
   IconFileDescription,
   IconFileWord,
   IconFolder,
+  IconGift,
   IconHelp,
   IconHome,
   IconInnerShadowTop,
@@ -61,6 +62,11 @@ const data = {
       title: "Products",
       url: "/admin/products",
       icon: IconChartBar,
+    },
+    {
+      title: "Offers",
+      url: "/admin/offers",
+      icon: IconGift,
     },
     {
       title: "Testimonials",

@@ -1,16 +1,16 @@
 // useGetMe.tsx
 
-import { productControllerFindAllAdmin, ProductResponseDto } from "@/client";
+import { offerControllerFindAll, OfferResponseDto } from "@/client";
 import { useQuery } from "@tanstack/react-query";
 
 import { useEffect } from "react";
 import { queryKeys } from "../queryKeys";
 
-export const useGetAllProducts = () => {
-  const query = useQuery<ProductResponseDto[] | undefined, Error>({
-    queryKey: [queryKeys.ALL_PRODUCTS],
+export const useGetAllOffers = () => {
+  const query = useQuery<OfferResponseDto[] | undefined, Error>({
+    queryKey: [queryKeys.ALL_OFFERS],
     queryFn: async () => {
-      const { data } = await productControllerFindAllAdmin();
+      const { data } = await offerControllerFindAll();
       return data;
     },
   });

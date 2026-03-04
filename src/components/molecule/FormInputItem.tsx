@@ -6,7 +6,16 @@ import { IBaseInput } from "@/types/input.type";
 
 interface IFormInputItemProps extends IBaseInput {
   showEyeHandler?: boolean;
-  type?: "text" | "number" | "email" | "password" | "tel";
+  type?:
+    | "text"
+    | "number"
+    | "email"
+    | "password"
+    | "tel"
+    | "url"
+    | "date"
+    | "datetime-local"
+    | "time";
   maxLength?: number;
   icon?: React.ReactNode;
 }

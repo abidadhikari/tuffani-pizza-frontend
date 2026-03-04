@@ -1,11 +1,15 @@
-import { ProductResponseDto } from "@/client";
+import { OfferResponseDto, ProductResponseDto } from "@/client";
 import Button from "@/components/atom/Button";
 import Title from "@/components/atom/Title";
 import WavyText from "@/components/atom/WavyText";
 import PizzaCard from "@/components/molecule/PizzaCard";
 import MenuSection from "@/components/organism/feat/landing/MenuSection";
-import { getMenu, getStaticPageData } from "@/hooks/services/public-services";
-import { FOOD_TYPE, STATIC_CONTENT_KEYS } from "@/lib/constants";
+import {
+  getMenu,
+  getPublicOffers,
+  getStaticPageData,
+} from "@/hooks/services/public-services";
+import { FOOD_TYPE, IFoodType, STATIC_CONTENT_KEYS } from "@/lib/constants";
 import { fetchStaticContent } from "@/lib/fetch-static-content";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +17,7 @@ import Link from "next/link";
 export default async function MenuPage() {
   const menuData: ProductResponseDto[] = await getMenu();
   const staticContent = await getStaticPageData();
+  const offers = await getPublicOffers();
   const rawData = fetchStaticContent(
     STATIC_CONTENT_KEYS.MENU_PAGE_HERO_SECTION,
     staticContent,
@@ -72,6 +77,41 @@ export default async function MenuPage() {
           height={250}
           className="absolute bottom-0 right-0 translate-y-1/2 translate-x-25 blur-[2px]"
         />
+
+        {offers &&
+          offers.length > 0 &&
+          offers.map((offer: OfferResponseDto) => {
+            return (
+              <div
+                className="my-width mx-auto gap-16 flex flex-col md:flex-row items-center justify-between py-24"
+                key={offer.id}
+              >
+                <div className="w-132 max-w-full">
+                  <Title variant="h1" className="italic">
+                    {offer.title}
+                  </Title>
+                  <p className="mt-3.5 mb-7 text-xl font-light">
+                    {offer.description}
+                  </p>
+                  <Link href={"#"}>
+                    <Button>Grab Now</Button>
+                  </Link>
+                </div>
+                {/* <pre>{JSON.stringify(offer, null, 2)}</pre> */}
+                {offer?.product && (
+                  <PizzaCard
+                    imageUrl={offer.product?.mainImage?.url as string}
+                    title={offer.product?.name}
+                    description={offer.product?.description}
+                    price={offer.product?.price}
+                    crossedPrice={offer.product?.crossedPrice}
+                    type={offer.product?.type as IFoodType}
+                    variant="wide"
+                  />
+                )}
+              </div>
+            );
+          })}
 
         <div className="my-width mx-auto gap-16 flex flex-col md:flex-row items-center justify-between py-24">
           <div className="w-132 max-w-full">

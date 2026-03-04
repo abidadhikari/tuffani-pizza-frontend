@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/atom/Button";
+import FormImageUploader from "@/components/molecule/FormImageUploader";
 import FormInputItem from "@/components/molecule/FormInputItem";
 import FormSelectItem from "@/components/molecule/FormSelectItem";
 import FormSwitch from "@/components/molecule/FormSwitch";
@@ -29,6 +30,7 @@ const formSchema = z
         message: "Invalid type.",
       }),
     visible: z.boolean().optional(),
+    image: z.any().optional(),
   })
   .refine(
     (data) => {
@@ -66,6 +68,7 @@ interface ICreateUpdateProduct {
     categoryId: string;
     type: string;
     visible?: boolean;
+    image?: string;
   };
 }
 
@@ -96,6 +99,7 @@ function CreateUpdateProduct({
       categoryId: defaultValues?.categoryId ?? "",
       type: defaultValues?.type ?? "",
       visible: defaultValues?.visible ?? false,
+      image: defaultValues?.image ?? undefined,
     },
   });
 
@@ -143,20 +147,31 @@ function CreateUpdateProduct({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <fieldset className="space-y-5" disabled={isPending}>
-            <FormSwitch form={form} name="visible" label="Visible" />
+            <div className="grid grid-cols-2 gap-5">
+              <div className="space-y-5">
+                <FormSwitch form={form} name="visible" label="Visible" />
 
-            <FormInputItem
-              form={form}
-              name="name"
-              label="Product Name"
-              placeholder="Name"
-            />
-
-            <FormTextAreaInputItem
-              form={form}
-              name="description"
-              label="Description"
-            />
+                <FormInputItem
+                  form={form}
+                  name="name"
+                  label="Product Name"
+                  placeholder="Name"
+                />
+                <FormTextAreaInputItem
+                  form={form}
+                  name="description"
+                  label="Description"
+                />
+              </div>
+              <div>
+                <FormImageUploader
+                  form={form}
+                  name="image"
+                  label="Product Image"
+                  aspectRatio="4/3"
+                />
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
               <FormInputItem

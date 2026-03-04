@@ -16,23 +16,18 @@ export default function SingleProductPage() {
       <SiteHeader title="Update Product"></SiteHeader>
       {!isLoading && data ? (
         <>
-          {/* <ImageUploadOrPreview
-        value={data?.mainImage?.url}
-        onUpload={async (file) => {
-          console.log("Uploading file:", file);
-          patchProduct({
-            id: id as string,
-            body: {
-              image: file,
-            },
-          });
-        }}
-      /> */}
           <CreateUpdateProduct
             id={id as string}
-            defaultValues={
-              data as Parameters<typeof CreateUpdateProduct>[0]["defaultValues"]
-            }
+            defaultValues={{
+              name: data?.name ?? "",
+              description: data?.description ?? "",
+              price: data?.price ?? 0,
+              crossedPrice: data?.crossedPrice || 0,
+              categoryId: data?.categoryId ?? "",
+              type: data?.type ?? "",
+              visible: data?.visible,
+              image: data?.mainImage?.url as string | undefined,
+            }}
             type="update"
           />
         </>

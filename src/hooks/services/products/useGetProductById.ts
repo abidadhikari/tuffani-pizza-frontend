@@ -3,6 +3,7 @@
 import {
   productControllerFindOne,
   ProductControllerFindOneData,
+  ProductResponseDto,
 } from "@/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,7 +14,7 @@ import { PathOf } from "@/types/client-service.type";
 type Payload = PathOf<ProductControllerFindOneData>;
 
 export const useGetProductById = (payload: Payload) => {
-  const query = useQuery<unknown | undefined, Error>({
+  const query = useQuery<ProductResponseDto | undefined, Error>({
     queryKey: [queryKeys.SINGLE_PRODUCT, payload.id],
     queryFn: async () => {
       const { data } = await productControllerFindOne({

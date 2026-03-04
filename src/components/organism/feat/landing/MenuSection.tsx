@@ -92,7 +92,7 @@ export default function MenuSection(props: IMenuSectionProps) {
         {filteredMenu.map((item: ProductResponseDto, index) => (
           <PizzaCard
             key={index}
-            imageUrl={item.mainImageId?.url as string}
+            imageUrl={item.mainImage?.url as string}
             title={item.name}
             description={item.description}
             price={+item.price}
