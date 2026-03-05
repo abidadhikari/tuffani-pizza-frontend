@@ -204,6 +204,30 @@ export type CreateContactDto = {
     message: string;
 };
 
+export type ContactResponseDto = {
+    id: string;
+    name: string;
+    email: string;
+    phone?: {
+        [key: string]: unknown;
+    } | null;
+    message: string;
+    isRead: boolean;
+    createdAt: string;
+};
+
+export type PaginationMetaDto = {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+};
+
+export type PaginatedContactResponseDto = {
+    data: Array<ContactResponseDto>;
+    meta: PaginationMetaDto;
+};
+
 export type UpdateContactDto = {
     /**
      * The name of the contact
@@ -729,13 +753,28 @@ export type ProductControllerUpdateResponses = {
 export type ContactControllerFindAllData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+        /**
+         * Filter contacts by read status
+         */
+        isRead?: string;
+    };
     url: '/api/contact';
 };
 
 export type ContactControllerFindAllResponses = {
-    200: unknown;
+    200: PaginatedContactResponseDto;
 };
+
+export type ContactControllerFindAllResponse = ContactControllerFindAllResponses[keyof ContactControllerFindAllResponses];
 
 export type ContactControllerCreateData = {
     body: CreateContactDto;

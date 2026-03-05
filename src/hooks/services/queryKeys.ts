@@ -12,4 +12,6 @@ export const queryKeys = {
   ALL_GALLERY: ["all-gallery"],
   ALL_OFFERS: ["all-offers"],
   SINGLE_OFFER: ["single-offer"],
+
+  ALL_CONTACTS: ["all-contacts"],
 };

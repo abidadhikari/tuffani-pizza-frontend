@@ -4,6 +4,7 @@ import Title from "@/components/atom/Title";
 import WavyText from "@/components/atom/WavyText";
 import PizzaCard from "@/components/molecule/PizzaCard";
 import MenuSection from "@/components/organism/feat/landing/MenuSection";
+import OffersCarouselSection from "@/components/organism/feat/landing/OffersImageCarouselSection";
 import {
   getMenu,
   getPublicOffers,
@@ -77,74 +78,9 @@ export default async function MenuPage() {
           height={250}
           className="absolute bottom-0 right-0 translate-y-1/2 translate-x-25 blur-[2px]"
         />
-
-        {offers &&
-          offers.length > 0 &&
-          offers.map((offer: OfferResponseDto) => {
-            return (
-              <div
-                className="my-width mx-auto gap-16 flex flex-col md:flex-row items-center justify-between py-24"
-                key={offer.id}
-              >
-                <div className="w-132 max-w-full">
-                  <Title variant="h1" className="italic">
-                    {offer.title}
-                  </Title>
-                  <p className="mt-3.5 mb-7 text-xl font-light">
-                    {offer.description}
-                  </p>
-                  <Link href={"#"}>
-                    <Button>Grab Now</Button>
-                  </Link>
-                </div>
-                {/* <pre>{JSON.stringify(offer, null, 2)}</pre> */}
-                {offer?.product && (
-                  <PizzaCard
-                    imageUrl={offer.product?.mainImage?.url as string}
-                    title={offer.product?.name}
-                    description={offer.product?.description}
-                    price={offer.product?.price}
-                    crossedPrice={offer.product?.crossedPrice}
-                    type={offer.product?.type as IFoodType}
-                    variant="wide"
-                  />
-                )}
-              </div>
-            );
-          })}
-
-        <div className="my-width mx-auto gap-16 flex flex-col md:flex-row items-center justify-between py-24">
-          <div className="w-132 max-w-full">
-            <Title variant="h1" className="italic">
-              Opening
-              <WavyText className="inline"> Offer </WavyText>
-            </Title>
-
-            <p className="mt-3.5 mb-7 text-xl font-light">
-              Free Coke or Ice Cream on every purchase. First 50 customers get
-              to play our Spin & Win game and grab exciting
-              <WavyText className="inline"> gifts </WavyText>
-              and
-              <WavyText className="inline"> special discounts</WavyText>.
-            </p>
-
-            <Link href="#">
-              <Button>Grab Now</Button>
-            </Link>
-          </div>
-
-          <PizzaCard
-            imageUrl="/images/pizza.jpg"
-            title="Super तुफानी (Large)"
-            description="Spicy grilled chicken sandheko, chicken ham, spanish onion, capsicum, green chilli, mozzarella cheese and a smoky flavour."
-            price={590}
-            crossedPrice={650}
-            type={FOOD_TYPE.NON_VEG}
-            variant="wide"
-          />
-        </div>
+        <OffersCarouselSection offers={offers} />
       </section>
-      <section>
+      <section id="menu">
         <MenuSection menu={menuData} />
       </section>
     </main>

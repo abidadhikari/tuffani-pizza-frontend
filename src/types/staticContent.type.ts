@@ -14,3 +14,17 @@ export interface IStaticContentValue {
   };
   description: string;
 }
+
+export interface ApplicationConfig {
+  email: string;
+  phoneNumber: string;
+  address: string;
+  socialMediaLinks: {
+    facebook?: string;
+    twitter?: string;
+    instagram?: string;
+    linkedin?: string;
+    tiktok?: string;
+  };
+  openingHours: string;
+}

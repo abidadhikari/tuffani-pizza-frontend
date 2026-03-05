@@ -133,6 +133,7 @@ export const productControllerUpdate = <ThrowOnError extends boolean = false>(op
 });
 
 export const contactControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<ContactControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<ContactControllerFindAllResponses, unknown, ThrowOnError>({
+    responseType: 'json',
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/contact',
     ...options

@@ -9,6 +9,7 @@ import {
 import { STATIC_CONTENT_KEYS } from "@/lib/constants";
 import { fetchStaticContent } from "@/lib/fetch-static-content";
 import { sanitizeHtml } from "@/lib/sanitize-html";
+import { ApplicationConfig } from "@/types/staticContent.type";
 import { Metadata } from "next";
 
 import Image from "next/image";
@@ -40,6 +41,11 @@ export default async function AboutUsPage() {
 
   const carouselSectionContent = fetchStaticContent(
     STATIC_CONTENT_KEYS.ABOUT_PAGE_CAROUSEL_SECTION,
+    staticContents,
+  )?.value;
+
+  const applicationConfig: ApplicationConfig = fetchStaticContent(
+    STATIC_CONTENT_KEYS.APPLICATION_CONFIG,
     staticContents,
   )?.value;
 
@@ -163,10 +169,10 @@ export default async function AboutUsPage() {
             <br />
             Contact{" "}
             <a
-              href="mailto:tufanipizza@gmail.com"
+              href={`mailto:${applicationConfig?.email}`}
               className="font-bold text-brand"
             >
-              tufanipizza@gmail.com
+              {applicationConfig?.email}
             </a>{" "}
             for more info.
           </div>
