@@ -19,7 +19,7 @@ export default function CustomerReviewSection({
     STATIC_CONTENT_KEYS.TESTIMONIAL_SECTION,
     staticContent,
   );
-  const data = testimonials.map((testimonial) => ({
+  const data = testimonials?.map((testimonial) => ({
     title: testimonial.title,
     review: testimonial.testimonial,
     reviewer: testimonial.name,

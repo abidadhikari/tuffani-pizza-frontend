@@ -5,6 +5,7 @@ export const initApiClient = () => {
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
     // baseURL: "https://tuffani-pizza-backend-production.up.railway.app",
     throwOnError: true,
+    withCredentials: true,
   });
 
   if (typeof window !== "undefined") {

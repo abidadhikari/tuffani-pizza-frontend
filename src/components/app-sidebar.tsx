@@ -84,6 +84,11 @@ const data = {
       url: "/admin/contact",
       icon: IconReport,
     },
+    {
+      title: "Users",
+      url: "/admin/users",
+      icon: IconReport,
+    },
   ],
   pages: [
     {

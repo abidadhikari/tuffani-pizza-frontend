@@ -1,15 +1,16 @@
 // useGetMe.tsx
 
-import { userControllerFindUserById } from "@/client";
+import { PaginatedUserResponseDto, userControllerGetAllUsers } from "@/client";
 import { useQuery } from "@tanstack/react-query";
 
 import { useEffect } from "react";
+import { queryKeys } from "../queryKeys";
 
-export const useGetMe = () => {
-  const query = useQuery<unknown | undefined, Error>({
-    queryKey: ["get-me"],
+export const useGetAllUsers = () => {
+  const query = useQuery<PaginatedUserResponseDto | undefined, Error>({
+    queryKey: [queryKeys.ALL_USERS],
     queryFn: async () => {
-      const { data } = await userControllerFindUserById();
+      const { data } = await userControllerGetAllUsers();
       return data;
     },
   });

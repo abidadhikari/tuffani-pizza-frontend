@@ -14,4 +14,7 @@ export const queryKeys = {
   SINGLE_OFFER: ["single-offer"],
 
   ALL_CONTACTS: ["all-contacts"],
+
+  ALL_USERS: ["all-users"],
+  GET_ME: ["get-me"],
 };

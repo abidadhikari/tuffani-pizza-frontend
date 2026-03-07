@@ -15,6 +15,16 @@ export type LoginAuthDto = {
     password: string;
 };
 
+export type LoginResponseDto = {
+    message: string;
+    accessToken: {
+        [key: string]: unknown;
+    } | null;
+    user: {
+        [key: string]: unknown;
+    } | null;
+};
+
 export type RegisterAuthDto = {
     /**
      * The name of the user
@@ -45,6 +55,50 @@ export type VerifyAccountAuthDto = {
     otp: string;
 };
 
+export type VerifyAccountResponseDto = {
+    message: string;
+    accessToken: {
+        [key: string]: unknown;
+    } | null;
+};
+
+export type ForgotPasswordDto = {
+    /**
+     * The email of the user
+     */
+    email: string;
+};
+
+export type ForgotPasswordResponseDto = {
+    message: string;
+};
+
+export type ResetPasswordAuthDto = {
+    /**
+     * The email of the user
+     */
+    email: string;
+    /**
+     * The OTP from the email sent to the user
+     */
+    otp: string;
+    /**
+     * The new password for the user
+     */
+    newPassword: string;
+};
+
+export type BaseUserResponseDto = {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    isVerified: boolean;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export type InviteUserDto = {
     /**
      * The name of the user
@@ -70,6 +124,18 @@ export type InviteUserDto = {
      * The status of the user
      */
     status: 'ACTIVE' | 'INACTIVE' | 'INVITED' | 'BANNED';
+};
+
+export type PaginationMetaDto = {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+};
+
+export type PaginatedUserResponseDto = {
+    data: Array<BaseUserResponseDto>;
+    meta: PaginationMetaDto;
 };
 
 export type CreateCategoryDto = {
@@ -202,6 +268,10 @@ export type CreateContactDto = {
      * The message from the contact
      */
     message: string;
+    /**
+     * The address of the contact
+     */
+    address?: string;
 };
 
 export type ContactResponseDto = {
@@ -212,15 +282,9 @@ export type ContactResponseDto = {
         [key: string]: unknown;
     } | null;
     message: string;
+    address?: string;
     isRead: boolean;
     createdAt: string;
-};
-
-export type PaginationMetaDto = {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
 };
 
 export type PaginatedContactResponseDto = {
@@ -245,6 +309,10 @@ export type UpdateContactDto = {
      * The message from the contact
      */
     message?: string;
+    /**
+     * The address of the contact
+     */
+    address?: string;
 };
 
 export type UploadAssetDto = {
@@ -541,8 +609,13 @@ export type AuthControllerLoginData = {
 };
 
 export type AuthControllerLoginResponses = {
-    201: unknown;
+    /**
+     * User logged in successfully
+     */
+    200: LoginResponseDto;
 };
+
+export type AuthControllerLoginResponse = AuthControllerLoginResponses[keyof AuthControllerLoginResponses];
 
 export type AuthControllerRegisterData = {
     body: RegisterAuthDto;
@@ -563,6 +636,32 @@ export type AuthControllerVerifyAccountData = {
 };
 
 export type AuthControllerVerifyAccountResponses = {
+    200: VerifyAccountResponseDto;
+};
+
+export type AuthControllerVerifyAccountResponse = AuthControllerVerifyAccountResponses[keyof AuthControllerVerifyAccountResponses];
+
+export type AuthControllerForgotPasswordData = {
+    body: ForgotPasswordDto;
+    path?: never;
+    query?: never;
+    url: '/api/auth/forgot-password';
+};
+
+export type AuthControllerForgotPasswordResponses = {
+    200: ForgotPasswordResponseDto;
+};
+
+export type AuthControllerForgotPasswordResponse = AuthControllerForgotPasswordResponses[keyof AuthControllerForgotPasswordResponses];
+
+export type AuthControllerResetPasswordData = {
+    body: ResetPasswordAuthDto;
+    path?: never;
+    query?: never;
+    url: '/api/auth/reset-password';
+};
+
+export type AuthControllerResetPasswordResponses = {
     201: unknown;
 };
 
@@ -577,16 +676,21 @@ export type AuthControllerLogoutResponses = {
     200: unknown;
 };
 
-export type UserControllerFindUserByIdData = {
+export type UserControllerGetMeData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/user/get-me';
 };
 
-export type UserControllerFindUserByIdResponses = {
-    200: unknown;
+export type UserControllerGetMeResponses = {
+    /**
+     * The user has been successfully retrieved.
+     */
+    200: BaseUserResponseDto;
 };
+
+export type UserControllerGetMeResponse = UserControllerGetMeResponses[keyof UserControllerGetMeResponses];
 
 export type UserControllerInviteUserData = {
     body: InviteUserDto;
@@ -602,13 +706,27 @@ export type UserControllerInviteUserResponses = {
 export type UserControllerGetAllUsersData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+    };
     url: '/api/user/all';
 };
 
 export type UserControllerGetAllUsersResponses = {
-    200: unknown;
+    /**
+     * All users retrieved successfully.
+     */
+    200: PaginatedUserResponseDto;
 };
+
+export type UserControllerGetAllUsersResponse = UserControllerGetAllUsersResponses[keyof UserControllerGetAllUsersResponses];
 
 export type CategoryControllerFindAllData = {
     body?: never;
