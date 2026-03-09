@@ -26,7 +26,6 @@ export const usePatchContact = () => {
       return data;
     },
     onSuccess: (response) => {
-      console.log(response);
       queryClient.invalidateQueries({ queryKey: [queryKeys.ALL_CONTACTS] });
       toast.success("Contact updated successfully");
     },

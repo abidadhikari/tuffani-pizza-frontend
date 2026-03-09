@@ -59,7 +59,7 @@ export type VerifyAccountResponseDto = {
     message: string;
     accessToken: {
         [key: string]: unknown;
-    } | null;
+    };
 };
 
 export type ForgotPasswordDto = {
@@ -91,12 +91,26 @@ export type ResetPasswordAuthDto = {
 export type BaseUserResponseDto = {
     id: string;
     name: string;
+    phone: {
+        [key: string]: unknown;
+    };
     email: string;
     role: string;
     isVerified: boolean;
     status: string;
     createdAt: string;
     updatedAt: string;
+};
+
+export type UpdateMeDto = {
+    /**
+     * The name of the user
+     */
+    name: string;
+    /**
+     * The phone number of the user
+     */
+    phone: string;
 };
 
 export type InviteUserDto = {
@@ -214,6 +228,11 @@ export type CreateProductDto = {
      * Whether the product is visible to customers
      */
     visible?: boolean;
+};
+
+export type PaginatedProductResponseDto = {
+    data: Array<ProductResponseDto>;
+    meta: PaginationMetaDto;
 };
 
 export type UpdateProductDto = {
@@ -341,6 +360,51 @@ export type CreateAssetDto = {
     metadata: {
         [key: string]: unknown;
     };
+};
+
+export type ProductStatsDto = {
+    total: number;
+    visible: number;
+    hidden: number;
+};
+
+export type BlogStatsDto = {
+    total: number;
+    visible: number;
+    hidden: number;
+};
+
+export type CategoryStatsDto = {
+    total: number;
+};
+
+export type OfferStatsDto = {
+    total: number;
+    visible: number;
+    hidden: number;
+};
+
+export type ContactStatsDto = {
+    total: number;
+    read: number;
+    unread: number;
+};
+
+export type UserStatsDto = {
+    total: number;
+    active: number;
+    inactive: number;
+    invited: number;
+    banned: number;
+};
+
+export type DashboardStatsDto = {
+    product: ProductStatsDto;
+    blog: BlogStatsDto;
+    category: CategoryStatsDto;
+    offer: OfferStatsDto;
+    contact: ContactStatsDto;
+    user: UserStatsDto;
 };
 
 export type CreateOrderDto = {
@@ -496,6 +560,11 @@ export type BlogResponseDto = {
     readonly updatedAt: string;
 };
 
+export type PaginatedBlogResponseDto = {
+    data: Array<BlogResponseDto>;
+    meta: PaginationMetaDto;
+};
+
 export type UpdateBlogDto = {
     /**
      * The image file to upload
@@ -584,6 +653,11 @@ export type CreateOperationLogDtoWritable = {
 
 export type UpdateOperationLogDtoWritable = {
     [key: string]: unknown;
+};
+
+export type PaginatedBlogResponseDtoWritable = {
+    data: Array<unknown>;
+    meta: PaginationMetaDto;
 };
 
 export type OfferResponseDtoWritable = {
@@ -692,6 +766,17 @@ export type UserControllerGetMeResponses = {
 
 export type UserControllerGetMeResponse = UserControllerGetMeResponses[keyof UserControllerGetMeResponses];
 
+export type UserControllerUpdateMeData = {
+    body: UpdateMeDto;
+    path?: never;
+    query?: never;
+    url: '/api/user/update-me';
+};
+
+export type UserControllerUpdateMeResponses = {
+    201: unknown;
+};
+
 export type UserControllerInviteUserData = {
     body: InviteUserDto;
     path?: never;
@@ -715,6 +800,22 @@ export type UserControllerGetAllUsersData = {
          * Number of records per page
          */
         limit?: number;
+        /**
+         * Filter products by name or description containing the search term
+         */
+        search?: string;
+        /**
+         * Filter products by verified status
+         */
+        isVerified?: string;
+        /**
+         * Filter users by role (USER, ADMIN, SUPER_ADMIN)
+         */
+        role?: string;
+        /**
+         * Filter users by status (ACTIVE, INACTIVE, BANNED)
+         */
+        status?: string;
     };
     url: '/api/user/all';
 };
@@ -811,7 +912,24 @@ export type ProductControllerCreateResponses = {
 export type ProductControllerFindAllAdminData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+        /**
+         * Filter products by name or description containing the search term
+         */
+        search?: string;
+        /**
+         * Filter products by visibility status
+         */
+        visible?: string;
+    };
     url: '/api/product/admin';
 };
 
@@ -819,7 +937,7 @@ export type ProductControllerFindAllAdminResponses = {
     /**
      * List of all products for admin
      */
-    200: Array<ProductResponseDto>;
+    200: PaginatedProductResponseDto;
 };
 
 export type ProductControllerFindAllAdminResponse = ProductControllerFindAllAdminResponses[keyof ProductControllerFindAllAdminResponses];
@@ -980,13 +1098,21 @@ export type AssetsControllerFindAllResponses = {
 export type StatsControllerGetDashboardStatsData = {
     body?: never;
     path?: never;
-    query?: never;
+    query: {
+        startDate: string;
+        endDate: string;
+    };
     url: '/api/stats/dashboard';
 };
 
 export type StatsControllerGetDashboardStatsResponses = {
-    200: unknown;
+    /**
+     * Dashboard statistics
+     */
+    200: DashboardStatsDto;
 };
+
+export type StatsControllerGetDashboardStatsResponse = StatsControllerGetDashboardStatsResponses[keyof StatsControllerGetDashboardStatsResponses];
 
 export type OrderControllerFindAllData = {
     body?: never;
@@ -1262,7 +1388,24 @@ export type OperationLogControllerUpdateResponses = {
 export type BlogControllerFindAllData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+        /**
+         * Filter blogs by title or content containing the search term
+         */
+        search?: string;
+        /**
+         * Filter products by visibility status
+         */
+        visible?: string;
+    };
     url: '/api/blog';
 };
 
@@ -1270,7 +1413,7 @@ export type BlogControllerFindAllResponses = {
     /**
      * List of all blogs
      */
-    200: Array<BlogResponseDto>;
+    200: PaginatedBlogResponseDto;
 };
 
 export type BlogControllerFindAllResponse = BlogControllerFindAllResponses[keyof BlogControllerFindAllResponses];

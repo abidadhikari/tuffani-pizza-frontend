@@ -215,18 +215,23 @@ export default function Navbar() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <Link href="/profile">
+                        <DropdownMenuItem className="cursor-pointer">
+                          Profile{" "}
+                        </DropdownMenuItem>
+                      </Link>
+
                       <DropdownMenuItem
                         onClick={() => {
                           logout();
                         }}
+                        className="cursor-pointer"
                       >
                         Logout
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                <Link href="/profile">Cart</Link>
               </div>
             ) : (
               <Link href="/login">

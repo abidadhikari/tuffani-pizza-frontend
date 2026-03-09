@@ -80,7 +80,14 @@ interface Props extends IBaseModal {
 
 export default function OfferModal(props: Props) {
   const { isEditMode, onConfirm, defaultValues, open } = props;
-  const { data: productsData } = useGetAllProducts();
+  const { data: productsDataRaw } = useGetAllProducts({
+    page: 1,
+    limit: 10000,
+    search: "",
+    visible: undefined,
+  });
+
+  const productsData = productsDataRaw?.data || [];
 
   const productsOptions = productsData
     ? productsData?.map((product) => ({

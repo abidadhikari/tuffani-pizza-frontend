@@ -9,7 +9,6 @@ import FormTextAreaInputItem from "@/components/molecule/FormTextAreaInputItem";
 import { Form } from "@/components/ui/form";
 import { useCreateBlog } from "@/hooks/services/blogs/useCreateBlog";
 import { usePatchBlog } from "@/hooks/services/blogs/usePatchBlog";
-import { usePatchProduct } from "@/hooks/services/products/usePatchProduct";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { memo } from "react";
 import { useForm } from "react-hook-form";

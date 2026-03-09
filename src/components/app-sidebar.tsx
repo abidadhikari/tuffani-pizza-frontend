@@ -19,6 +19,7 @@ import {
   IconSearch,
   IconSettings,
   IconUsers,
+  IconUsersGroup,
 } from "@tabler/icons-react";
 
 import { NavPages } from "@/components/nav-pages";
@@ -87,7 +88,7 @@ const data = {
     {
       title: "Users",
       url: "/admin/users",
-      icon: IconReport,
+      icon: IconUsersGroup,
     },
   ],
   pages: [

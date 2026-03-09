@@ -1,16 +1,31 @@
 // useGetMe.tsx
 
-import { productControllerFindAllAdmin, ProductResponseDto } from "@/client";
+import {
+  PaginatedProductResponseDto,
+  productControllerFindAllAdmin,
+  ProductControllerFindAllAdminData,
+} from "@/client";
 import { useQuery } from "@tanstack/react-query";
 
 import { useEffect } from "react";
 import { queryKeys } from "../queryKeys";
+import { QueryOf } from "@/types/client-service.type";
 
-export const useGetAllProducts = () => {
-  const query = useQuery<ProductResponseDto[] | undefined, Error>({
-    queryKey: [queryKeys.ALL_PRODUCTS],
+type PayloadType = QueryOf<ProductControllerFindAllAdminData>;
+
+export const useGetAllProducts = (payload: PayloadType) => {
+  const query = useQuery<PaginatedProductResponseDto | undefined, Error>({
+    queryKey: [
+      queryKeys.ALL_PRODUCTS,
+      payload.limit,
+      payload.page,
+      payload.search,
+      payload.visible,
+    ],
     queryFn: async () => {
-      const { data } = await productControllerFindAllAdmin();
+      const { data } = await productControllerFindAllAdmin({
+        query: payload,
+      });
       return data;
     },
   });

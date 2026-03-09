@@ -8,6 +8,7 @@ import {
 } from "@/components/molecule/TableAction";
 import { cn } from "@/lib/utils";
 import { BlogResponseDto } from "@/client";
+import AppPagination from "@/components/molecule/AppPagination";
 
 export type IBlogsTableType = BlogResponseDto;
 
@@ -23,6 +24,9 @@ export default function BlogsTable({
   onRowClick,
   pageNumber,
   pageSize,
+  onPageChange,
+  onPageSizeChange,
+  totalRecords,
   loading,
 }: IBlogsTableProps) {
   const columns: ColumnDef<IBlogsTableType>[] = [
@@ -108,6 +112,15 @@ export default function BlogsTable({
           currentPage={pageNumber}
           loading={loading}
           onRowClick={onRowClick}
+        />
+        <AppPagination
+          currentPage={pageNumber}
+          totalItems={totalRecords}
+          pageSize={pageSize}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+          showPageSizeSelector
+          showPageInfo
         />
       </div>
     </>

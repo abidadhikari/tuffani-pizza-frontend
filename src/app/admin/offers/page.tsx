@@ -18,7 +18,12 @@ export default function OffersPage() {
   const [currentId, setCurrentId] = useState<string | null>(null);
 
   const { data, isLoading } = useGetAllOffers();
-  const {} = useGetAllProducts();
+  const {} = useGetAllProducts({
+    page: 1,
+    limit: 10000,
+    search: "",
+    visible: undefined,
+  });
   const { mutate: createOffer, isPending: creating } = useCreateOffer(() =>
     setOpen(false),
   );

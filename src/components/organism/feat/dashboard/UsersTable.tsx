@@ -7,16 +7,16 @@ import {
   TableActionCol,
   TableActionHeader,
 } from "@/components/molecule/TableAction";
-import { cn } from "@/lib/utils";
-import { ContactResponseDto } from "@/client";
-import Button from "@/components/atom/Button";
+
+import { BaseUserResponseDto } from "@/client";
+import StatusBadge from "@/components/atom/StatusBadge";
 
 interface IUsersTableProps extends ICommonTableProps {
-  data: ContactResponseDto[];
-  onRowClick?: (row: ContactResponseDto) => void;
+  data: BaseUserResponseDto[];
+  onRowClick?: (row: BaseUserResponseDto) => void;
   currentRowId?: string;
   onActionClick?: (id: string) => void;
-  onReadClick?: (row: ContactResponseDto) => void;
+  onReadClick?: (row: BaseUserResponseDto) => void;
 }
 
 export default function UsersTable({
@@ -32,17 +32,13 @@ export default function UsersTable({
   onActionClick,
   onReadClick,
 }: IUsersTableProps) {
-  const columns: ColumnDef<ContactResponseDto>[] = [
+  const columns: ColumnDef<BaseUserResponseDto>[] = [
     {
       accessorKey: "name",
       header: "Name",
       enableSorting: false,
     },
-    {
-      accessorKey: "message",
-      header: "Message",
-      enableSorting: false,
-    },
+
     {
       accessorKey: "email",
       header: "Email",
@@ -53,44 +49,49 @@ export default function UsersTable({
       header: "Phone",
       enableSorting: false,
     },
-
     {
-      accessorKey: "isRead",
-      header: "Read",
+      accessorKey: "isVerified",
+      header: "Verified",
+      enableSorting: false,
       cell: ({ row }) => {
-        const isRead = row.original?.isRead;
+        const isVerified = row.original.isVerified;
         return (
-          <div
-            className={cn("  rounded-full p-1 text-center font-xs text-white", {
-              "bg-green-500": row.original?.isRead,
-              "bg-red-500": !row.original?.isRead,
-            })}
-          >
-            {isRead ? "Read" : "Unread"}
-          </div>
+          <StatusBadge
+            label={isVerified ? "Verified" : "Not Verified"}
+            variant={isVerified ? "success" : "error"}
+          />
         );
       },
+    },
+    {
+      accessorKey: "role",
+      header: "Role",
       enableSorting: false,
     },
+    {
+      accessorKey: "status",
+      header: "Status",
+      enableSorting: false,
+      cell: ({ row }) => {
+        const status = row.original.status;
+        return (
+          <StatusBadge
+            label={status}
+            variant={status === "ACTIVE" ? "success" : undefined}
+          />
+        );
+      },
+    },
+
     {
       id: "action",
       enableSorting: false,
       header: () => <TableActionHeader />,
 
       cell: ({ row }) => {
-        const isRead = row.original?.isRead;
-        if (isRead) return null;
-        return (
-          <TableActionCol>
-            <Button
-              onClick={() => onReadClick?.(row.original)}
-              variant={"ghost"}
-              size={"sm"}
-            >
-              Mark as Read
-            </Button>
-          </TableActionCol>
-        );
+        const isRead = true;
+
+        return <TableActionCol></TableActionCol>;
       },
     },
   ];
@@ -107,7 +108,6 @@ export default function UsersTable({
           onRowClick={onRowClick}
         />
       </div>
-
       <AppPagination
         currentPage={pageNumber}
         totalItems={totalRecords}

@@ -54,10 +54,11 @@ export const getTestimonials = async () => {
 
 export const getAllPublicBlogs = async () => {
   try {
-    const response = await axiosInstance.get(`/api/blog`, {
+    const response = await axiosInstance.get(`/api/blog?page=1&limit=100`, {
       withCredentials: false,
     });
-    const blogsData = JSON.parse(response.data);
+    const blogsData = JSON.parse(response.data)?.data || [];
+    console.log("Parsed blogs data:", blogsData);
     return blogsData;
   } catch (error) {
     console.error("Error fetching blogs:", error);

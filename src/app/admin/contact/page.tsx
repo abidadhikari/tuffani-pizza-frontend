@@ -15,8 +15,7 @@ export default function ContactPage() {
     isRead: undefined,
   });
 
-  const { mutate: patchContact, isLoading: patchingContact } =
-    usePatchContact();
+  const { mutate: patchContact } = usePatchContact();
   return (
     <div>
       <SiteHeader

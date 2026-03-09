@@ -1,6 +1,9 @@
 "use client";
 
 import Button from "@/components/atom/Button";
+import AppMultiSelect from "@/components/molecule/AppMultiSelect";
+import AppSingleSelect from "@/components/molecule/AppSingleSelect";
+import SearchBar from "@/components/molecule/SearchBar";
 import BlogsTable, {
   IBlogsTableType,
 } from "@/components/organism/feat/dashboard/BlogsTable";
@@ -8,13 +11,33 @@ import { SiteHeader } from "@/components/site-header";
 import { useGetAllBlogs } from "@/hooks/services/blogs/useGetAllBlogs";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BlogsPage() {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const { data, isLoading } = useGetAllBlogs();
+  const [isVisible, setIsVisible] = useState<"true" | "false" | "#">("#");
+
+  const { data, isLoading } = useGetAllBlogs({
+    page: pageNo,
+    limit: pageSize,
+    search: debouncedSearch,
+    visible: isVisible === "#" ? undefined : isVisible,
+  });
+
+  useEffect(() => {
+    if (search === debouncedSearch) return;
+
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
   return (
     <div>
       <SiteHeader title="Blogs">
@@ -25,13 +48,35 @@ export default function BlogsPage() {
         </Link>
       </SiteHeader>
 
+      <div className="mb-5 flex items-center justify-between">
+        <SearchBar
+          placeholder="Search blogs..."
+          value={search}
+          onValueChange={setSearch}
+        />
+        <AppSingleSelect
+          label="Visibility : "
+          data={[
+            { label: "All", value: "#" },
+            { label: "Visible", value: "true" },
+            { label: "Hidden", value: "false" },
+          ]}
+          value={isVisible}
+          onChange={(value: string) => {
+            setIsVisible(value as "true" | "false" | "#");
+          }}
+          placeholder="Filter by visibility"
+          className="w-48 mt-3"
+        />
+      </div>
+
       <BlogsTable
-        data={(data as IBlogsTableType[]) || []}
+        data={(data?.data as IBlogsTableType[]) || []}
         pageNumber={pageNo}
         pageSize={pageSize}
         onPageChange={setPageNo}
         onPageSizeChange={setPageSize}
-        totalRecords={0}
+        totalRecords={data?.meta?.total || 0}
         loading={isLoading}
       />
     </div>

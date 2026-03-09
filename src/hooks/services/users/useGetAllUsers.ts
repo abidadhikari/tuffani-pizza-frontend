@@ -1,16 +1,33 @@
 // useGetMe.tsx
 
-import { PaginatedUserResponseDto, userControllerGetAllUsers } from "@/client";
+import {
+  PaginatedUserResponseDto,
+  userControllerGetAllUsers,
+  UserControllerGetAllUsersData,
+} from "@/client";
 import { useQuery } from "@tanstack/react-query";
 
 import { useEffect } from "react";
 import { queryKeys } from "../queryKeys";
+import { QueryOf } from "@/types/client-service.type";
 
-export const useGetAllUsers = () => {
+type queryType = QueryOf<UserControllerGetAllUsersData>;
+
+export const useGetAllUsers = (payload: queryType) => {
   const query = useQuery<PaginatedUserResponseDto | undefined, Error>({
-    queryKey: [queryKeys.ALL_USERS],
+    queryKey: [
+      queryKeys.ALL_USERS,
+      payload.page,
+      payload.limit,
+      payload.search,
+      payload.isVerified,
+      payload.role,
+      payload.status,
+    ],
     queryFn: async () => {
-      const { data } = await userControllerGetAllUsers();
+      const { data } = await userControllerGetAllUsers({
+        query: payload,
+      });
       return data;
     },
   });

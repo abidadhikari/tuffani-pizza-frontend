@@ -15,5 +15,6 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const staticContent = await getStaticPageData();
   const testimonials = await getTestimonials();
+
   return <Home staticContent={staticContent} testimonials={testimonials} />;
 }

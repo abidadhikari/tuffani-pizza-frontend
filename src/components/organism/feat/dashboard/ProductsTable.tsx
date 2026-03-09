@@ -52,6 +52,16 @@ export default function ProductsTable({
       accessorKey: "description",
       header: "Description",
       enableSorting: false,
+      cell: ({ row }) => {
+        return (
+          <div
+            className="max-w-75 truncate"
+            title={row.original.description || undefined}
+          >
+            {row.original.description || "-"}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "price",
@@ -125,7 +135,7 @@ export default function ProductsTable({
         />
       </div>
 
-      {/* <AppPagination
+      <AppPagination
         currentPage={pageNumber}
         totalItems={totalRecords}
         pageSize={pageSize}
@@ -133,7 +143,7 @@ export default function ProductsTable({
         onPageSizeChange={onPageSizeChange}
         showPageSizeSelector
         showPageInfo
-      /> */}
+      />
     </>
   );
 }
