@@ -8,7 +8,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 import { useEffect } from "react";
-import { queryKeys } from "./queryKeys";
+import { queryKeys } from "../queryKeys";
 
 export const useGetDashboardStats = () => {
   const query = useQuery<DashboardStatsDto | undefined, Error>({

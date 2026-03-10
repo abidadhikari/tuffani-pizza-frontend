@@ -46,7 +46,7 @@ export default function AppSingleSelect({
   return (
     <div className="flex flex-row gap-2 items-center justify-center">
       {label && (
-        <div className=" text-sm font-medium whitespace-nowrap  h-full pt-2.5">
+        <div className=" text-sm font-medium whitespace-nowrap  h-full">
           {label}
         </div>
       )}

@@ -5,6 +5,12 @@ export const FOOD_TYPE: Record<IFoodType, IFoodType> = {
   NON_VEG: "NON_VEG",
 };
 
+export const ROLES = {
+  ADMIN: "ADMIN",
+  SUPER_ADMIN: "SUPER_ADMIN",
+  USER: "USER",
+};
+
 export const STATIC_CONTENT_KEYS = {
   //home page
   HERO_SECTION: "HERO_SECTION",

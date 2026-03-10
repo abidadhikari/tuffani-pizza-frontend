@@ -1,5 +1,6 @@
 export const queryKeys = {
   DASHBOARD_STATS: ["dashboard-stats"],
+  BLOG_STATS: ["blog-stats"],
   ALL_PRODUCTS: ["all-products"],
   SINGLE_PRODUCT: ["single-product"],
   ALL_CATEGORIES: ["all-categories"],

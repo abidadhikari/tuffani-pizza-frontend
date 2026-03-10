@@ -2,21 +2,15 @@
 
 import * as React from "react";
 import {
-  IconCamera,
   IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
   IconFileDescription,
   IconFileWord,
   IconFolder,
   IconGift,
-  IconHelp,
   IconHome,
-  IconInnerShadowTop,
   IconListDetails,
   IconReport,
-  IconSearch,
   IconSettings,
   IconUsers,
   IconUsersGroup,
@@ -24,7 +18,6 @@ import {
 
 import { NavPages } from "@/components/nav-pages";
 import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -32,18 +25,13 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { IconBook } from "@tabler/icons-react";
 import Image from "next/image";
+import { ROLES } from "@/lib/constants";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
@@ -89,6 +77,7 @@ const data = {
       title: "Users",
       url: "/admin/users",
       icon: IconUsersGroup,
+      role: [ROLES.SUPER_ADMIN],
     },
   ],
   pages: [
@@ -135,7 +124,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavPages items={data.pages} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

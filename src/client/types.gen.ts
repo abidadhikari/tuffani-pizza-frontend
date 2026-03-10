@@ -332,6 +332,10 @@ export type UpdateContactDto = {
      * The address of the contact
      */
     address?: string;
+    /**
+     * Whether the contact message has been read
+     */
+    isRead: boolean;
 };
 
 export type UploadAssetDto = {
@@ -407,6 +411,26 @@ export type DashboardStatsDto = {
     user: UserStatsDto;
 };
 
+export type AssetResponseDto = {
+    readonly url: string;
+};
+
+export type BlogsStatsResponseDto = {
+    readonly id?: string;
+    readonly title?: string;
+    readonly description?: string;
+    readonly content?: string;
+    readonly slug?: string;
+    readonly views?: string;
+    readonly author?: {
+        [key: string]: unknown;
+    };
+    coverImage?: AssetResponseDto;
+    readonly isVisible?: boolean;
+    readonly createdAt?: string;
+    readonly updatedAt?: string;
+};
+
 export type CreateOrderDto = {
     quantity: number;
     productId: string;
@@ -433,10 +457,6 @@ export type UpdateStaticContentDto = {
      * The image file to upload
      */
     image?: Blob | File;
-};
-
-export type AssetResponseDto = {
-    readonly url: string;
 };
 
 export type GalleryResponseDto = {
@@ -551,6 +571,7 @@ export type BlogResponseDto = {
     readonly description: string;
     readonly content: string;
     readonly slug: string;
+    readonly views: string;
     readonly author: {
         [key: string]: unknown;
     };
@@ -1113,6 +1134,24 @@ export type StatsControllerGetDashboardStatsResponses = {
 };
 
 export type StatsControllerGetDashboardStatsResponse = StatsControllerGetDashboardStatsResponses[keyof StatsControllerGetDashboardStatsResponses];
+
+export type StatsControllerGetBlogStatsData = {
+    body?: never;
+    path?: never;
+    query: {
+        orderBy: string;
+    };
+    url: '/api/stats/blogs';
+};
+
+export type StatsControllerGetBlogStatsResponses = {
+    /**
+     * Blog statistics
+     */
+    200: Array<BlogsStatsResponseDto>;
+};
+
+export type StatsControllerGetBlogStatsResponse = StatsControllerGetBlogStatsResponses[keyof StatsControllerGetBlogStatsResponses];
 
 export type OrderControllerFindAllData = {
     body?: never;

@@ -5,6 +5,10 @@ import React, { useEffect, useState } from "react";
 import UsersTable from "@/components/organism/feat/dashboard/UsersTable";
 import SearchBar from "@/components/molecule/SearchBar";
 import AppSingleSelect from "@/components/molecule/AppSingleSelect";
+import Button from "@/components/atom/Button";
+import { Plus } from "lucide-react";
+import UserInviteModal from "@/components/organism/modals/UserInviteModal";
+import { useInviteUser } from "@/hooks/services/users/useInviteUser";
 
 export default function Users() {
   const [pageNo, setPageNo] = useState(1);
@@ -18,6 +22,8 @@ export default function Users() {
     "#",
   );
 
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+
   const { data, isLoading } = useGetAllUsers({
     page: pageNo,
     limit: pageSize,
@@ -25,6 +31,10 @@ export default function Users() {
     isVerified: isVerified === "#" ? undefined : isVerified,
     role: role === "#" ? undefined : role,
     status: status === "#" ? undefined : status,
+  });
+
+  const { mutate: inviteUser, isPending: isInviting } = useInviteUser(() => {
+    setInviteModalOpen(false);
   });
 
   useEffect(() => {
@@ -40,14 +50,39 @@ export default function Users() {
 
   return (
     <div>
-      <SiteHeader title="Users" />
+      <SiteHeader title="Users">
+        <Button
+          variant="default"
+          size={"sm"}
+          onClick={() => setInviteModalOpen(true)}
+        >
+          <Plus /> Invite User
+        </Button>
+      </SiteHeader>
       <div className="mb-5 flex items-center justify-between">
         <SearchBar
-          placeholder="Search blogs..."
+          placeholder="Search users..."
           value={search}
           onValueChange={setSearch}
         />
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ">
+          {search !== "" ||
+          isVerified !== "#" ||
+          role !== "#" ||
+          status !== "#" ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setSearch("");
+                setIsVerified("#");
+                setRole("#");
+                setStatus("#");
+              }}
+            >
+              Reset Filters
+            </Button>
+          ) : null}
           <AppSingleSelect
             label="Verification : "
             data={[
@@ -60,7 +95,7 @@ export default function Users() {
               setIsVerified(value as "true" | "false" | "#");
             }}
             placeholder="Filter by verification"
-            className="w-48 mt-3"
+            className="w-48 "
           />
           <AppSingleSelect
             label="Role : "
@@ -76,7 +111,7 @@ export default function Users() {
               setRole(value as "ADMIN" | "USER" | "SUPER_ADMIN" | "#");
             }}
             placeholder="Filter by role"
-            className="w-48 mt-3"
+            className="w-48 "
           />
           <AppSingleSelect
             label="Status : "
@@ -91,7 +126,7 @@ export default function Users() {
               setStatus(value as "ACTIVE" | "INACTIVE" | "BANNED" | "#");
             }}
             placeholder="Filter by status"
-            className="w-48 mt-3"
+            className="w-48 "
           />
         </div>
       </div>
@@ -103,6 +138,22 @@ export default function Users() {
         onPageChange={setPageNo}
         onPageSizeChange={setPageSize}
         totalRecords={data?.meta?.total || 0}
+      />
+
+      <UserInviteModal
+        open={inviteModalOpen}
+        onOpenChange={setInviteModalOpen}
+        onConfirm={(data) => {
+          inviteUser({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            phone: data?.phone ?? "",
+            role: data.role,
+            status: "INVITED",
+          });
+        }}
+        isPending={isInviting}
       />
     </div>
   );

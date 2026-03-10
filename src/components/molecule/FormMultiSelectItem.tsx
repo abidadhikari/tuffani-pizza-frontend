@@ -32,13 +32,13 @@ export default function FormMultiSelectItem({
     <FormItemWrapper form={form} name={name} label={label} required={required}>
       {(field) => (
         <AppMultiSelect
-        // data={data}
-        // value={field.value || []}
-        // onChange={field.onChange}
-        // placeholder={placeholder}
-        // lockedValues={lockedValues}
-        // showDynamicPlaceholder={showDynamicPlaceholder}
-        // disabled={disabled}
+          data={data}
+          value={field.value || []}
+          onChange={field.onChange}
+          placeholder={placeholder}
+          lockedValues={lockedValues}
+          showDynamicPlaceholder={showDynamicPlaceholder}
+          disabled={disabled}
         />
       )}
     </FormItemWrapper>

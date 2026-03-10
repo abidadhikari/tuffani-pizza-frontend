@@ -12,7 +12,10 @@ export default function UserProfile() {
     <div className="grid md:grid-cols-2 gap-5">
       <Card className="p-5">
         <UserProfileForm
-          defaultValues={{ name: data?.name ?? "", phone: data?.phone ?? "" }}
+          defaultValues={{
+            name: String(data?.name ?? ""),
+            phone: String(data?.phone ?? ""),
+          }}
         />
       </Card>
       <Card className="p-5">
@@ -43,7 +46,7 @@ export default function UserProfile() {
 
             <div className="flex justify-between">
               <span className="text-muted-foreground">Phone</span>
-              <span className="font-medium">{data?.phone || "-"}</span>
+              <span className="font-medium">{String(data?.phone) || "-"}</span>
             </div>
           </div>
         </div>
