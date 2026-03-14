@@ -7,6 +7,7 @@ import {
   TableActionCol,
   TableActionHeader,
 } from "@/components/molecule/TableAction";
+import { Edit } from "lucide-react";
 
 import { BaseUserResponseDto } from "@/client";
 import StatusBadge from "@/components/atom/StatusBadge";
@@ -14,9 +15,7 @@ import StatusBadge from "@/components/atom/StatusBadge";
 interface IUsersTableProps extends ICommonTableProps {
   data: BaseUserResponseDto[];
   onRowClick?: (row: BaseUserResponseDto) => void;
-  currentRowId?: string;
-  onActionClick?: (id: string) => void;
-  onReadClick?: (row: BaseUserResponseDto) => void;
+  onEditClick?: (row: BaseUserResponseDto) => void;
 }
 
 export default function UsersTable({
@@ -28,9 +27,7 @@ export default function UsersTable({
   onPageSizeChange,
   totalRecords,
   loading,
-  currentRowId,
-  onActionClick,
-  onReadClick,
+  onEditClick,
 }: IUsersTableProps) {
   const columns: ColumnDef<BaseUserResponseDto>[] = [
     {
@@ -89,9 +86,21 @@ export default function UsersTable({
       header: () => <TableActionHeader />,
 
       cell: ({ row }) => {
-        const isRead = true;
-
-        return <TableActionCol></TableActionCol>;
+        return (
+          <TableActionCol>
+            <button
+              className="cursor-pointer hover:text-primary"
+              onClick={(event) => {
+                event.stopPropagation();
+                onEditClick?.(row.original);
+              }}
+              type="button"
+              aria-label="Edit user"
+            >
+              <Edit className="size-4" />
+            </button>
+          </TableActionCol>
+        );
       },
     },
   ];

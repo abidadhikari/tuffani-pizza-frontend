@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import Button from "../atom/Button";
 
 const TableActionHeader = () => {
   return (
@@ -13,12 +14,14 @@ type TableActionColProps = {
   children?: React.ReactNode;
   className?: string;
   navigateTo?: string;
+  onViewClick?: () => void;
 };
 
 const TableActionCol = ({
   children,
   className,
   navigateTo,
+  onViewClick,
 }: TableActionColProps) => {
   return (
     <div
@@ -28,6 +31,11 @@ const TableActionCol = ({
       )}
     >
       {children}
+      {onViewClick && (
+        <Button variant="outline" size="sm" onClick={onViewClick}>
+          View
+        </Button>
+      )}
       {navigateTo && (
         <Link className="w-fit" href={navigateTo ?? "#"}>
           <ChevronRight className="size-5" />

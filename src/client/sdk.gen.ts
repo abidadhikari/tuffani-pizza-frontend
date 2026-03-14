@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { AppControllerGetHelloData, AppControllerGetHelloResponses, AssetsControllerCreateData, AssetsControllerCreateResponses, AssetsControllerFindAllData, AssetsControllerFindAllResponses, AssetsControllerUploadData, AssetsControllerUploadResponses, AuthControllerForgotPasswordData, AuthControllerForgotPasswordResponses, AuthControllerLoginData, AuthControllerLoginResponses, AuthControllerLogoutData, AuthControllerLogoutResponses, AuthControllerRegisterData, AuthControllerRegisterResponses, AuthControllerResetPasswordData, AuthControllerResetPasswordResponses, AuthControllerVerifyAccountData, AuthControllerVerifyAccountResponses, BlogControllerCreateData, BlogControllerCreateResponses, BlogControllerFindAllData, BlogControllerFindAllResponses, BlogControllerFindOneBySlugData, BlogControllerFindOneBySlugResponses, BlogControllerFindOneData, BlogControllerFindOneResponses, BlogControllerFindRecommendedData, BlogControllerFindRecommendedResponses, BlogControllerRemoveData, BlogControllerRemoveResponses, BlogControllerUpdateData, BlogControllerUpdateResponses, CategoryControllerCreateData, CategoryControllerCreateResponses, CategoryControllerFindAllData, CategoryControllerFindAllResponses, CategoryControllerFindOneData, CategoryControllerFindOneResponses, CategoryControllerUpdateData, CategoryControllerUpdateResponses, ContactControllerCreateData, ContactControllerCreateResponses, ContactControllerFindAllData, ContactControllerFindAllResponses, ContactControllerFindOneData, ContactControllerFindOneResponses, ContactControllerRemoveData, ContactControllerRemoveResponses, ContactControllerUpdateData, ContactControllerUpdateResponses, OfferControllerCreateData, OfferControllerCreateResponses, OfferControllerFindAllData, OfferControllerFindAllResponses, OfferControllerFindOneData, OfferControllerFindOneResponses, OfferControllerRemoveData, OfferControllerRemoveResponses, OfferControllerUpdateData, OfferControllerUpdateResponses, OperationLogControllerCreateData, OperationLogControllerCreateResponses, OperationLogControllerFindAllData, OperationLogControllerFindAllResponses, OperationLogControllerFindOneData, OperationLogControllerFindOneResponses, OperationLogControllerRemoveData, OperationLogControllerRemoveResponses, OperationLogControllerUpdateData, OperationLogControllerUpdateResponses, OrderControllerCreateData, OrderControllerCreateResponses, OrderControllerFindAllData, OrderControllerFindAllResponses, OrderControllerFindOneData, OrderControllerFindOneResponses, OrderControllerGetAllOrderGroupData, OrderControllerGetAllOrderGroupResponses, OrderControllerRemoveData, OrderControllerRemoveResponses, OrderControllerUpdateData, OrderControllerUpdateResponses, ProductControllerCreateData, ProductControllerCreateResponses, ProductControllerFindAllAdminData, ProductControllerFindAllAdminResponses, ProductControllerFindAllData, ProductControllerFindAllResponses, ProductControllerFindOneData, ProductControllerFindOneResponses, ProductControllerRemoveData, ProductControllerRemoveResponses, ProductControllerUpdateData, ProductControllerUpdateResponses, StaticContentControllerAddToGalleryData, StaticContentControllerAddToGalleryResponses, StaticContentControllerCreateData, StaticContentControllerCreateResponses, StaticContentControllerFindAllData, StaticContentControllerFindAllGalleryItemsData, StaticContentControllerFindAllGalleryItemsResponses, StaticContentControllerFindAllResponses, StaticContentControllerUpdateGalleryItemData, StaticContentControllerUpdateGalleryItemResponses, StaticContentControllerUpdateWithKeyData, StaticContentControllerUpdateWithKeyResponses, StatsControllerGetBlogStatsData, StatsControllerGetBlogStatsResponses, StatsControllerGetDashboardStatsData, StatsControllerGetDashboardStatsResponses, TestimonialControllerCreateData, TestimonialControllerCreateResponses, TestimonialControllerFindAllData, TestimonialControllerFindAllResponses, TestimonialControllerFindOneData, TestimonialControllerFindOneResponses, TestimonialControllerRemoveData, TestimonialControllerRemoveResponses, TestimonialControllerUpdateData, TestimonialControllerUpdateResponses, UserControllerGetAllUsersData, UserControllerGetAllUsersResponses, UserControllerGetMeData, UserControllerGetMeResponses, UserControllerInviteUserData, UserControllerInviteUserResponses, UserControllerUpdateMeData, UserControllerUpdateMeResponses } from './types.gen';
+import type { AppControllerGetHelloData, AppControllerGetHelloResponses, AssetsControllerCreateData, AssetsControllerCreateResponses, AssetsControllerFindAllData, AssetsControllerFindAllResponses, AssetsControllerUploadData, AssetsControllerUploadResponses, AuthControllerForgotPasswordData, AuthControllerForgotPasswordResponses, AuthControllerLoginData, AuthControllerLoginResponses, AuthControllerLogoutData, AuthControllerLogoutResponses, AuthControllerRegisterData, AuthControllerRegisterResponses, AuthControllerResetPasswordData, AuthControllerResetPasswordResponses, AuthControllerVerifyAccountData, AuthControllerVerifyAccountResponses, BlogControllerCreateData, BlogControllerCreateResponses, BlogControllerFindAllData, BlogControllerFindAllResponses, BlogControllerFindOneBySlugData, BlogControllerFindOneBySlugResponses, BlogControllerFindOneData, BlogControllerFindOneResponses, BlogControllerFindRecommendedData, BlogControllerFindRecommendedResponses, BlogControllerRemoveData, BlogControllerRemoveResponses, BlogControllerUpdateData, BlogControllerUpdateResponses, CategoryControllerCreateData, CategoryControllerCreateResponses, CategoryControllerFindAllData, CategoryControllerFindAllResponses, CategoryControllerFindOneData, CategoryControllerFindOneResponses, CategoryControllerUpdateData, CategoryControllerUpdateResponses, ContactControllerCreateData, ContactControllerCreateResponses, ContactControllerFindAllData, ContactControllerFindAllResponses, ContactControllerFindOneData, ContactControllerFindOneResponses, ContactControllerRemoveData, ContactControllerRemoveResponses, ContactControllerUpdateData, ContactControllerUpdateResponses, OfferControllerCreateData, OfferControllerCreateResponses, OfferControllerFindAllData, OfferControllerFindAllResponses, OfferControllerFindOneData, OfferControllerFindOneResponses, OfferControllerRemoveData, OfferControllerRemoveResponses, OfferControllerUpdateData, OfferControllerUpdateResponses, OperationLogControllerFindAllData, OperationLogControllerFindAllResponses, OperationLogControllerFindOneData, OperationLogControllerFindOneResponses, OrderControllerCancelMyOrderData, OrderControllerCancelMyOrderResponses, OrderControllerCreateData, OrderControllerCreateResponses, OrderControllerFindAllForAdminData, OrderControllerFindAllForAdminResponses, OrderControllerFindMyOrderByIdData, OrderControllerFindMyOrderByIdResponses, OrderControllerFindMyOrdersData, OrderControllerFindMyOrdersResponses, OrderControllerFindOneForAdminData, OrderControllerFindOneForAdminResponses, OrderControllerGetAllOrderGroupData, OrderControllerGetAllOrderGroupResponses, OrderControllerGetOrderGroupDetailsData, OrderControllerGetOrderGroupDetailsResponses, OrderControllerUpdateStatusData, OrderControllerUpdateStatusResponses, ProductControllerCreateData, ProductControllerCreateResponses, ProductControllerFindAllAdminData, ProductControllerFindAllAdminResponses, ProductControllerFindAllData, ProductControllerFindAllResponses, ProductControllerFindOneData, ProductControllerFindOneResponses, ProductControllerRemoveData, ProductControllerRemoveResponses, ProductControllerUpdateData, ProductControllerUpdateResponses, StaticContentControllerAddToGalleryData, StaticContentControllerAddToGalleryResponses, StaticContentControllerCreateData, StaticContentControllerCreateResponses, StaticContentControllerFindAllData, StaticContentControllerFindAllGalleryItemsData, StaticContentControllerFindAllGalleryItemsResponses, StaticContentControllerFindAllResponses, StaticContentControllerUpdateGalleryItemData, StaticContentControllerUpdateGalleryItemResponses, StaticContentControllerUpdateWithKeyData, StaticContentControllerUpdateWithKeyResponses, StatsControllerGetBlogStatsData, StatsControllerGetBlogStatsResponses, StatsControllerGetDashboardStatsData, StatsControllerGetDashboardStatsResponses, TestimonialControllerCreateData, TestimonialControllerCreateResponses, TestimonialControllerFindAllData, TestimonialControllerFindAllResponses, TestimonialControllerFindOneData, TestimonialControllerFindOneResponses, TestimonialControllerRemoveData, TestimonialControllerRemoveResponses, TestimonialControllerUpdateData, TestimonialControllerUpdateResponses, UserControllerGetAllUsersData, UserControllerGetAllUsersResponses, UserControllerGetMeData, UserControllerGetMeResponses, UserControllerInviteUserData, UserControllerInviteUserResponses, UserControllerUpdateMeData, UserControllerUpdateMeResponses, UserControllerUpdateUserByAdminData, UserControllerUpdateUserByAdminResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -90,6 +90,17 @@ export const userControllerUpdateMe = <ThrowOnError extends boolean = false>(opt
 export const userControllerInviteUser = <ThrowOnError extends boolean = false>(options: Options<UserControllerInviteUserData, ThrowOnError>) => (options.client ?? client).post<UserControllerInviteUserResponses, unknown, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/user/invite-user',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const userControllerUpdateUserByAdmin = <ThrowOnError extends boolean = false>(options: Options<UserControllerUpdateUserByAdminData, ThrowOnError>) => (options.client ?? client).patch<UserControllerUpdateUserByAdminResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/user/{userId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -241,9 +252,8 @@ export const statsControllerGetBlogStats = <ThrowOnError extends boolean = false
     ...options
 });
 
-export const orderControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<OrderControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<OrderControllerFindAllResponses, unknown, ThrowOnError>({ url: '/api/order', ...options });
-
 export const orderControllerCreate = <ThrowOnError extends boolean = false>(options: Options<OrderControllerCreateData, ThrowOnError>) => (options.client ?? client).post<OrderControllerCreateResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/order',
     ...options,
     headers: {
@@ -252,14 +262,51 @@ export const orderControllerCreate = <ThrowOnError extends boolean = false>(opti
     }
 });
 
-export const orderControllerGetAllOrderGroup = <ThrowOnError extends boolean = false>(options?: Options<OrderControllerGetAllOrderGroupData, ThrowOnError>) => (options?.client ?? client).get<OrderControllerGetAllOrderGroupResponses, unknown, ThrowOnError>({ url: '/api/order/order-group', ...options });
+export const orderControllerFindMyOrders = <ThrowOnError extends boolean = false>(options?: Options<OrderControllerFindMyOrdersData, ThrowOnError>) => (options?.client ?? client).get<OrderControllerFindMyOrdersResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/me',
+    ...options
+});
 
-export const orderControllerRemove = <ThrowOnError extends boolean = false>(options: Options<OrderControllerRemoveData, ThrowOnError>) => (options.client ?? client).delete<OrderControllerRemoveResponses, unknown, ThrowOnError>({ url: '/api/order/{id}', ...options });
+export const orderControllerFindMyOrderById = <ThrowOnError extends boolean = false>(options: Options<OrderControllerFindMyOrderByIdData, ThrowOnError>) => (options.client ?? client).get<OrderControllerFindMyOrderByIdResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/me/{id}',
+    ...options
+});
 
-export const orderControllerFindOne = <ThrowOnError extends boolean = false>(options: Options<OrderControllerFindOneData, ThrowOnError>) => (options.client ?? client).get<OrderControllerFindOneResponses, unknown, ThrowOnError>({ url: '/api/order/{id}', ...options });
+export const orderControllerCancelMyOrder = <ThrowOnError extends boolean = false>(options: Options<OrderControllerCancelMyOrderData, ThrowOnError>) => (options.client ?? client).patch<OrderControllerCancelMyOrderResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/me/{id}/cancel',
+    ...options
+});
 
-export const orderControllerUpdate = <ThrowOnError extends boolean = false>(options: Options<OrderControllerUpdateData, ThrowOnError>) => (options.client ?? client).patch<OrderControllerUpdateResponses, unknown, ThrowOnError>({
-    url: '/api/order/{id}',
+export const orderControllerGetAllOrderGroup = <ThrowOnError extends boolean = false>(options?: Options<OrderControllerGetAllOrderGroupData, ThrowOnError>) => (options?.client ?? client).get<OrderControllerGetAllOrderGroupResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/admin/groups',
+    ...options
+});
+
+export const orderControllerGetOrderGroupDetails = <ThrowOnError extends boolean = false>(options: Options<OrderControllerGetOrderGroupDetailsData, ThrowOnError>) => (options.client ?? client).get<OrderControllerGetOrderGroupDetailsResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/admin/groups/{groupId}',
+    ...options
+});
+
+export const orderControllerFindAllForAdmin = <ThrowOnError extends boolean = false>(options?: Options<OrderControllerFindAllForAdminData, ThrowOnError>) => (options?.client ?? client).get<OrderControllerFindAllForAdminResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/admin',
+    ...options
+});
+
+export const orderControllerFindOneForAdmin = <ThrowOnError extends boolean = false>(options: Options<OrderControllerFindOneForAdminData, ThrowOnError>) => (options.client ?? client).get<OrderControllerFindOneForAdminResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/admin/{id}',
+    ...options
+});
+
+export const orderControllerUpdateStatus = <ThrowOnError extends boolean = false>(options: Options<OrderControllerUpdateStatusData, ThrowOnError>) => (options.client ?? client).patch<OrderControllerUpdateStatusResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/order/admin/{id}/status',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -338,28 +385,16 @@ export const testimonialControllerUpdate = <ThrowOnError extends boolean = false
     }
 });
 
-export const operationLogControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<OperationLogControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<OperationLogControllerFindAllResponses, unknown, ThrowOnError>({ url: '/api/operation-log', ...options });
-
-export const operationLogControllerCreate = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerCreateData, ThrowOnError>) => (options.client ?? client).post<OperationLogControllerCreateResponses, unknown, ThrowOnError>({
+export const operationLogControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<OperationLogControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<OperationLogControllerFindAllResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/operation-log',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+    ...options
 });
 
-export const operationLogControllerRemove = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerRemoveData, ThrowOnError>) => (options.client ?? client).delete<OperationLogControllerRemoveResponses, unknown, ThrowOnError>({ url: '/api/operation-log/{id}', ...options });
-
-export const operationLogControllerFindOne = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerFindOneData, ThrowOnError>) => (options.client ?? client).get<OperationLogControllerFindOneResponses, unknown, ThrowOnError>({ url: '/api/operation-log/{id}', ...options });
-
-export const operationLogControllerUpdate = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerUpdateData, ThrowOnError>) => (options.client ?? client).patch<OperationLogControllerUpdateResponses, unknown, ThrowOnError>({
+export const operationLogControllerFindOne = <ThrowOnError extends boolean = false>(options: Options<OperationLogControllerFindOneData, ThrowOnError>) => (options.client ?? client).get<OperationLogControllerFindOneResponses, unknown, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/operation-log/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+    ...options
 });
 
 export const blogControllerFindAll = <ThrowOnError extends boolean = false>(options?: Options<BlogControllerFindAllData, ThrowOnError>) => (options?.client ?? client).get<BlogControllerFindAllResponses, unknown, ThrowOnError>({

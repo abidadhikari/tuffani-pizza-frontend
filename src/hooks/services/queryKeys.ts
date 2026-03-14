@@ -18,4 +18,7 @@ export const queryKeys = {
 
   ALL_USERS: ["all-users"],
   GET_ME: ["get-me"],
+
+  OPERATION_LOGS: ["operation-logs"],
+  OPERATION_LOG_DETAIL: ["operation-log-detail"],
 };

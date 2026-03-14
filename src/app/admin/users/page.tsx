@@ -9,6 +9,9 @@ import Button from "@/components/atom/Button";
 import { Plus } from "lucide-react";
 import UserInviteModal from "@/components/organism/modals/UserInviteModal";
 import { useInviteUser } from "@/hooks/services/users/useInviteUser";
+import UserUpdateModal from "@/components/organism/modals/UserUpdateModal";
+import { useUpdateUserByAdmin } from "@/hooks/services/users/useUpdateUserByAdmin";
+import { BaseUserResponseDto } from "@/client";
 
 export default function Users() {
   const [pageNo, setPageNo] = useState(1);
@@ -23,6 +26,10 @@ export default function Users() {
   );
 
   const [inviteModalOpen, setInviteModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<BaseUserResponseDto | null>(
+    null,
+  );
 
   const { data, isLoading } = useGetAllUsers({
     page: pageNo,
@@ -37,6 +44,12 @@ export default function Users() {
     setInviteModalOpen(false);
   });
 
+  const { mutate: updateUserByAdmin, isPending: isUpdatingUser } =
+    useUpdateUserByAdmin(() => {
+      setUpdateModalOpen(false);
+      setSelectedUser(null);
+    });
+
   useEffect(() => {
     if (search === debouncedSearch) return;
 
@@ -46,7 +59,7 @@ export default function Users() {
     return () => {
       clearTimeout(handler);
     };
-  }, [search]);
+  }, [search, debouncedSearch]);
 
   return (
     <div>
@@ -138,6 +151,10 @@ export default function Users() {
         onPageChange={setPageNo}
         onPageSizeChange={setPageSize}
         totalRecords={data?.meta?.total || 0}
+        onEditClick={(user) => {
+          setSelectedUser(user);
+          setUpdateModalOpen(true);
+        }}
       />
 
       <UserInviteModal
@@ -154,6 +171,34 @@ export default function Users() {
           });
         }}
         isPending={isInviting}
+      />
+
+      <UserUpdateModal
+        open={updateModalOpen}
+        onOpenChange={(open) => {
+          setUpdateModalOpen(open);
+          if (!open) {
+            setSelectedUser(null);
+          }
+        }}
+        defaultValues={selectedUser}
+        isPending={isUpdatingUser}
+        onConfirm={(payload) => {
+          if (!selectedUser?.id) return;
+
+          updateUserByAdmin({
+            path: {
+              userId: selectedUser.id,
+            },
+            body: {
+              name: payload.name,
+              phone: payload.phone,
+              role: payload.role,
+              status: payload.status,
+              isVerified: payload.isVerified,
+            },
+          });
+        }}
       />
     </div>
   );

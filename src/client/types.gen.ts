@@ -140,6 +140,33 @@ export type InviteUserDto = {
     status: 'ACTIVE' | 'INACTIVE' | 'INVITED' | 'BANNED';
 };
 
+export type UpdateUserByAdminDto = {
+    /**
+     * The name of the user
+     */
+    name?: string;
+    /**
+     * The phone number of the user
+     */
+    phone?: string;
+    /**
+     * The role of the user
+     */
+    role?: 'SUPER_ADMIN' | 'ADMIN' | 'USER';
+    /**
+     * The status of the user
+     */
+    status?: 'ACTIVE' | 'INACTIVE' | 'INVITED' | 'BANNED';
+    /**
+     * Whether the user is verified
+     */
+    isVerified?: boolean;
+    /**
+     * The OTP for the user
+     */
+    otp?: string;
+};
+
 export type PaginationMetaDto = {
     page: number;
     limit: number;
@@ -431,14 +458,33 @@ export type BlogsStatsResponseDto = {
     readonly updatedAt?: string;
 };
 
-export type CreateOrderDto = {
-    quantity: number;
+export type CreateOrderItemDto = {
+    /**
+     * Product ID to order
+     */
     productId: string;
+    /**
+     * Quantity for this product
+     */
+    quantity: number;
+};
+
+export type CreateOrderDto = {
+    /**
+     * List of items to order
+     */
+    items: Array<CreateOrderItemDto>;
 };
 
 export type UpdateOrderDto = {
-    quantity?: number;
-    productId?: string;
+    /**
+     * List of items to order
+     */
+    items?: Array<CreateOrderItemDto>;
+    /**
+     * Order status for admin updates
+     */
+    status?: 'PENDING' | 'CONFIRMED' | 'DELIVERED' | 'CANCELLED';
 };
 
 export type CreateStaticContentDto = {
@@ -540,14 +586,6 @@ export type UpdateTestimonialDto = {
      * ID of the asset associated with the testimonial
      */
     assetId?: string;
-};
-
-export type CreateOperationLogDto = {
-    [key: string]: unknown;
-};
-
-export type UpdateOperationLogDto = {
-    [key: string]: unknown;
 };
 
 export type CreateBlogDto = {
@@ -666,14 +704,6 @@ export type UpdateOfferDto = {
     productId?: string;
     categoryId?: string;
     isVisible?: boolean;
-};
-
-export type CreateOperationLogDtoWritable = {
-    [key: string]: unknown;
-};
-
-export type UpdateOperationLogDtoWritable = {
-    [key: string]: unknown;
 };
 
 export type PaginatedBlogResponseDtoWritable = {
@@ -808,6 +838,24 @@ export type UserControllerInviteUserData = {
 export type UserControllerInviteUserResponses = {
     201: unknown;
 };
+
+export type UserControllerUpdateUserByAdminData = {
+    body: UpdateUserByAdminDto;
+    path: {
+        userId: string;
+    };
+    query?: never;
+    url: '/api/user/{userId}';
+};
+
+export type UserControllerUpdateUserByAdminResponses = {
+    /**
+     * User has been successfully updated by admin.
+     */
+    200: BaseUserResponseDto;
+};
+
+export type UserControllerUpdateUserByAdminResponse = UserControllerUpdateUserByAdminResponses[keyof UserControllerUpdateUserByAdminResponses];
 
 export type UserControllerGetAllUsersData = {
     body?: never;
@@ -1153,17 +1201,6 @@ export type StatsControllerGetBlogStatsResponses = {
 
 export type StatsControllerGetBlogStatsResponse = StatsControllerGetBlogStatsResponses[keyof StatsControllerGetBlogStatsResponses];
 
-export type OrderControllerFindAllData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/order';
-};
-
-export type OrderControllerFindAllResponses = {
-    200: unknown;
-};
-
 export type OrderControllerCreateData = {
     body: CreateOrderDto;
     path?: never;
@@ -1175,53 +1212,164 @@ export type OrderControllerCreateResponses = {
     201: unknown;
 };
 
+export type OrderControllerFindMyOrdersData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+        /**
+         * Filter by order status
+         */
+        status?: 'PENDING' | 'CONFIRMED' | 'DELIVERED' | 'CANCELLED';
+        /**
+         * Filter by order group id
+         */
+        orderGroupId?: string;
+        /**
+         * Filter by user id (admin only)
+         */
+        userId?: string;
+        /**
+         * Search by order group, user email/name, or product name
+         */
+        search?: string;
+    };
+    url: '/api/order/me';
+};
+
+export type OrderControllerFindMyOrdersResponses = {
+    200: unknown;
+};
+
+export type OrderControllerFindMyOrderByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/order/me/{id}';
+};
+
+export type OrderControllerFindMyOrderByIdResponses = {
+    200: unknown;
+};
+
+export type OrderControllerCancelMyOrderData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/order/me/{id}/cancel';
+};
+
+export type OrderControllerCancelMyOrderResponses = {
+    200: unknown;
+};
+
 export type OrderControllerGetAllOrderGroupData = {
     body?: never;
     path?: never;
-    query?: never;
-    url: '/api/order/order-group';
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+        /**
+         * Search by order group name
+         */
+        search?: string;
+    };
+    url: '/api/order/admin/groups';
 };
 
 export type OrderControllerGetAllOrderGroupResponses = {
     200: unknown;
 };
 
-export type OrderControllerRemoveData = {
+export type OrderControllerGetOrderGroupDetailsData = {
+    body?: never;
+    path: {
+        groupId: string;
+    };
+    query?: never;
+    url: '/api/order/admin/groups/{groupId}';
+};
+
+export type OrderControllerGetOrderGroupDetailsResponses = {
+    200: unknown;
+};
+
+export type OrderControllerFindAllForAdminData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+        /**
+         * Filter by order status
+         */
+        status?: 'PENDING' | 'CONFIRMED' | 'DELIVERED' | 'CANCELLED';
+        /**
+         * Filter by order group id
+         */
+        orderGroupId?: string;
+        /**
+         * Filter by user id (admin only)
+         */
+        userId?: string;
+        /**
+         * Search by order group, user email/name, or product name
+         */
+        search?: string;
+    };
+    url: '/api/order/admin';
+};
+
+export type OrderControllerFindAllForAdminResponses = {
+    200: unknown;
+};
+
+export type OrderControllerFindOneForAdminData = {
     body?: never;
     path: {
         id: string;
     };
     query?: never;
-    url: '/api/order/{id}';
+    url: '/api/order/admin/{id}';
 };
 
-export type OrderControllerRemoveResponses = {
+export type OrderControllerFindOneForAdminResponses = {
     200: unknown;
 };
 
-export type OrderControllerFindOneData = {
-    body?: never;
-    path: {
-        id: string;
-    };
-    query?: never;
-    url: '/api/order/{id}';
-};
-
-export type OrderControllerFindOneResponses = {
-    200: unknown;
-};
-
-export type OrderControllerUpdateData = {
+export type OrderControllerUpdateStatusData = {
     body: UpdateOrderDto;
     path: {
         id: string;
     };
     query?: never;
-    url: '/api/order/{id}';
+    url: '/api/order/admin/{id}/status';
 };
 
-export type OrderControllerUpdateResponses = {
+export type OrderControllerUpdateStatusResponses = {
     200: unknown;
 };
 
@@ -1366,35 +1514,44 @@ export type TestimonialControllerUpdateResponses = {
 export type OperationLogControllerFindAllData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        page?: number;
+        /**
+         * Number of records per page
+         */
+        limit?: number;
+        /**
+         * Filter by resource/module name
+         */
+        resource?: string;
+        /**
+         * Filter by operation type
+         */
+        operation?: string;
+        /**
+         * Filter by actor user id
+         */
+        performedById?: string;
+        /**
+         * Search in actor email, resource, operation, entity id
+         */
+        search?: string;
+        /**
+         * Start date (ISO string)
+         */
+        startDate?: string;
+        /**
+         * End date (ISO string)
+         */
+        endDate?: string;
+    };
     url: '/api/operation-log';
 };
 
 export type OperationLogControllerFindAllResponses = {
-    200: unknown;
-};
-
-export type OperationLogControllerCreateData = {
-    body: CreateOperationLogDtoWritable;
-    path?: never;
-    query?: never;
-    url: '/api/operation-log';
-};
-
-export type OperationLogControllerCreateResponses = {
-    201: unknown;
-};
-
-export type OperationLogControllerRemoveData = {
-    body?: never;
-    path: {
-        id: string;
-    };
-    query?: never;
-    url: '/api/operation-log/{id}';
-};
-
-export type OperationLogControllerRemoveResponses = {
     200: unknown;
 };
 
@@ -1408,19 +1565,6 @@ export type OperationLogControllerFindOneData = {
 };
 
 export type OperationLogControllerFindOneResponses = {
-    200: unknown;
-};
-
-export type OperationLogControllerUpdateData = {
-    body: UpdateOperationLogDtoWritable;
-    path: {
-        id: string;
-    };
-    query?: never;
-    url: '/api/operation-log/{id}';
-};
-
-export type OperationLogControllerUpdateResponses = {
     200: unknown;
 };
 
