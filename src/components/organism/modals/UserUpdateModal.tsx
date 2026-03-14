@@ -98,7 +98,7 @@ export default function UserUpdateModal(props: IUserUpdateModalProps) {
     onConfirm({
       name: values.name,
       phone: values.phone,
-      role: values.role,
+      role: values.role as "SUPER_ADMIN" | "ADMIN" | "USER",
       status: values.status,
       isVerified: values.isVerified === "true",
     });
