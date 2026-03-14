@@ -6,6 +6,7 @@ import "@/lib/api-setup";
 import { Toaster } from "../ui/sonner";
 import { Provider } from "react-redux";
 import { store } from "@/store";
+import { CartProvider } from "./CartProvider";
 
 export default function ClientProviders({
   children,
@@ -24,8 +25,10 @@ export default function ClientProviders({
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <Toaster position="top-right" />
-        {children}
+        <CartProvider>
+          <Toaster position="top-right" />
+          {children}
+        </CartProvider>
       </QueryClientProvider>
     </Provider>
   );

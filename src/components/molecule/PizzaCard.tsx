@@ -1,6 +1,7 @@
 import { FOOD_TYPE, IFoodType } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Button from "../atom/Button";
 import PercentageOffBadge from "../atom/PercentageOffBadge";
 import ImagePlaceholder from "../atom/ImagePlaceholder";
 
@@ -13,6 +14,9 @@ interface IPizzaCard {
   type: IFoodType;
   percentageOff?: number;
   variant?: "default" | "wide";
+  ctaLabel?: string;
+  onCtaClick?: () => void;
+  ctaDisabled?: boolean;
 }
 
 export default function PizzaCard(props: IPizzaCard) {
@@ -25,6 +29,9 @@ export default function PizzaCard(props: IPizzaCard) {
     type,
     percentageOff,
     variant = "default",
+    ctaLabel = "Add to Cart",
+    onCtaClick,
+    ctaDisabled,
   } = props;
 
   const baseStyle = cn({
@@ -68,6 +75,16 @@ export default function PizzaCard(props: IPizzaCard) {
           ) : null}
           <div className="font-bold text-xl">Rs.{price}</div>
         </div>
+
+        {onCtaClick ? (
+          <Button
+            className="w-full"
+            onClick={onCtaClick}
+            disabled={ctaDisabled}
+          >
+            {ctaLabel}
+          </Button>
+        ) : null}
       </div>
     </div>
   );

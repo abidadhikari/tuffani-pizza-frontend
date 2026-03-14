@@ -11,6 +11,7 @@ import {
   IconHome,
   IconHistory,
   IconListDetails,
+  IconReceipt,
   IconReport,
   IconSettings,
   IconUsers,
@@ -73,6 +74,16 @@ const data = {
       title: "Contacts",
       url: "/admin/contact",
       icon: IconReport,
+    },
+    {
+      title: "Orders",
+      url: "/admin/orders",
+      icon: IconReceipt,
+    },
+    {
+      title: "Order Stats",
+      url: "/admin/orders/stats",
+      icon: IconChartBar,
     },
     {
       title: "Users",

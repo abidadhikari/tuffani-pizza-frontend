@@ -1347,6 +1347,78 @@ export type OrderControllerFindAllForAdminResponses = {
     200: unknown;
 };
 
+export type OrderControllerDownloadSalesReportExcelData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter orders created from this date (ISO format)
+         */
+        fromDate?: string;
+        /**
+         * Filter orders created until this date (ISO format)
+         */
+        toDate?: string;
+        /**
+         * Filter by a specific order status
+         */
+        status?: 'PENDING' | 'CONFIRMED' | 'DELIVERED' | 'CANCELLED';
+        /**
+         * Filter by user id
+         */
+        userId?: string;
+        /**
+         * Search by order group, user name/email, or product name
+         */
+        search?: string;
+        /**
+         * Maximum rows to export
+         */
+        maxRows?: number;
+    };
+    url: '/api/order/admin/reports/sales-excel';
+};
+
+export type OrderControllerDownloadSalesReportExcelResponses = {
+    200: unknown;
+};
+
+export type OrderControllerGetOrderStatsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter orders created from this date (ISO format)
+         */
+        fromDate?: string;
+        /**
+         * Filter orders created until this date (ISO format)
+         */
+        toDate?: string;
+        /**
+         * Filter by a specific order status
+         */
+        status?: 'PENDING' | 'CONFIRMED' | 'DELIVERED' | 'CANCELLED';
+        /**
+         * Filter by user id
+         */
+        userId?: string;
+        /**
+         * Search by order group, user name/email, or product name
+         */
+        search?: string;
+        /**
+         * Maximum rows to export
+         */
+        maxRows?: number;
+    };
+    url: '/api/order/admin/stats';
+};
+
+export type OrderControllerGetOrderStatsResponses = {
+    200: unknown;
+};
+
 export type OrderControllerFindOneForAdminData = {
     body?: never;
     path: {

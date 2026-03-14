@@ -20,9 +20,11 @@ import { ChevronFirst, ChevronLast } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AppPaginationProps {
-  currentPage: number;
-  totalItems: number;
+  currentPage?: number;
+  totalItems?: number;
   pageSize: number;
+  pageNumber?: number;
+  totalRecords?: number;
   pageSizeOptions?: number[];
   onPageChange: (page: number) => void;
   onPageSizeChange?: (pageSize: number) => void;
@@ -34,9 +36,11 @@ interface AppPaginationProps {
 }
 
 export default function AppPagination({
-  currentPage,
-  totalItems,
+  currentPage = 1,
+  totalItems = 0,
   pageSize,
+  pageNumber,
+  totalRecords,
   pageSizeOptions = [10, 20, 50, 100],
   onPageChange,
   onPageSizeChange,
@@ -46,21 +50,24 @@ export default function AppPagination({
   maxVisiblePages = 5,
   className = "",
 }: AppPaginationProps) {
-  const totalPages = Math.ceil(totalItems / pageSize);
-  const startItem = (currentPage - 1) * pageSize + 1;
-  const endItem = Math.min(currentPage * pageSize, totalItems);
+  const activeCurrentPage = pageNumber ?? currentPage;
+  const activeTotalItems = totalRecords ?? totalItems;
+
+  const totalPages = Math.ceil(activeTotalItems / pageSize);
+  const startItem = (activeCurrentPage - 1) * pageSize + 1;
+  const endItem = Math.min(activeCurrentPage * pageSize, activeTotalItems);
 
   const getVisiblePages = () => {
     const pages: (number | string)[] = [];
     const halfVisible = Math.floor(maxVisiblePages / 2);
 
-    let startPage = Math.max(1, currentPage - halfVisible);
-    let endPage = Math.min(totalPages, currentPage + halfVisible);
+    let startPage = Math.max(1, activeCurrentPage - halfVisible);
+    let endPage = Math.min(totalPages, activeCurrentPage + halfVisible);
 
-    if (currentPage <= halfVisible) {
+    if (activeCurrentPage <= halfVisible) {
       endPage = Math.min(totalPages, maxVisiblePages);
     }
-    if (currentPage > totalPages - halfVisible) {
+    if (activeCurrentPage > totalPages - halfVisible) {
       startPage = Math.max(1, totalPages - maxVisiblePages + 1);
     }
 
@@ -88,7 +95,7 @@ export default function AppPagination({
   const visiblePages = getVisiblePages();
 
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages && page !== currentPage) {
+    if (page >= 1 && page <= totalPages && page !== activeCurrentPage) {
       onPageChange(page);
     }
   };
@@ -98,7 +105,7 @@ export default function AppPagination({
     if (onPageSizeChange) {
       onPageSizeChange(size);
       const newTotalPages = Math.ceil(totalItems / size);
-      if (currentPage > newTotalPages) {
+      if (activeCurrentPage > newTotalPages) {
         onPageChange(1);
       }
     }
@@ -113,9 +120,9 @@ export default function AppPagination({
       {/* Page Info */}
       {showPageInfo && (
         <>
-          {startItem && endItem && totalItems ? (
+          {startItem && endItem && activeTotalItems ? (
             <div className="text-sm text-muted-foreground whitespace-nowrap">
-              Showing {startItem} to {endItem} of {totalItems} results
+              Showing {startItem} to {endItem} of {activeTotalItems} results
             </div>
           ) : (
             <div></div>
@@ -132,7 +139,7 @@ export default function AppPagination({
                 variant="outline"
                 size="sm"
                 onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
+                disabled={activeCurrentPage === 1}
                 className="size-8 rounded-sm p-0"
               >
                 <ChevronFirst className="h-4 w-4" />
@@ -142,10 +149,10 @@ export default function AppPagination({
 
             <PaginationItem>
               <PaginationPrevious
-                onClick={() => handlePageChange(currentPage - 1)}
+                onClick={() => handlePageChange(activeCurrentPage - 1)}
                 className={cn(
                   "rounded-md px-2 py-1 transition-colors",
-                  currentPage === 1
+                  activeCurrentPage === 1
                     ? "cursor-not-allowed opacity-50 dark:text-gray-300"
                     : "cursor-pointer hover:bg-gray-100 text-gray-700 dark:hover:bg-gray-700 dark:text-gray-300",
                 )}
@@ -157,15 +164,15 @@ export default function AppPagination({
                 {typeof page === "number" ? (
                   <PaginationLink
                     onClick={() => handlePageChange(page)}
-                    isActive={page === currentPage}
+                    isActive={page === activeCurrentPage}
                     className={cn(
                       "cursor-pointer size-8 rounded-md transition-colors",
                       // Light mode
-                      page === currentPage
+                      page === activeCurrentPage
                         ? "border-2 border-gray-300/40 bg-white text-black"
                         : "hover:bg-gray-100 text-gray-700",
                       // Dark mode
-                      page === currentPage
+                      page === activeCurrentPage
                         ? "dark:bg-white dark:text-black dark:border-gray-600"
                         : "dark:hover:bg-gray-700 dark:text-white",
                     )}
@@ -180,10 +187,10 @@ export default function AppPagination({
 
             <PaginationItem>
               <PaginationNext
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={() => handlePageChange(activeCurrentPage + 1)}
                 className={cn(
                   "rounded-md px-2 py-1 transition-colors",
-                  currentPage === totalPages
+                  activeCurrentPage === totalPages
                     ? "cursor-not-allowed opacity-50 dark:text-gray-300"
                     : "cursor-pointer hover:bg-gray-100 text-gray-700 dark:hover:bg-gray-700 dark:text-gray-300",
                 )}
@@ -196,7 +203,7 @@ export default function AppPagination({
                   variant="outline"
                   size="sm"
                   onClick={() => handlePageChange(totalPages)}
-                  disabled={currentPage === totalPages}
+                  disabled={activeCurrentPage === totalPages}
                   className="size-8 rounded-sm p-0"
                 >
                   <ChevronLast className="h-4 w-4" />
@@ -213,7 +220,7 @@ export default function AppPagination({
       )}
 
       {/* Page Size Selector */}
-      {showPageSizeSelector && totalItems > 0 && (
+      {showPageSizeSelector && activeTotalItems > 0 && (
         <div className="flex items-center gap-2 whitespace-nowrap">
           <span className="text-sm text-muted-foreground">Show</span>
           <Select

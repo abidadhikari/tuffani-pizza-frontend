@@ -63,23 +63,26 @@ export default async function MenuPage() {
       {/* ---------------------------------- */}
       {/* Offer Section                     */}
       {/* ---------------------------------- */}
-      <section className="bg-tertiary relative">
-        <Image
-          src="/tomato.png"
-          alt="tomato"
-          width={234}
-          height={250}
-          className="absolute top-0 left-0 rotate-90 -translate-y-[70%]"
-        />
-        <Image
-          src="/mushroom.png"
-          alt="mushroom"
-          width={234}
-          height={250}
-          className="absolute bottom-0 right-0 translate-y-1/2 translate-x-25 blur-[2px]"
-        />
-        <OffersCarouselSection offers={offers} />
-      </section>
+      {offers?.length > 0 && (
+        <section className="bg-tertiary relative">
+          <Image
+            src="/tomato.png"
+            alt="tomato"
+            width={234}
+            height={250}
+            className="absolute top-0 left-0 rotate-90 -translate-y-[70%]"
+          />
+          <Image
+            src="/mushroom.png"
+            alt="mushroom"
+            width={234}
+            height={250}
+            className="absolute bottom-0 right-0 translate-y-1/2 translate-x-25 blur-[2px]"
+          />
+          <OffersCarouselSection offers={offers} />
+        </section>
+      )}
+
       <section id="menu">
         <MenuSection menu={menuData} />
       </section>

@@ -5,8 +5,15 @@ import CheckboxGroup from "@/components/atom/CheckboxGroup";
 import Title from "@/components/atom/Title";
 import MenuFilter from "@/components/molecule/MenuFilter";
 import PizzaCard from "@/components/molecule/PizzaCard";
+import {
+  buildCartItemFromProduct,
+  useCart,
+} from "@/hooks/services/cart/useCart";
 import { FOOD_TYPE } from "@/lib/constants";
+import { useAppSelector } from "@/store/storeHook";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 interface IMenuSectionProps {
   menu: ProductResponseDto[];
@@ -15,6 +22,9 @@ interface IMenuSectionProps {
 export default function MenuSection(props: IMenuSectionProps) {
   const { menu } = props;
   let filteredMenu = menu;
+  const router = useRouter();
+  const { user } = useAppSelector("auth");
+  const { addItem } = useCart();
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     "all",
@@ -106,6 +116,16 @@ export default function MenuSection(props: IMenuSectionProps) {
                   100
                 : undefined
             }
+            onCtaClick={() => {
+              if (!user) {
+                toast.error("Please log in to add items to your cart");
+                router.push("/login");
+                return;
+              }
+
+              addItem(buildCartItemFromProduct(item));
+              toast.success(`${item.name} added to cart`);
+            }}
           />
         ))}
       </div>

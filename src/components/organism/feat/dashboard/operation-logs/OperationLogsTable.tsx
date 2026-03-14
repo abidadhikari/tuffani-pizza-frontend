@@ -63,7 +63,7 @@ export default function OperationLogsTable({
         const entityId = row.original.entityId;
         return (
           <span className="text-sm text-gray-600 font-mono">
-            {entityId.substring(0, 8)}...
+            {entityId?.substring(0, 8)}...
           </span>
         );
       },

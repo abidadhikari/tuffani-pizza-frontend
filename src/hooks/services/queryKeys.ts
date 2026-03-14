@@ -21,4 +21,7 @@ export const queryKeys = {
 
   OPERATION_LOGS: ["operation-logs"],
   OPERATION_LOG_DETAIL: ["operation-log-detail"],
+  MY_ORDERS: ["my-orders"],
+  ADMIN_ORDERS: ["admin-orders"],
+  ORDER_STATS: ["order-stats"],
 };
