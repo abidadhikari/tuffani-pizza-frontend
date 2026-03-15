@@ -17,6 +17,7 @@ interface AppCarouselProps<T> {
   className?: string;
   centerScale?: boolean;
   contentClassName?: string;
+  carouselItemClassName?: string;
   autoplay?: boolean;
   autoplayDelay?: number;
 }
@@ -29,6 +30,7 @@ export default function AppCarousel<T>({
   className,
   centerScale = false,
   contentClassName,
+  carouselItemClassName,
   autoplay = false,
   autoplayDelay = 3000,
 }: AppCarouselProps<T>) {
@@ -113,6 +115,7 @@ export default function AppCarousel<T>({
                     (isActive
                       ? "md:scale-110 z-20 opacity-100"
                       : "md:scale-90 opacity-60"),
+                  carouselItemClassName,
                 )}
               >
                 {renderItem(item, realIndex)}

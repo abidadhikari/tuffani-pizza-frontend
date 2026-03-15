@@ -1,15 +1,25 @@
 import Button from "@/components/atom/Button";
 import WavyText from "@/components/atom/WavyText";
 import PizzaShowcaseCard from "@/components/molecule/PizzaShowcaseCard";
+import { STATIC_CONTENT_KEYS } from "@/lib/constants";
+import { fetchStaticContent } from "@/lib/fetch-static-content";
+import { sanitizeHtml } from "@/lib/sanitize-html";
+import { IStaticContent } from "@/types/staticContent.type";
 import Link from "next/link";
 import React, { forwardRef } from "react";
 
 type Props = {
   targetRef: React.RefObject<HTMLDivElement | null>;
+  staticContent: IStaticContent;
 };
 
 const MenuGlimpseSection = forwardRef<HTMLDivElement, Props>(
-  ({ targetRef }, ref) => {
+  ({ targetRef, staticContent }, ref) => {
+    const rawData = fetchStaticContent(
+      STATIC_CONTENT_KEYS.MENU_GLIMPSE_SECTION,
+      staticContent,
+    );
+
     return (
       <div
         className="flex items-center justify-center flex-col py-15 md:pt-40 pb-16"
@@ -17,14 +27,18 @@ const MenuGlimpseSection = forwardRef<HTMLDivElement, Props>(
       >
         <div className="flex flex-col w-194.25 max-w-[90%] text-center space-y-5">
           <h2 className="text-2xl md:text-4xl font-extrabold">
-            Your <WavyText className="inline">Delicious Pizza Starts</WavyText>{" "}
-            Here!
+            {rawData?.value?.title?.prefix}{" "}
+            <WavyText className="inline">
+              {rawData?.value?.title?.highlight}
+            </WavyText>{" "}
+            {rawData?.value?.title?.suffix}
           </h2>
-          <p className="font-light text-lg md:text-xl mb-8">
-            Serving the best pizzas in Baneshwor and Kathmandu, made with juicy
-            chicken, fresh veggies, melted cheese, and irresistible flavors
-            every day.
-          </p>
+          <div
+            className="font-light text-lg md:text-xl mb-8"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(rawData?.value?.description),
+            }}
+          ></div>
         </div>
         <div className="grid  lg:grid-cols-3 gap-5 w-300 max-w-[90%] mx-auto mb-13">
           <PizzaShowcaseCard

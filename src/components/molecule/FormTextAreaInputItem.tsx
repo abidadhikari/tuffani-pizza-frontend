@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import FormItemWrapper from "./FormInputWrapper";
 import { IBaseInput } from "@/types/input.type";
 import { Textarea } from "../ui/textarea";
+import { useState } from "react";
 
 interface IFormTextAreaInputItemProps extends IBaseInput {
   maxLength?: number;
@@ -19,6 +20,7 @@ export default function FormTextAreaInputItem({
   icon,
   className,
 }: IFormTextAreaInputItemProps) {
+  const [count, setCount] = useState(0);
   return (
     <FormItemWrapper form={form} name={name} label={label} required={required}>
       {(field) => (
@@ -30,8 +32,24 @@ export default function FormTextAreaInputItem({
             {...field}
             placeholder={placeholder}
             maxLength={maxLength}
-            className={cn("rounded-3xl", className)}
+            className={cn("", className)}
+            onChange={(e) => {
+              setCount(e.target.value?.trim()?.length);
+              field.onChange(e);
+            }}
           />
+          <div>
+            {maxLength && (
+              <span
+                className={cn(
+                  "text-sm text-black/50 absolute right-2 bottom-1",
+                  count === maxLength && "text-red-500",
+                )}
+              >
+                {count}/{maxLength}
+              </span>
+            )}
+          </div>
         </div>
       )}
     </FormItemWrapper>

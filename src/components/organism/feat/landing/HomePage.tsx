@@ -1,16 +1,24 @@
 "use client";
+import { TestimonialResponseDto } from "@/client";
 import ChefSection from "@/components/organism/feat/landing/ChefSection";
 import CustomerReviewSection from "@/components/organism/feat/landing/CustomerReviewSection";
 import HeroSection from "@/components/organism/feat/landing/HeroSection";
 import MenuGlimpseSection from "@/components/organism/feat/landing/MenuGlimpseSection";
 import WholePizzaSection from "@/components/organism/feat/landing/WholePizzaSection";
+import { IStaticContent } from "@/types/staticContent.type";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Home() {
+export default function Home({
+  staticContent,
+  testimonials,
+}: {
+  staticContent: IStaticContent;
+  testimonials: TestimonialResponseDto[];
+}) {
   const pizzaRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const target1Ref = useRef<HTMLDivElement>(null);
@@ -168,11 +176,30 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="flex flex-col bg-zinc-50 dark:bg-black">
-      <HeroSection ref={heroSectionRef} pizzaRef={pizzaRef} />
-      <MenuGlimpseSection ref={listSectionRef} targetRef={target1Ref} />
-      <WholePizzaSection ref={wholePizzaSectionRef} targetRef={target2Ref} />
-      <ChefSection ref={chefSectionRef} targetRef={target3Ref} />
-      <CustomerReviewSection />
+      <HeroSection
+        ref={heroSectionRef}
+        pizzaRef={pizzaRef}
+        staticContent={staticContent}
+      />
+      <MenuGlimpseSection
+        ref={listSectionRef}
+        targetRef={target1Ref}
+        staticContent={staticContent}
+      />
+      <WholePizzaSection
+        ref={wholePizzaSectionRef}
+        targetRef={target2Ref}
+        staticContent={staticContent}
+      />
+      <ChefSection
+        ref={chefSectionRef}
+        targetRef={target3Ref}
+        staticContent={staticContent}
+      />
+      <CustomerReviewSection
+        testimonials={testimonials}
+        staticContent={staticContent}
+      />
     </div>
   );
 }

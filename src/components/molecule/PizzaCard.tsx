@@ -1,18 +1,22 @@
 import { FOOD_TYPE, IFoodType } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import WavyText from "../atom/WavyText";
+import Button from "../atom/Button";
 import PercentageOffBadge from "../atom/PercentageOffBadge";
+import ImagePlaceholder from "../atom/ImagePlaceholder";
 
 interface IPizzaCard {
   title: string;
   description: string;
   price: number;
-  crossedPrice?: number;
+  crossedPrice?: number | null;
   imageUrl: string;
   type: IFoodType;
   percentageOff?: number;
   variant?: "default" | "wide";
+  ctaLabel?: string;
+  onCtaClick?: () => void;
+  ctaDisabled?: boolean;
 }
 
 export default function PizzaCard(props: IPizzaCard) {
@@ -25,6 +29,9 @@ export default function PizzaCard(props: IPizzaCard) {
     type,
     percentageOff,
     variant = "default",
+    ctaLabel = "Add to Cart",
+    onCtaClick,
+    ctaDisabled,
   } = props;
 
   const baseStyle = cn({
@@ -37,12 +44,12 @@ export default function PizzaCard(props: IPizzaCard) {
   return (
     <div className={cn(` rounded-2xl h-full`, baseStyle)}>
       <div className="h-53.25 w-full bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center relative">
-        <Image
-          src={imageUrl || "/images/pizza.jpg"}
-          className="object-cover"
-          alt={title}
-          fill
-        />
+        {imageUrl ? (
+          <Image src={imageUrl} className="object-cover" alt={title} fill />
+        ) : (
+          <ImagePlaceholder className="h-53.25 w-full" />
+        )}
+
         {percentageOff && (
           <PercentageOffBadge
             percentageOff={Math.round(percentageOff)}
@@ -61,13 +68,23 @@ export default function PizzaCard(props: IPizzaCard) {
           <p className="font-light text-sm leading-[150%]">{description}</p>
         </div>
         <div className={cn("pt-1", { "text-right": variant === "wide" })}>
-          {crossedPrice && (
+          {crossedPrice && crossedPrice > 0 ? (
             <div className="italic text-sm text-brand line-through">
               Rs.{crossedPrice}
             </div>
-          )}
+          ) : null}
           <div className="font-bold text-xl">Rs.{price}</div>
         </div>
+
+        {onCtaClick ? (
+          <Button
+            className="w-full"
+            onClick={onCtaClick}
+            disabled={ctaDisabled}
+          >
+            {ctaLabel}
+          </Button>
+        ) : null}
       </div>
     </div>
   );

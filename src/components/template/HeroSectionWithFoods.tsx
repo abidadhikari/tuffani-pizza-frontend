@@ -1,8 +1,13 @@
 import React from "react";
 import WavyText from "../atom/WavyText";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 
 interface HeroSectionWithFoodsProps {
-  title: string;
+  title: {
+    prefix: string;
+    highlight: string;
+    suffix: string;
+  };
   description: string;
   children?: React.ReactNode;
 }
@@ -14,11 +19,14 @@ export default function HeroSectionWithFoods(props: HeroSectionWithFoodsProps) {
       <div className="">
         <div className="my-width mx-auto flex flex-col items-center gap-4 py-40">
           <h1 className="text-5xl">
-            <WavyText>{title}</WavyText>
+            {title.prefix}{" "}
+            <WavyText className="inline">{title.highlight}</WavyText>{" "}
+            {title.suffix}
           </h1>
-          <p className="w-199 max-w-full text-center text-xl text-[#000000BF]">
-            {description}
-          </p>
+          <div
+            className="w-199 max-w-full text-center text-xl text-[#000000BF]"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }}
+          ></div>
         </div>
       </div>
       <div className="bg-tertiary">

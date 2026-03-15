@@ -1,0 +1,39 @@
+// useGetMe.tsx
+
+import {
+  productControllerFindOne,
+  ProductControllerFindOneData,
+  ProductResponseDto,
+} from "@/client";
+import { useQuery } from "@tanstack/react-query";
+
+import { useEffect } from "react";
+import { queryKeys } from "../queryKeys";
+import { PathOf } from "@/types/client-service.type";
+
+type Payload = PathOf<ProductControllerFindOneData>;
+
+export const useGetProductById = (payload: Payload) => {
+  const query = useQuery<ProductResponseDto | undefined, Error>({
+    queryKey: [queryKeys.SINGLE_PRODUCT, payload.id],
+    queryFn: async () => {
+      const { data } = await productControllerFindOne({
+        path: payload,
+      });
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    if (!query.isSuccess) return;
+
+    if (query.data) {
+    }
+  }, [query.isSuccess, query.data]);
+
+  useEffect(() => {
+    if (!query.isError) return;
+  }, [query.isError]);
+
+  return query;
+};

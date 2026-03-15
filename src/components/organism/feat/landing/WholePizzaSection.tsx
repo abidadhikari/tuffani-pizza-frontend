@@ -1,37 +1,39 @@
 import Button from "@/components/atom/Button";
 import WavyText from "@/components/atom/WavyText";
+import { STATIC_CONTENT_KEYS } from "@/lib/constants";
+import { fetchStaticContent } from "@/lib/fetch-static-content";
+import { sanitizeHtml } from "@/lib/sanitize-html";
+import { IStaticContent } from "@/types/staticContent.type";
 import Image from "next/image";
 import Link from "next/link";
 import React, { forwardRef } from "react";
 
 type Props = {
   targetRef: React.RefObject<HTMLDivElement | null>;
+  staticContent: IStaticContent;
 };
 
 const WholePizzaSection = forwardRef<HTMLDivElement, Props>(
-  ({ targetRef }, ref) => {
+  ({ targetRef, staticContent }, ref) => {
+    const rawData = fetchStaticContent(
+      STATIC_CONTENT_KEYS.FULL_PIZZA_SECTION,
+      staticContent,
+    );
+    const content = rawData?.value || {};
     return (
       <div className="bg-[#FFFFED] pt-25" ref={ref}>
         <div className="w-300 max-w-[90%] mx-auto flex flex-col lg:grid md:grid-cols-2 gap-10">
           <div className="flex flex-col justify-center w-full lg:w-194.25 text-center lg:text-left pb-10 ">
             <div className="text-2xl md:text-4xl font-extrabold space-y-1 mb-6">
-              <h2 className="">Super तुफानी Pizza - </h2>
-              <WavyText className="">Spicy, Smoky & Fully Loaded</WavyText>
+              <h2 className="">{content.title?.prefix}</h2>
+              <WavyText className="">{content.title?.highlight}</WavyText>
             </div>
-            <div className="flex flex-col gap-2 font-light text-base  w-150 mx-auto lg:mx-0 max-w-full md:max-w-[70%]  mb-10">
-              <p className="">
-                Looking for the best pizza in Baneshwor or Kathmandu? Super
-                तुफानी Pizza is topped with spicy grilled chicken sandheko,
-                chicken ham, Spanish seasoning, fresh onions, capsicum, green
-                chilli, and gooey mozzarella cheese — finished with a bold smoky
-                flavor in every bite.
-              </p>
-              <p className="">
-                Perfect for spice lovers, hangouts, and sharing with friends.
-                Freshly baked, hot, and packed with authentic tufani taste —
-                only at Tufani Pizza.
-              </p>
-            </div>
+            <div
+              className="flex flex-col gap-2 font-light text-base  w-150 mx-auto lg:mx-0 max-w-full md:max-w-[70%]  mb-10"
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(content.description),
+              }}
+            />
             <Link href="/menu">
               <Button className="w-fit">Order Now</Button>
             </Link>

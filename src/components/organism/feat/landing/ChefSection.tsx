@@ -1,6 +1,10 @@
 import Button from "@/components/atom/Button";
 import WavyText from "@/components/atom/WavyText";
 import PizzaShowcaseCard from "@/components/molecule/PizzaShowcaseCard";
+import { STATIC_CONTENT_KEYS } from "@/lib/constants";
+import { fetchStaticContent } from "@/lib/fetch-static-content";
+import { sanitizeHtml } from "@/lib/sanitize-html";
+import { IStaticContent } from "@/types/staticContent.type";
 import Image from "next/image";
 import Link from "next/link";
 import React, { forwardRef } from "react";
@@ -9,10 +13,16 @@ type Props = {
   targetRef?: React.RefObject<HTMLDivElement | null>;
   className?: string;
   showPizza?: boolean;
+  staticContent: IStaticContent;
 };
 
 const ChefSection = forwardRef<HTMLDivElement, Props>(
-  ({ targetRef, className, showPizza }, ref) => {
+  ({ targetRef, className, showPizza, staticContent }, ref) => {
+    const rawData = fetchStaticContent(
+      STATIC_CONTENT_KEYS.CHEF_SECTION,
+      staticContent,
+    );
+    const content = rawData?.value || {};
     return (
       <div className={`bg-[#FFFFED] pt-25 pb-30 ${className}`} ref={ref}>
         <div className="my-width max-w-full mx-auto grid lg:grid-cols-2 gap-10  ">
@@ -50,24 +60,20 @@ const ChefSection = forwardRef<HTMLDivElement, Props>(
           </div>
           <div className="flex flex-col justify-center w-full md:w-194.25 max-w-full text-center lg:text-left pb-5 lg:pb-10 order-1 lg:order-2 ">
             <div className="text-2xl md:text-4xl font-extrabold space-y-1 mb-6">
-              <h2 className="">
-                Meet the <WavyText className="inline">Maestro</WavyText>
+              <h2 className="inline">
+                {content.title?.prefix}{" "}
+                <WavyText className="inline">
+                  {content.title?.highlight}
+                </WavyText>{" "}
+                {content.title?.suffix}
               </h2>
-              <WavyText className="">Behind the Magic!</WavyText>
             </div>
-            <div className="flex flex-col gap-2 font-light text-base w-full  md:w-150 mx-auto lg:mx-0 max-w-full md:max-w-[80%]  mb-10">
-              <p className="">
-                With 15+ years of experience in fast food and flavor crafting,
-                Tufani’s master chef brings expert skills to every pizza,
-                crunchy fried chicken, juicy burger, and loaded wrap. From fresh
-                ingredients to perfect seasoning and cooking techniques, every
-                bite is made with passion, precision, and consistency.
-              </p>
-              <p className="">
-                At Tufani Baneshwor, great taste isn’t luck — it’s years of
-                mastery.
-              </p>
-            </div>
+            <div
+              className="flex flex-col gap-2 font-light text-base w-full  md:w-150 mx-auto lg:mx-0 max-w-full md:max-w-[80%]  mb-10"
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(content.description),
+              }}
+            ></div>
             {targetRef && (
               <Link href="/about-us">
                 <Button className="w-fit">Learn More</Button>

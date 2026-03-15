@@ -1,15 +1,33 @@
 "use client";
 
 import Button from "@/components/atom/Button";
+import { useCart } from "@/hooks/services/cart/useCart";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
+import { useAppSelector } from "@/store/storeHook";
+import { useGetMe } from "@/hooks/services/users/useGetMe";
+import { ShoppingCart, UserCircle2 } from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useLogout } from "@/hooks/services/auth/useLogout";
 
 export default function Navbar() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
+
+  const {} = useGetMe();
+  const { mutate: logout } = useLogout();
+  const { user } = useAppSelector("auth");
+  const { totalItems } = useCart();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -162,12 +180,86 @@ export default function Navbar() {
             </li>
 
             <li>
-              <Link href="/contact-us">
-                <Button>Contact Us</Button>
+              <Link
+                href="/blog"
+                className={cn(
+                  "navlink",
+                  pathname.startsWith("/blog") && "active-navlink",
+                )}
+              >
+                Blogs
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/contact-us"
+                className={cn(
+                  "navlink",
+                  pathname.startsWith("/contact-us") && "active-navlink",
+                )}
+              >
+                Contact Us
               </Link>
             </li>
           </ul>
         </nav>
+
+        <ul className="flex flex-col sm:flex-row items-center gap-12">
+          <li>
+            {user ? (
+              <div className="flex items-center gap-4 ">
+                <Link href="/profile/cart" className="relative">
+                  <ShoppingCart className="size-5 text-slate-700" />
+                  {totalItems > 0 && (
+                    <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold leading-none text-white">
+                      {totalItems > 99 ? "99+" : totalItems}
+                    </span>
+                  )}
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="outline-0 cursor-pointer">
+                    <div className="flex items-center justify-center gap-2 font-semibold">
+                      <UserCircle2 /> {user.name}
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="z-[1000000]">
+                    <DropdownMenuGroup>
+                      <Link href="/profile">
+                        <DropdownMenuItem className="cursor-pointer">
+                          Profile{" "}
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href="/profile/cart">
+                        <DropdownMenuItem className="cursor-pointer">
+                          Cart{" "}
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href="/profile/orders">
+                        <DropdownMenuItem className="cursor-pointer">
+                          My Orders{" "}
+                        </DropdownMenuItem>
+                      </Link>
+
+                      <DropdownMenuItem
+                        onClick={() => {
+                          logout();
+                        }}
+                        className="cursor-pointer"
+                      >
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <Link href="/login">
+                <Button>Login</Button>
+              </Link>
+            )}
+          </li>
+        </ul>
       </section>
     </header>
   );
