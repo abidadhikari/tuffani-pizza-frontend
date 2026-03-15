@@ -10,35 +10,16 @@ import { toast } from "sonner";
 
 type Payload = QueryOf<OrderControllerDownloadSalesReportExcelData>;
 
-const toBlob = (data: unknown) => {
-  if (data instanceof Blob) {
-    return data;
-  }
-
-  if (data instanceof ArrayBuffer) {
-    return new Blob([data], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-  }
-
-  if (typeof data === "string") {
-    return new Blob([data], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-  }
-
-  return new Blob([JSON.stringify(data)], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  });
-};
-
-const triggerDownload = (blob: Blob, filename: string) => {
+const downloadFile = (blob: Blob, filename: string) => {
   const url = window.URL.createObjectURL(blob);
+
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
+
   document.body.appendChild(anchor);
   anchor.click();
+
   anchor.remove();
   window.URL.revokeObjectURL(url);
 };
@@ -46,18 +27,23 @@ const triggerDownload = (blob: Blob, filename: string) => {
 export const useDownloadSalesReportExcel = () => {
   return useMutation({
     mutationFn: async (payload: Payload) => {
-      const { data } = await orderControllerDownloadSalesReportExcel({
+      const response = await orderControllerDownloadSalesReportExcel({
         query: payload,
+        responseType: "blob", // IMPORTANT
       });
-      return data;
+
+      return response.data as Blob;
     },
-    onSuccess: (data) => {
+
+    onSuccess: (blob) => {
       const now = new Date();
       const filename = `sales-report-${now.toISOString().slice(0, 10)}.xlsx`;
-      const blob = toBlob(data);
-      triggerDownload(blob, filename);
+
+      downloadFile(blob, filename);
+
       toast.success("Sales report download started");
     },
+
     onError: () => {
       toast.error("Failed to download sales report");
     },
