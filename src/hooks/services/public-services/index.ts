@@ -18,7 +18,7 @@ export const getMenu = async () => {
     const response = await axiosInstance.get(`/api/product`, {
       withCredentials: false,
     });
-    const menuData = JSON.parse(response.data);
+    const menuData = JSON.parse(response?.data) || [];
     return menuData;
   } catch (error) {
     console.error("Error fetching menu:", error);

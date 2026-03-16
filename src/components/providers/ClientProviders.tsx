@@ -26,7 +26,7 @@ export default function ClientProviders({
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <CartProvider>
-          <Toaster position="top-right" />
+          <Toaster position="top-right" visibleToasts={1} richColors />
           {children}
         </CartProvider>
       </QueryClientProvider>

@@ -20,6 +20,7 @@ export interface OperationLog {
     name: string;
   };
   performedById: string;
+  performedByEmail: string;
   changes?: Record<string, any>;
   ipAddress?: string;
   userAgent?: string;

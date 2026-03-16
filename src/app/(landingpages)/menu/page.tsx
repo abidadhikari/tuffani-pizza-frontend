@@ -1,8 +1,6 @@
-import { OfferResponseDto, ProductResponseDto } from "@/client";
-import Button from "@/components/atom/Button";
-import Title from "@/components/atom/Title";
+import { ProductResponseDto } from "@/client";
 import WavyText from "@/components/atom/WavyText";
-import PizzaCard from "@/components/molecule/PizzaCard";
+import FloatingCartCta from "@/components/organism/feat/landing/FloatingCartCta";
 import MenuSection from "@/components/organism/feat/landing/MenuSection";
 import OffersCarouselSection from "@/components/organism/feat/landing/OffersImageCarouselSection";
 import {
@@ -10,10 +8,9 @@ import {
   getPublicOffers,
   getStaticPageData,
 } from "@/hooks/services/public-services";
-import { FOOD_TYPE, IFoodType, STATIC_CONTENT_KEYS } from "@/lib/constants";
+import { STATIC_CONTENT_KEYS } from "@/lib/constants";
 import { fetchStaticContent } from "@/lib/fetch-static-content";
 import Image from "next/image";
-import Link from "next/link";
 
 export default async function MenuPage() {
   const menuData: ProductResponseDto[] = await getMenu();
@@ -27,6 +24,8 @@ export default async function MenuPage() {
 
   return (
     <main>
+      <FloatingCartCta />
+
       {/* ---------------------------------- */}
       {/* Hero Section                      */}
       {/* ---------------------------------- */}
@@ -39,7 +38,7 @@ export default async function MenuPage() {
               {heroSection?.title?.highlight}
             </WavyText>
           </h1>
-          <p className="font-light w-[769px] max-w-full text-xl">
+          <p className="font-light w-192.25 max-w-full text-xl">
             {heroSection?.description}
           </p>
         </section>

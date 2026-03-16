@@ -208,9 +208,9 @@ export default function Navbar() {
         <ul className="flex flex-col sm:flex-row items-center gap-12">
           <li>
             {user ? (
-              <div className="flex items-center gap-4 ">
+              <div className="flex items-center gap-8 ">
                 <Link href="/profile/cart" className="relative">
-                  <ShoppingCart className="size-5 text-slate-700" />
+                  <ShoppingCart className="size-5 text-brand" />
                   {totalItems > 0 && (
                     <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold leading-none text-white">
                       {totalItems > 99 ? "99+" : totalItems}

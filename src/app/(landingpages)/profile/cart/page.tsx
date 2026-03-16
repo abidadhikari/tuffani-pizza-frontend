@@ -5,8 +5,10 @@ import UserDashboardLayout from "@/components/layout/UserDashboardLayout";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/services/cart/useCart";
 import { useCreateOrder } from "@/hooks/services/orders/useCreateOrder";
+import PhoneConfirmModal from "@/components/organism/feat/cart/PhoneConfirmModal";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function CartPage() {
   const {
@@ -22,11 +24,16 @@ export default function CartPage() {
     clearCart();
   });
 
-  const handlePlaceOrder = () => {
-    if (items.length === 0) {
-      return;
-    }
+  const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
+  const [phoneModalKey, setPhoneModalKey] = useState(0);
 
+  const handlePlaceOrder = () => {
+    if (items.length === 0) return;
+    setPhoneModalKey((k) => k + 1);
+    setIsPhoneModalOpen(true);
+  };
+
+  const handleConfirmedOrder = () => {
     createOrder({
       body: {
         items: items.map((item) => ({
@@ -39,6 +46,12 @@ export default function CartPage() {
 
   return (
     <UserDashboardLayout>
+      <PhoneConfirmModal
+        key={phoneModalKey}
+        open={isPhoneModalOpen}
+        onOpenChange={setIsPhoneModalOpen}
+        onConfirmed={handleConfirmedOrder}
+      />
       <section className="space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -72,11 +85,8 @@ export default function CartPage() {
             <p className="mt-2 text-sm text-slate-600">
               Add items from the menu to start ordering.
             </p>
-            <Link
-              href="/menu"
-              className="mt-4 inline-flex rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
-            >
-              Browse Menu
+            <Link href="/menu" className="mt-4 inline-block">
+              <Button>Browse Menu</Button>
             </Link>
           </div>
         ) : (
@@ -161,10 +171,10 @@ export default function CartPage() {
                   <span>Subtotal</span>
                   <span>Rs. {totalAmount.toFixed(2)}</span>
                 </div>
-                <div className="flex items-center justify-between text-xs text-slate-500">
+                {/* <div className="flex items-center justify-between text-xs text-slate-500">
                   <span>Delivery</span>
                   <span>Calculated at checkout</span>
-                </div>
+                </div> */}
               </div>
 
               <Button
@@ -173,7 +183,7 @@ export default function CartPage() {
                 isLoading={isPending}
                 disabled={isPending || items.length === 0}
               >
-                Place Order
+                {isPending ? "Placing Order…" : "Place Order"}
               </Button>
 
               <p className="mt-2 text-xs text-slate-500">

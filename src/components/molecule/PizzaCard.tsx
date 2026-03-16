@@ -4,6 +4,7 @@ import Image from "next/image";
 import Button from "../atom/Button";
 import PercentageOffBadge from "../atom/PercentageOffBadge";
 import ImagePlaceholder from "../atom/ImagePlaceholder";
+import { Plus } from "lucide-react";
 
 interface IPizzaCard {
   title: string;
@@ -42,7 +43,7 @@ export default function PizzaCard(props: IPizzaCard) {
   });
 
   return (
-    <div className={cn(` rounded-2xl h-full`, baseStyle)}>
+    <div className={cn(` rounded-2xl h-full group`, baseStyle)}>
       <div className="h-53.25 w-full bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center relative">
         {imageUrl ? (
           <Image src={imageUrl} className="object-cover" alt={title} fill />
@@ -67,24 +68,30 @@ export default function PizzaCard(props: IPizzaCard) {
           <h3 className="font-semibold text-lg leading-[130%]">{title}</h3>
           <p className="font-light text-sm leading-[150%]">{description}</p>
         </div>
-        <div className={cn("pt-1", { "text-right": variant === "wide" })}>
-          {crossedPrice && crossedPrice > 0 ? (
-            <div className="italic text-sm text-brand line-through">
-              Rs.{crossedPrice}
-            </div>
+        <div
+          className={cn("pt-1 flex items-center justify-between", {
+            "text-right": variant === "wide",
+          })}
+        >
+          <div>
+            {crossedPrice && crossedPrice > 0 ? (
+              <div className="italic text-sm text-brand line-through">
+                Rs.{crossedPrice}
+              </div>
+            ) : null}
+            <div className="font-bold text-xl">Rs.{price}</div>
+          </div>
+          {onCtaClick ? (
+            <Button
+              className="w-fit group-hover:opacity-100 opacity-0 items-center gap-1"
+              onClick={onCtaClick}
+              disabled={ctaDisabled}
+              variant={"outline"}
+            >
+              <Plus /> {ctaLabel}
+            </Button>
           ) : null}
-          <div className="font-bold text-xl">Rs.{price}</div>
         </div>
-
-        {onCtaClick ? (
-          <Button
-            className="w-full"
-            onClick={onCtaClick}
-            disabled={ctaDisabled}
-          >
-            {ctaLabel}
-          </Button>
-        ) : null}
       </div>
     </div>
   );

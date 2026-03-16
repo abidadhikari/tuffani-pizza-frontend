@@ -27,7 +27,7 @@ export default function UserDashboardLayout(props: IUserDashboardLayoutProps) {
     <div className=" pt-25">
       <div className="bg-[#FFFBEB]">
         <div className="my-width mx-auto py-10 space-y-10">
-          <div className="bg-[#F5F5F5] p-1 rounded w-fit flex items-center gap-1">
+          <div className="bg-[#F5F5F5] p-2 [&>a]:p-4 rounded w-fit flex items-center gap-1">
             <Link href="/profile" className={getTabClassName("/profile")}>
               <User2 className="size-4" /> Personal Details
             </Link>

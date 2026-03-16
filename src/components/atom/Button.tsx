@@ -11,6 +11,11 @@ interface IButton
 
 export default function Button(props: IButton) {
   const { children, isLoading, ...rest } = props;
+
+  if (rest.asChild) {
+    return <ShadCNButton {...rest}>{children}</ShadCNButton>;
+  }
+
   return (
     <ShadCNButton {...rest}>
       {isLoading ? <Spinner /> : null}

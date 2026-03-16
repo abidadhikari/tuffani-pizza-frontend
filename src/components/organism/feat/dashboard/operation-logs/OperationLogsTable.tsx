@@ -80,22 +80,22 @@ export default function OperationLogsTable({
     },
     {
       accessorKey: "performedBy.name",
-      header: "Performer Name",
+      header: "Performer Email",
       enableSorting: false,
       cell: ({ row }) => {
-        const name = row.original.performedBy?.name || "-";
+        const name = row.original?.performedByEmail || "-";
         return <span className="text-sm">{name}</span>;
       },
     },
-    {
-      accessorKey: "ipAddress",
-      header: "IP Address",
-      enableSorting: false,
-      cell: ({ row }) => {
-        const ip = row.original.ipAddress || "-";
-        return <span className="text-sm font-mono">{ip}</span>;
-      },
-    },
+    // {
+    //   accessorKey: "ipAddress",
+    //   header: "IP Address",
+    //   enableSorting: false,
+    //   cell: ({ row }) => {
+    //     const ip = row.original.ipAddress || "-";
+    //     return <span className="text-sm font-mono">{ip}</span>;
+    //   },
+    // },
     {
       accessorKey: "createdAt",
       header: "Timestamp",
@@ -115,18 +115,18 @@ export default function OperationLogsTable({
         }
       },
     },
-    {
-      id: "action",
-      enableSorting: false,
-      header: () => <TableActionHeader />,
-      cell: ({ row }) => {
-        return (
-          <TableActionCol
-            onViewClick={() => onActionClick?.(row.original.id)}
-          ></TableActionCol>
-        );
-      },
-    },
+    // {
+    //   id: "action",
+    //   enableSorting: false,
+    //   header: () => <TableActionHeader />,
+    //   cell: ({ row }) => {
+    //     return (
+    //       <TableActionCol
+    //         onViewClick={() => onActionClick?.(row.original.id)}
+    //       ></TableActionCol>
+    //     );
+    //   },
+    // },
   ];
 
   return (
