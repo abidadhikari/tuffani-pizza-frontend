@@ -1,6 +1,8 @@
 import { getAllPublicBlogs } from "@/hooks/services/public-services";
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-dynamic";
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

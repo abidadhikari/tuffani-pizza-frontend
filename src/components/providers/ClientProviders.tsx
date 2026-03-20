@@ -22,6 +22,7 @@ export default function ClientProviders({
       },
     },
   });
+  console.log(process.env);
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>

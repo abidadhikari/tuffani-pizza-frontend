@@ -9,6 +9,8 @@ import {
 import { STATIC_CONTENT_KEYS } from "@/lib/constants";
 import { fetchStaticContent } from "@/lib/fetch-static-content";
 
+export const dynamic = "force-dynamic";
+
 export default async function BlogHomePage() {
   const allBlogs = await getAllPublicBlogs();
   const staticContents = await getStaticPageData();

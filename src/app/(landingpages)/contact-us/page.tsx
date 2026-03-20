@@ -8,6 +8,8 @@ import { fetchStaticContent } from "@/lib/fetch-static-content";
 import { STATIC_CONTENT_KEYS } from "@/lib/constants";
 import { ApplicationConfig } from "@/types/staticContent.type";
 
+export const dynamic = "force-dynamic";
+
 export default async function ContactUsPage() {
   const staticContents = await getStaticPageData();
   const rawData = fetchStaticContent(

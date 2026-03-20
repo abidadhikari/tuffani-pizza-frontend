@@ -6,6 +6,8 @@ import {
 import { Metadata } from "next";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Home - Tufani Pizza",
   description:

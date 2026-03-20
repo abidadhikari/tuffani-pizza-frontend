@@ -12,6 +12,8 @@ import { STATIC_CONTENT_KEYS } from "@/lib/constants";
 import { fetchStaticContent } from "@/lib/fetch-static-content";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function MenuPage() {
   const menuData: ProductResponseDto[] = await getMenu();
   const staticContent = await getStaticPageData();

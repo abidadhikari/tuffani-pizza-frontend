@@ -7,6 +7,8 @@ import { sanitizeHtml } from "@/lib/sanitize-html";
 import { User } from "lucide-react";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 interface BlogPostPageProps {
   params: Promise<{
     slug: string;

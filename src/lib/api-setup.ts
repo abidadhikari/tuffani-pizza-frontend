@@ -1,8 +1,13 @@
 import { client } from "@/client/client.gen";
 
 export const initApiClient = () => {
+  // console.log(
+  //   "Initializing API client with base URL:",
+  //   process.env.NEXT_PUBLIC_BACKEND_URL,
+  // );
   client.setConfig({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+    baseURL:
+      process.env.NEXT_PUBLIC_BACKEND_URL || "http://api.tufanipizza.com",
     // baseURL: "https://tuffani-pizza-backend-production.up.railway.app",
     throwOnError: true,
     withCredentials: true,
