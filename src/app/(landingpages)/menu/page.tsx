@@ -84,6 +84,8 @@ export default async function MenuPage() {
         </section>
       )}
 
+      {/* <pre>{JSON.stringify(menuData, null, 2)}</pre> */}
+
       <section id="menu">
         <MenuSection menu={menuData} />
       </section>

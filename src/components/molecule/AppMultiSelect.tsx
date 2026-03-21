@@ -48,6 +48,24 @@ export default function AppMultiSelect({
 
   const selectedOptions = data.filter((opt) => value.includes(opt.value));
 
+  // Include selected values that don't have matching options in data yet
+  // (e.g., addon IDs that were pre-selected but addon data hasn't loaded)
+  const orphanedValues = value.filter(
+    (val) => !data.some((opt) => opt.value === val),
+  );
+
+  // For button text: show actual options + count of loading/orphaned items
+  const buttonDisplayText = () => {
+    if (selectedOptions.length === 0 && orphanedValues.length === 0) {
+      return placeholder;
+    }
+    const labelParts = selectedOptions.map((opt) => opt.label);
+    if (orphanedValues.length > 0) {
+      labelParts.push(`+${orphanedValues.length} loading...`);
+    }
+    return labelParts.join(", ");
+  };
+
   return (
     <div className="space-y-2">
       {/* Select */}
@@ -59,10 +77,7 @@ export default function AppMultiSelect({
             type="button"
             disabled={disabled}
           >
-            {showDynamicPlaceholder
-              ? selectedOptions.map((opt) => opt.label).join(", ") ||
-                placeholder
-              : placeholder}
+            {showDynamicPlaceholder ? buttonDisplayText() : placeholder}
           </Button>
         </PopoverTrigger>
 
@@ -101,7 +116,7 @@ export default function AppMultiSelect({
       </Popover>
 
       {/* Selected Chips */}
-      {selectedOptions.length > 0 && (
+      {(selectedOptions.length > 0 || orphanedValues.length > 0) && (
         <div className="flex flex-wrap gap-2">
           {selectedOptions.map((opt) => {
             const locked = lockedValues.includes(opt.value);
@@ -125,6 +140,23 @@ export default function AppMultiSelect({
               </span>
             );
           })}
+          {orphanedValues.map((val) => (
+            <span
+              key={val}
+              className="flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-3 py-1 text-sm text-amber-900"
+              title="Add-on is loading..."
+            >
+              Add-on (loading...)
+              <button
+                type="button"
+                onClick={() => removeValue(val)}
+                disabled={disabled}
+                className="hover:text-amber-900 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          ))}
         </div>
       )}
     </div>

@@ -23,7 +23,7 @@ export const useGetMe = () => {
 
     if (query.data) {
       const user = query.data;
-      console.log("User data fetched successfully:", user);
+      // console.log("User data fetched successfully:", user);
       dispatch(setUser(user));
     }
   }, [query.isSuccess, query.data]);

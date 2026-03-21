@@ -357,13 +357,33 @@ export default function AdminOrdersPage() {
                                       No Img
                                     </div>
                                   )}
-                                  <span>
-                                    {item.productName}
-                                    {item.variantSize
-                                      ? ` (${item.variantSize})`
-                                      : ""}{" "}
-                                    x {item.quantity}
-                                  </span>
+                                  <div className="space-y-1">
+                                    <p className="text-slate-800">
+                                      {item.productName}
+                                      {item.variantSize
+                                        ? ` (${item.variantSize})`
+                                        : ""}{" "}
+                                      x {item.quantity}
+                                    </p>
+
+                                    {item.selectedAddons &&
+                                    item.selectedAddons.length > 0 ? (
+                                      <div className="flex flex-wrap items-center gap-1.5">
+                                        <span className="text-xs font-medium text-slate-500">
+                                          Add-ons:
+                                        </span>
+                                        {item.selectedAddons.map((addon) => (
+                                          <span
+                                            key={`${item.id}-${addon.id}`}
+                                            className="rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-xs text-rose-700"
+                                          >
+                                            {addon.name} (Rs.{" "}
+                                            {addon.price.toFixed(2)})
+                                          </span>
+                                        ))}
+                                      </div>
+                                    ) : null}
+                                  </div>
                                 </li>
                               ))
                             )}

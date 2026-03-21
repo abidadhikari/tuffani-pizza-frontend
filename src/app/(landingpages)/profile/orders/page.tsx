@@ -327,7 +327,10 @@ export default function OrdersPage() {
                               key={item.id}
                               className="flex items-center justify-between gap-3"
                             >
-                              <div className="flex items-center gap-3">
+                              {/* <pre>
+                                {JSON.stringify(groupedOrders, null, 2)}
+                              </pre> */}
+                              <div className="flex items-center gap-3 ">
                                 {item.imageUrl ? (
                                   // Keep image rendering resilient for mixed absolute/relative API URLs.
                                   // eslint-disable-next-line @next/next/no-img-element
@@ -342,13 +345,33 @@ export default function OrdersPage() {
                                   </div>
                                 )}
 
-                                <p className="text-slate-700">
-                                  {item.productName}
-                                  {item.variantSize
-                                    ? ` (${item.variantSize})`
-                                    : ""}{" "}
-                                  x {item.quantity}
-                                </p>
+                                <div className="space-y-1">
+                                  <p className="text-slate-700">
+                                    {item.productName}
+                                    {item.variantSize
+                                      ? ` (${item.variantSize})`
+                                      : ""}{" "}
+                                    x {item.quantity}
+                                  </p>
+
+                                  {item.selectedAddons &&
+                                  item.selectedAddons.length > 0 ? (
+                                    <div className="flex flex-wrap items-center gap-1.5">
+                                      <span className="text-xs font-medium text-slate-500">
+                                        Add-ons:
+                                      </span>
+                                      {item.selectedAddons.map((addon) => (
+                                        <span
+                                          key={`${item.id}-${addon.id}`}
+                                          className="rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-xs text-rose-700"
+                                        >
+                                          {addon.name} (Rs.{" "}
+                                          {addon.price.toFixed(2)})
+                                        </span>
+                                      ))}
+                                    </div>
+                                  ) : null}
+                                </div>
                               </div>
                               <p className="font-medium text-slate-900">
                                 Rs. {item.totalPrice.toFixed(2)}

@@ -24,6 +24,7 @@ export default function SingleProductPage() {
               price: data?.price ?? 0,
               crossedPrice: data?.crossedPrice || 0,
               variants: data?.variants,
+              addonIds: data?.addons?.map((addon) => addon.id) ?? [],
               categoryId: data?.categoryId ?? "",
               type: data?.type ?? "",
               visible: data?.visible,

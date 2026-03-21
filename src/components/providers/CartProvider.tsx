@@ -16,8 +16,13 @@ const CART_STORAGE_KEY_PREFIX = "tuffani_cart_v2";
 const getCartStorageKey = (userId: string) =>
   `${CART_STORAGE_KEY_PREFIX}:${userId}`;
 
-const getCartItemKey = (item: Pick<CartItem, "productId" | "variantSize">) =>
-  `${item.productId}:${item.variantSize ?? "DEFAULT"}`;
+const buildAddonKey = (addonIds?: string[]) =>
+  [...(addonIds ?? [])].sort().join(",");
+
+const getCartItemKey = (
+  item: Pick<CartItem, "productId" | "variantSize" | "addonIds">,
+) =>
+  `${item.productId}:${item.variantSize ?? "DEFAULT"}:${buildAddonKey(item.addonIds)}`;
 
 const safeParseCart = (value: string | null): CartItem[] => {
   if (!value) return [];
@@ -40,6 +45,26 @@ const safeParseCart = (value: string | null): CartItem[] => {
       .map((entry) => ({
         ...entry,
         quantity: Math.max(1, Math.floor(entry.quantity)),
+        addonIds: Array.isArray(entry.addonIds)
+          ? entry.addonIds.filter((id): id is string => typeof id === "string")
+          : undefined,
+        selectedAddons: Array.isArray(entry.selectedAddons)
+          ? entry.selectedAddons
+              .filter(
+                (addon): addon is { id: string; name: string; price: number } =>
+                  Boolean(
+                    addon &&
+                    typeof addon.id === "string" &&
+                    typeof addon.name === "string" &&
+                    typeof addon.price === "number",
+                  ),
+              )
+              .map((addon) => ({
+                id: addon.id,
+                name: addon.name,
+                price: addon.price,
+              }))
+          : undefined,
       }));
   } catch {
     return [];
@@ -52,11 +77,13 @@ interface CartContextValue {
   removeItem: (
     productId: string,
     variantSize?: CartItem["variantSize"],
+    addonIds?: string[],
   ) => void;
   updateQuantity: (
     productId: string,
     quantity: number,
     variantSize?: CartItem["variantSize"],
+    addonIds?: string[],
   ) => void;
   clearCart: () => void;
   totalAmount: number;
@@ -131,8 +158,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const removeItem = useCallback(
-    (productId: string, variantSize?: CartItem["variantSize"]) => {
-      const targetKey = getCartItemKey({ productId, variantSize });
+    (
+      productId: string,
+      variantSize?: CartItem["variantSize"],
+      addonIds?: string[],
+    ) => {
+      const targetKey = getCartItemKey({ productId, variantSize, addonIds });
       setItems((current) =>
         current.filter((item) => getCartItemKey(item) !== targetKey),
       );
@@ -145,8 +176,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       productId: string,
       quantity: number,
       variantSize?: CartItem["variantSize"],
+      addonIds?: string[],
     ) => {
-      const targetKey = getCartItemKey({ productId, variantSize });
+      const targetKey = getCartItemKey({ productId, variantSize, addonIds });
       const safeQuantity = Math.max(1, Math.floor(quantity));
 
       setItems((current) =>

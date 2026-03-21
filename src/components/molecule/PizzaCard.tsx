@@ -13,6 +13,7 @@ interface IPizzaCard {
   crossedPrice?: number | null;
   imageUrl: string;
   type: IFoodType;
+  addonCount?: number;
   percentageOff?: number;
   variant?: "default" | "wide";
   ctaLabel?: string;
@@ -31,6 +32,7 @@ export default function PizzaCard(props: IPizzaCard) {
     crossedPrice,
     imageUrl,
     type,
+    addonCount = 0,
     percentageOff,
     variant = "default",
     ctaLabel = "Add to Cart",
@@ -73,6 +75,12 @@ export default function PizzaCard(props: IPizzaCard) {
         <div className="space-y-3.5">
           <h3 className="font-semibold text-lg leading-[130%]">{title}</h3>
           <p className="font-light text-sm leading-[150%]">{description}</p>
+
+          {addonCount > 0 ? (
+            <div className="inline-flex items-center rounded-full border border-brand/20 bg-white/70 px-2.5 py-1 text-xs font-semibold text-brand">
+              {addonCount} add-on{addonCount > 1 ? "s" : ""} available
+            </div>
+          ) : null}
 
           {sizeOptions && sizeOptions.length > 0 ? (
             <div className="flex flex-wrap gap-2">

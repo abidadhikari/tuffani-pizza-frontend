@@ -56,6 +56,11 @@ const data = {
       icon: IconChartBar,
     },
     {
+      title: "Addons",
+      url: "/admin/addons",
+      icon: IconListDetails,
+    },
+    {
       title: "Offers",
       url: "/admin/offers",
       icon: IconGift,

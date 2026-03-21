@@ -8,9 +8,11 @@ import { useCreateOrder } from "@/hooks/services/orders/useCreateOrder";
 import PhoneConfirmModal from "@/components/organism/feat/cart/PhoneConfirmModal";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CartPage() {
+  const router = useRouter();
   const {
     items,
     updateQuantity,
@@ -22,6 +24,7 @@ export default function CartPage() {
 
   const { mutate: createOrder, isPending } = useCreateOrder(() => {
     clearCart();
+    router.push("/profile/orders");
   });
 
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
@@ -46,6 +49,7 @@ export default function CartPage() {
           productId: item.productId,
           quantity: item.quantity,
           variantSize: item.variantSize,
+          addonIds: item.addonIds,
         })),
       },
     });
@@ -101,7 +105,7 @@ export default function CartPage() {
             <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
               {items.map((item) => (
                 <article
-                  key={`${item.productId}-${item.variantSize ?? "DEFAULT"}`}
+                  key={`${item.productId}-${item.variantSize ?? "DEFAULT"}-${[...(item.addonIds ?? [])].sort().join(",")}`}
                   className="border-b border-slate-100 p-4 last:border-b-0"
                 >
                   <div className="grid gap-3 md:grid-cols-[1fr_auto_auto] md:items-center">
@@ -117,6 +121,17 @@ export default function CartPage() {
                       <p className="text-xs text-slate-600">
                         Rs. {item.price.toFixed(2)} each
                       </p>
+                      {item.selectedAddons && item.selectedAddons.length > 0 ? (
+                        <p className="text-xs text-slate-600">
+                          Add-ons:{" "}
+                          {item.selectedAddons
+                            .map(
+                              (addon) =>
+                                `${addon.name} (Rs. ${addon.price.toFixed(2)})`,
+                            )
+                            .join(", ")}
+                        </p>
+                      ) : null}
                     </div>
 
                     <div className="flex items-center gap-1.5">
@@ -128,6 +143,7 @@ export default function CartPage() {
                             item.productId,
                             item.quantity - 1,
                             item.variantSize,
+                            item.addonIds,
                           )
                         }
                       >
@@ -144,6 +160,7 @@ export default function CartPage() {
                             item.productId,
                             Number.isFinite(quantity) ? quantity : 1,
                             item.variantSize,
+                            item.addonIds,
                           );
                         }}
                       />
@@ -155,6 +172,7 @@ export default function CartPage() {
                             item.productId,
                             item.quantity + 1,
                             item.variantSize,
+                            item.addonIds,
                           )
                         }
                       >
@@ -170,7 +188,11 @@ export default function CartPage() {
                         variant="ghost"
                         size="icon"
                         onClick={() =>
-                          removeItem(item.productId, item.variantSize)
+                          removeItem(
+                            item.productId,
+                            item.variantSize,
+                            item.addonIds,
+                          )
                         }
                       >
                         <Trash2 className="h-4 w-4 text-red-600" />

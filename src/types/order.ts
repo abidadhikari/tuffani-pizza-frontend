@@ -1,8 +1,16 @@
 export type OrderStatus = "PENDING" | "CONFIRMED" | "DELIVERED" | "CANCELLED";
 
+export interface SelectedAddon {
+  id: string;
+  name: string;
+  price: number;
+}
+
 export interface CartItem {
   productId: string;
   variantSize?: "SMALL" | "MEDIUM" | "LARGE";
+  addonIds?: string[];
+  selectedAddons?: SelectedAddon[];
   name: string;
   price: number;
   crossedPrice?: number | null;
@@ -16,6 +24,7 @@ export interface NormalizedOrderItem {
   productId: string;
   productName: string;
   variantSize?: "SMALL" | "MEDIUM" | "LARGE";
+  selectedAddons?: SelectedAddon[];
   quantity: number;
   unitPrice: number;
   totalPrice: number;

@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/atom/Button";
+import AppMultiSelect from "@/components/molecule/AppMultiSelect";
 import FormImageUploader from "@/components/molecule/FormImageUploader";
 import FormInputItem from "@/components/molecule/FormInputItem";
 import FormSelectItem from "@/components/molecule/FormSelectItem";
@@ -8,6 +9,7 @@ import FormSwitch from "@/components/molecule/FormSwitch";
 import FormTextAreaInputItem from "@/components/molecule/FormTextAreaInputItem";
 import { Form } from "@/components/ui/form";
 import { useGetAllCategories } from "@/hooks/services/categories/useGetAllCategories";
+import { useGetAllAddons } from "@/hooks/services/addons/useGetAllAddons";
 import { useCreateProduct } from "@/hooks/services/products/useCreateProduct";
 import { usePatchProduct } from "@/hooks/services/products/usePatchProduct";
 import { FOOD_TYPE } from "@/lib/constants";
@@ -31,6 +33,7 @@ const formSchema = z
     variantMediumCrossedPrice: z.string().optional(),
     variantLargePrice: z.string().optional(),
     variantLargeCrossedPrice: z.string().optional(),
+    addonIds: z.array(z.string()).optional(),
     type: z
       .string()
       .refine((val) => val === FOOD_TYPE.VEG || val === FOOD_TYPE.NON_VEG, {
@@ -148,6 +151,7 @@ interface ICreateUpdateProduct {
       price: number;
       crossedPrice?: number | null;
     }>;
+    addonIds?: string[];
     categoryId: string;
     type: string;
     visible?: boolean;
@@ -164,6 +168,7 @@ function CreateUpdateProduct({
   const { mutate: createProduct, isPending: isCreating } = useCreateProduct();
   const { data: categories, isLoading: isCategoriesLoading } =
     useGetAllCategories();
+  const { data: addons } = useGetAllAddons();
 
   const sizeVariantMap = useMemo(() => {
     const variants = defaultValues?.variants ?? [];
@@ -212,12 +217,20 @@ function CreateUpdateProduct({
       variantLargeCrossedPrice: sizeVariantMap.LARGE?.crossedPrice
         ? String(sizeVariantMap.LARGE.crossedPrice)
         : "",
+      addonIds: defaultValues?.addonIds ?? [],
       categoryId: defaultValues?.categoryId ?? "",
       type: defaultValues?.type ?? "",
       visible: defaultValues?.visible ?? false,
       image: defaultValues?.image ?? undefined,
     },
   });
+
+  // Ensure addon IDs stay in sync when product or addon data changes
+  useEffect(() => {
+    if (defaultValues?.addonIds && defaultValues.addonIds.length > 0) {
+      form.setValue("addonIds", defaultValues.addonIds);
+    }
+  }, [defaultValues?.addonIds, form]);
 
   const categoryOptions = useMemo(() => {
     return (
@@ -232,6 +245,15 @@ function CreateUpdateProduct({
     { label: "Veg", value: FOOD_TYPE.VEG },
     { label: "Non-Veg", value: FOOD_TYPE.NON_VEG },
   ];
+
+  const addonOptions = useMemo(
+    () =>
+      (addons ?? []).map((addon) => ({
+        label: `${addon.name} (Rs. ${addon.price.toFixed(2)})`,
+        value: addon.id,
+      })),
+    [addons],
+  );
 
   function onSubmit(values: FormValues) {
     const variantDraft = [
@@ -291,6 +313,7 @@ function CreateUpdateProduct({
             ? +values.crossedPrice
             : undefined,
       variants,
+      addonIds: values.addonIds ?? [],
     };
 
     if (type === "create") {
@@ -480,6 +503,19 @@ function CreateUpdateProduct({
                 data={foodTypeOptions}
                 placeholder="Select type"
               />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm">Available Addons (Optional)</label>
+              <AppMultiSelect
+                data={addonOptions}
+                value={form.watch("addonIds") ?? []}
+                onChange={(nextValue) => form.setValue("addonIds", nextValue)}
+                placeholder="Select add-ons for this product"
+              />
+              <p className="text-xs text-slate-500">
+                Customers can choose from these add-ons while ordering.
+              </p>
             </div>
 
             <div className="flex justify-end gap-3 py-5 bg-white">

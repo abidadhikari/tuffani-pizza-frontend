@@ -193,6 +193,12 @@ export type ProductVariantResponseDto = {
     crossedPrice: number | null;
 };
 
+export type ProductAddonResponseDto = {
+    id: string;
+    name: string;
+    price: number;
+};
+
 export type BaseCategoryResponseDto = {
     id: string;
     name: string;
@@ -207,6 +213,7 @@ export type ProductResponseDto = {
     price: number;
     crossedPrice: number | null;
     variants: Array<ProductVariantResponseDto>;
+    addons: Array<ProductAddonResponseDto>;
     categoryId: string;
     category: BaseCategoryResponseDto;
     mainImageId: {
@@ -251,9 +258,9 @@ export type CreateProductDto = {
      */
     name: string;
     /**
-     * The description of the product
+     * The description of the product. Defaults to empty string when omitted.
      */
-    description: string;
+    description?: string;
     /**
      * Base price of the product. If variants are provided, this is optional and will fallback to the minimum variant price.
      */
@@ -266,6 +273,10 @@ export type CreateProductDto = {
      * List of size variants with price and crossed price
      */
     variants?: Array<ProductVariantInputDto>;
+    /**
+     * Reusable addon IDs linked to this product. Supports JSON string, string array, or repeated multipart field.
+     */
+    addonIds?: Array<string>;
     /**
      * The image file to upload
      */
@@ -295,7 +306,7 @@ export type UpdateProductDto = {
      */
     name?: string;
     /**
-     * The description of the product
+     * The description of the product. Defaults to empty string when omitted.
      */
     description?: string;
     /**
@@ -310,6 +321,10 @@ export type UpdateProductDto = {
      * List of size variants with price and crossed price
      */
     variants?: Array<ProductVariantInputDto>;
+    /**
+     * Reusable addon IDs linked to this product. Supports JSON string, string array, or repeated multipart field.
+     */
+    addonIds?: Array<string>;
     /**
      * The image file to upload
      */
@@ -502,6 +517,10 @@ export type CreateOrderItemDto = {
      * Selected variant size. Required for products configured with variants.
      */
     variantSize?: 'SMALL' | 'MEDIUM' | 'LARGE';
+    /**
+     * Addon IDs selected for this order item
+     */
+    addonIds?: Array<string>;
 };
 
 export type CreateOrderDto = {
@@ -739,6 +758,28 @@ export type UpdateOfferDto = {
     productId?: string;
     categoryId?: string;
     isVisible?: boolean;
+};
+
+export type CreateAddonDto = {
+    /**
+     * Display name of the addon
+     */
+    name: string;
+    /**
+     * Price added for this addon
+     */
+    price: number;
+};
+
+export type UpdateAddonDto = {
+    /**
+     * Display name of the addon
+     */
+    name?: string;
+    /**
+     * Price added for this addon
+     */
+    price?: number;
 };
 
 export type PaginatedBlogResponseDtoWritable = {
@@ -1418,6 +1459,42 @@ export type OrderControllerDownloadSalesReportExcelResponses = {
     200: unknown;
 };
 
+export type OrderControllerDownloadOrdersCsvData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter orders created from this date (ISO format)
+         */
+        fromDate?: string;
+        /**
+         * Filter orders created until this date (ISO format)
+         */
+        toDate?: string;
+        /**
+         * Filter by a specific order status
+         */
+        status?: 'PENDING' | 'CONFIRMED' | 'DELIVERED' | 'CANCELLED';
+        /**
+         * Filter by user id
+         */
+        userId?: string;
+        /**
+         * Search by order group, user name/email, or product name
+         */
+        search?: string;
+        /**
+         * Maximum rows to export
+         */
+        maxRows?: number;
+    };
+    url: '/api/order/admin/reports/orders-csv';
+};
+
+export type OrderControllerDownloadOrdersCsvResponses = {
+    200: unknown;
+};
+
 export type OrderControllerGetOrderStatsData = {
     body?: never;
     path?: never;
@@ -1862,5 +1939,66 @@ export type OfferControllerUpdateData = {
 };
 
 export type OfferControllerUpdateResponses = {
+    200: unknown;
+};
+
+export type AddonControllerFindAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/addon';
+};
+
+export type AddonControllerFindAllResponses = {
+    200: unknown;
+};
+
+export type AddonControllerCreateData = {
+    body: CreateAddonDto;
+    path?: never;
+    query?: never;
+    url: '/api/addon';
+};
+
+export type AddonControllerCreateResponses = {
+    201: unknown;
+};
+
+export type AddonControllerRemoveData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/addon/{id}';
+};
+
+export type AddonControllerRemoveResponses = {
+    200: unknown;
+};
+
+export type AddonControllerFindOneData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/addon/{id}';
+};
+
+export type AddonControllerFindOneResponses = {
+    200: unknown;
+};
+
+export type AddonControllerUpdateData = {
+    body: UpdateAddonDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/addon/{id}';
+};
+
+export type AddonControllerUpdateResponses = {
     200: unknown;
 };

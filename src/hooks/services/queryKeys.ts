@@ -13,6 +13,8 @@ export const queryKeys = {
   ALL_GALLERY: ["all-gallery"],
   ALL_OFFERS: ["all-offers"],
   SINGLE_OFFER: ["single-offer"],
+  ALL_ADDONS: ["all-addons"],
+  SINGLE_ADDON: ["single-addon"],
 
   ALL_CONTACTS: ["all-contacts"],
 

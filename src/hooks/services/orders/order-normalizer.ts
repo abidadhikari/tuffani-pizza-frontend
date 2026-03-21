@@ -77,9 +77,93 @@ const getVariantSize = (
   return undefined;
 };
 
+const normalizeSelectedAddons = (
+  item: Record<string, unknown>,
+  productObject?: Record<string, unknown>,
+  orderObject?: Record<string, unknown>,
+): Array<{ id: string; name: string; price: number }> | undefined => {
+  const sources = [
+    item.addons,
+    item.selectedAddons,
+    item.orderAddons,
+    item.productAddons,
+    productObject?.addons,
+    productObject?.selectedAddons,
+    productObject?.orderAddons,
+    productObject?.productAddons,
+    orderObject?.addons,
+    orderObject?.selectedAddons,
+    orderObject?.orderAddons,
+    orderObject?.productAddons,
+  ];
+
+  for (const source of sources) {
+    if (!Array.isArray(source)) continue;
+
+    const parsed = source
+      .filter((entry): entry is Record<string, unknown> => isRecord(entry))
+      .map((entry, index) => {
+        const nestedAddon = isRecord(entry.addon) ? entry.addon : undefined;
+        const id =
+          getString(entry, "addonId") ??
+          getString(nestedAddon ?? {}, "id") ??
+          getString(entry, "id");
+        const name =
+          getString(entry, "name") ??
+          getString(entry, "addonName") ??
+          getString(entry, "title") ??
+          getString(nestedAddon ?? {}, "name");
+        const price =
+          getNumber(entry, "price") ??
+          getNumber(entry, "addonUnitPrice") ??
+          getNumber(nestedAddon ?? {}, "price") ??
+          0;
+
+        if (!id && !name) return null;
+
+        return {
+          id: id ?? `addon-${index}`,
+          name: name ?? "Addon",
+          price,
+        };
+      })
+      .filter(
+        (addon): addon is { id: string; name: string; price: number } =>
+          addon !== null,
+      );
+
+    if (parsed.length > 0) {
+      return parsed;
+    }
+  }
+
+  const fallbackAddonIds = [
+    item.addonIds,
+    productObject?.addonIds,
+    orderObject?.addonIds,
+  ].find((value) => Array.isArray(value));
+
+  if (Array.isArray(fallbackAddonIds)) {
+    const parsedFromIds = fallbackAddonIds
+      .filter((entry): entry is string => typeof entry === "string")
+      .map((id) => ({
+        id,
+        name: "Addon",
+        price: 0,
+      }));
+
+    if (parsedFromIds.length > 0) {
+      return parsedFromIds;
+    }
+  }
+
+  return undefined;
+};
+
 const normalizeOrderItem = (
   item: unknown,
   fallbackIndex: number,
+  orderObject?: Record<string, unknown>,
 ): NormalizedOrderItem => {
   if (!isRecord(item)) {
     return {
@@ -120,6 +204,15 @@ const normalizeOrderItem = (
   const imageAsset = isRecord(productObject?.mainImage)
     ? productObject.mainImage
     : undefined;
+  const itemMainProductImage = isRecord(item.mainProductImage)
+    ? item.mainProductImage
+    : undefined;
+  const productMainProductImage = isRecord(productObject?.mainProductImage)
+    ? productObject.mainProductImage
+    : undefined;
+  const orderMainProductImage = isRecord(orderObject?.mainProductImage)
+    ? orderObject.mainProductImage
+    : undefined;
 
   const gallery = Array.isArray(productObject?.images)
     ? productObject.images
@@ -131,17 +224,25 @@ const normalizeOrderItem = (
     productId:
       getString(item, "productId") ??
       getString(productObject ?? {}, "id") ??
+      getString(orderObject ?? {}, "productId") ??
       "",
     productName,
     variantSize: getVariantSize(item),
+    selectedAddons: normalizeSelectedAddons(item, productObject, orderObject),
     quantity,
     unitPrice,
     totalPrice,
     imageUrl:
       getString(item, "imageUrl") ??
       getString(item, "image") ??
+      getString(item, "mainProductImage") ??
+      getString(itemMainProductImage ?? {}, "url") ??
       getString(productObject ?? {}, "imageUrl") ??
       getString(productObject ?? {}, "image") ??
+      getString(productObject ?? {}, "mainProductImage") ??
+      getString(productMainProductImage ?? {}, "url") ??
+      getString(orderObject ?? {}, "mainProductImage") ??
+      getString(orderMainProductImage ?? {}, "url") ??
       getString(imageAsset ?? {}, "url") ??
       (isRecord(firstGalleryImage)
         ? getString(firstGalleryImage, "url")
@@ -179,9 +280,9 @@ const normalizeOrder = (
   const itemsRaw = getOrderItemsRaw(order);
   const normalizedItems =
     itemsRaw.length > 0
-      ? itemsRaw.map((item, index) => normalizeOrderItem(item, index))
+      ? itemsRaw.map((item, index) => normalizeOrderItem(item, index, order))
       : isLineItemPayload(order)
-        ? [normalizeOrderItem(order, fallbackIndex)]
+        ? [normalizeOrderItem(order, fallbackIndex, order)]
         : [];
 
   const totalFromItems = normalizedItems.reduce(
