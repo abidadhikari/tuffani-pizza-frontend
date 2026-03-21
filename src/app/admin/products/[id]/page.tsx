@@ -23,6 +23,7 @@ export default function SingleProductPage() {
               description: data?.description ?? "",
               price: data?.price ?? 0,
               crossedPrice: data?.crossedPrice || 0,
+              variants: data?.variants,
               categoryId: data?.categoryId ?? "",
               type: data?.type ?? "",
               visible: data?.visible,

@@ -358,7 +358,11 @@ export default function AdminOrdersPage() {
                                     </div>
                                   )}
                                   <span>
-                                    {item.productName} x {item.quantity}
+                                    {item.productName}
+                                    {item.variantSize
+                                      ? ` (${item.variantSize})`
+                                      : ""}{" "}
+                                    x {item.quantity}
                                   </span>
                                 </li>
                               ))

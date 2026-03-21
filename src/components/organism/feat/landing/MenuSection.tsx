@@ -11,6 +11,7 @@ import {
 } from "@/hooks/services/cart/useCart";
 import { FOOD_TYPE } from "@/lib/constants";
 import { useAppSelector } from "@/store/storeHook";
+import { CartItem } from "@/types/order";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -30,6 +31,21 @@ export default function MenuSection(props: IMenuSectionProps) {
     "all",
   ]);
   const [foodType, setFoodType] = useState<string[]>([]);
+  const [selectedVariantByProduct, setSelectedVariantByProduct] = useState<
+    Record<string, NonNullable<CartItem["variantSize"]>>
+  >({});
+
+  const sizeLabelMap: Record<NonNullable<CartItem["variantSize"]>, string> = {
+    SMALL: "Small",
+    MEDIUM: "Medium",
+    LARGE: "Large",
+  };
+
+  const sizeOrder: Record<NonNullable<CartItem["variantSize"]>, number> = {
+    SMALL: 1,
+    MEDIUM: 2,
+    LARGE: 3,
+  };
 
   const categories = Array.from(
     new Set(
@@ -99,35 +115,78 @@ export default function MenuSection(props: IMenuSectionProps) {
       {/* Menu Grid */}
 
       <div className="flex flex-wrap justify-center lg:grid grid-cols-3 min-[1330px]:grid-cols-4 gap-5">
-        {filteredMenu.map((item: ProductResponseDto, index) => (
-          <PizzaCard
-            key={index}
-            imageUrl={item.mainImage?.url as string}
-            title={item.name}
-            description={item.description}
-            price={+item.price}
-            crossedPrice={item.crossedPrice ? +item.crossedPrice : undefined}
-            type={item.type as (typeof FOOD_TYPE)[keyof typeof FOOD_TYPE]}
-            percentageOff={
-              item.crossedPrice !== null &&
-              item.crossedPrice !== undefined &&
-              +item.crossedPrice !== 0
-                ? ((+item.crossedPrice - +item.price) / +item.crossedPrice) *
-                  100
-                : undefined
-            }
-            onCtaClick={() => {
-              if (!user) {
-                toast.error("Please log in to add items to your cart");
-                router.push("/login");
-                return;
-              }
+        {filteredMenu.map((item: ProductResponseDto) =>
+          (() => {
+            const validVariants = [...(item.variants ?? [])]
+              .filter(
+                (variant) =>
+                  variant.price !== null &&
+                  variant.price !== undefined &&
+                  Number(variant.price) > 0,
+              )
+              .sort((a, b) => sizeOrder[a.size] - sizeOrder[b.size]);
 
-              addItem(buildCartItemFromProduct(item));
-              toast.success(`${item.name} added to cart`);
-            }}
-          />
-        ))}
+            const variantOptions = validVariants.map((variant) => ({
+              value: variant.size,
+              label: sizeLabelMap[variant.size],
+            }));
+
+            const selectedVariantSize =
+              variantOptions.length > 0
+                ? (selectedVariantByProduct[item.id] ?? variantOptions[0].value)
+                : undefined;
+
+            const selectedVariant = validVariants.find(
+              (variant) => variant.size === selectedVariantSize,
+            );
+
+            const displayPrice = Number(selectedVariant?.price ?? item.price);
+            const displayCrossedPrice = selectedVariant
+              ? selectedVariant.crossedPrice
+              : item.crossedPrice;
+
+            return (
+              <PizzaCard
+                key={item.id}
+                imageUrl={item.mainImage?.url as string}
+                title={item.name}
+                description={item.description}
+                price={displayPrice}
+                crossedPrice={displayCrossedPrice}
+                type={item.type as (typeof FOOD_TYPE)[keyof typeof FOOD_TYPE]}
+                percentageOff={
+                  displayCrossedPrice !== null &&
+                  displayCrossedPrice !== undefined &&
+                  +displayCrossedPrice !== 0
+                    ? ((+displayCrossedPrice - displayPrice) /
+                        +displayCrossedPrice) *
+                      100
+                    : undefined
+                }
+                sizeOptions={variantOptions}
+                selectedSize={selectedVariantSize}
+                onSizeChange={(size) => {
+                  setSelectedVariantByProduct((prev) => ({
+                    ...prev,
+                    [item.id]: size,
+                  }));
+                }}
+                onCtaClick={() => {
+                  if (!user) {
+                    toast.error("Please log in to add items to your cart");
+                    router.push("/login");
+                    return;
+                  }
+
+                  addItem(buildCartItemFromProduct(item, selectedVariantSize));
+                  toast.success(
+                    `${item.name}${selectedVariantSize ? ` (${sizeLabelMap[selectedVariantSize]})` : ""} added to cart`,
+                  );
+                }}
+              />
+            );
+          })(),
+        )}
       </div>
     </div>
   );

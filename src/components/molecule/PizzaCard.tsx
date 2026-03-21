@@ -18,6 +18,9 @@ interface IPizzaCard {
   ctaLabel?: string;
   onCtaClick?: () => void;
   ctaDisabled?: boolean;
+  sizeOptions?: Array<{ value: "SMALL" | "MEDIUM" | "LARGE"; label: string }>;
+  selectedSize?: "SMALL" | "MEDIUM" | "LARGE";
+  onSizeChange?: (size: "SMALL" | "MEDIUM" | "LARGE") => void;
 }
 
 export default function PizzaCard(props: IPizzaCard) {
@@ -33,6 +36,9 @@ export default function PizzaCard(props: IPizzaCard) {
     ctaLabel = "Add to Cart",
     onCtaClick,
     ctaDisabled,
+    sizeOptions,
+    selectedSize,
+    onSizeChange,
   } = props;
 
   const baseStyle = cn({
@@ -67,6 +73,29 @@ export default function PizzaCard(props: IPizzaCard) {
         <div className="space-y-3.5">
           <h3 className="font-semibold text-lg leading-[130%]">{title}</h3>
           <p className="font-light text-sm leading-[150%]">{description}</p>
+
+          {sizeOptions && sizeOptions.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {sizeOptions.map((option) => {
+                const isActive = selectedSize === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => onSizeChange?.(option.value)}
+                    className={cn(
+                      "rounded-full border px-3 py-1 text-xs font-semibold transition",
+                      isActive
+                        ? "border-brand bg-brand text-white"
+                        : "border-slate-300 bg-white/70 text-slate-700 hover:border-brand",
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
         <div
           className={cn("pt-1 flex items-center justify-between", {

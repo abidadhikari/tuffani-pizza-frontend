@@ -186,6 +186,13 @@ export type CreateCategoryDto = {
     name: string;
 };
 
+export type ProductVariantResponseDto = {
+    id: string;
+    size: 'SMALL' | 'MEDIUM' | 'LARGE';
+    price: number;
+    crossedPrice: number | null;
+};
+
 export type BaseCategoryResponseDto = {
     id: string;
     name: string;
@@ -199,6 +206,7 @@ export type ProductResponseDto = {
     description: string;
     price: number;
     crossedPrice: number | null;
+    variants: Array<ProductVariantResponseDto>;
     categoryId: string;
     category: BaseCategoryResponseDto;
     mainImageId: {
@@ -222,6 +230,21 @@ export type CategoryResponseDto = {
     products: Array<ProductResponseDto>;
 };
 
+export type ProductVariantInputDto = {
+    /**
+     * Variant size
+     */
+    size: 'SMALL' | 'MEDIUM' | 'LARGE';
+    /**
+     * Variant price
+     */
+    price: number;
+    /**
+     * Variant crossed price
+     */
+    crossedPrice?: number;
+};
+
 export type CreateProductDto = {
     /**
      * The name of the product
@@ -232,13 +255,17 @@ export type CreateProductDto = {
      */
     description: string;
     /**
-     * The price of the product
+     * Base price of the product. If variants are provided, this is optional and will fallback to the minimum variant price.
      */
-    price: number;
+    price?: number;
     /**
-     * The crossed price of the product
+     * The crossed/base price of the product
      */
     crossedPrice?: number;
+    /**
+     * List of size variants with price and crossed price
+     */
+    variants?: Array<ProductVariantInputDto>;
     /**
      * The image file to upload
      */
@@ -272,13 +299,17 @@ export type UpdateProductDto = {
      */
     description?: string;
     /**
-     * The price of the product
+     * Base price of the product. If variants are provided, this is optional and will fallback to the minimum variant price.
      */
     price?: number;
     /**
-     * The crossed price of the product
+     * The crossed/base price of the product
      */
     crossedPrice?: number;
+    /**
+     * List of size variants with price and crossed price
+     */
+    variants?: Array<ProductVariantInputDto>;
     /**
      * The image file to upload
      */
@@ -467,6 +498,10 @@ export type CreateOrderItemDto = {
      * Quantity for this product
      */
     quantity: number;
+    /**
+     * Selected variant size. Required for products configured with variants.
+     */
+    variantSize?: 'SMALL' | 'MEDIUM' | 'LARGE';
 };
 
 export type CreateOrderDto = {

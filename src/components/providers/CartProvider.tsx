@@ -16,6 +16,9 @@ const CART_STORAGE_KEY_PREFIX = "tuffani_cart_v2";
 const getCartStorageKey = (userId: string) =>
   `${CART_STORAGE_KEY_PREFIX}:${userId}`;
 
+const getCartItemKey = (item: Pick<CartItem, "productId" | "variantSize">) =>
+  `${item.productId}:${item.variantSize ?? "DEFAULT"}`;
+
 const safeParseCart = (value: string | null): CartItem[] => {
   if (!value) return [];
 
@@ -46,8 +49,15 @@ const safeParseCart = (value: string | null): CartItem[] => {
 interface CartContextValue {
   items: CartItem[];
   addItem: (item: CartItem) => boolean;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (
+    productId: string,
+    variantSize?: CartItem["variantSize"],
+  ) => void;
+  updateQuantity: (
+    productId: string,
+    quantity: number,
+    variantSize?: CartItem["variantSize"],
+  ) => void;
   clearCart: () => void;
   totalAmount: number;
   totalItems: number;
@@ -93,8 +103,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (!userId) return false;
 
       setItems((current) => {
+        const nextKey = getCartItemKey(nextItem);
         const existing = current.find(
-          (item) => item.productId === nextItem.productId,
+          (item) => getCartItemKey(item) === nextKey,
         );
 
         if (!existing) {
@@ -105,7 +116,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
 
         return current.map((item) =>
-          item.productId === nextItem.productId
+          getCartItemKey(item) === nextKey
             ? {
                 ...item,
                 quantity: item.quantity + Math.max(1, nextItem.quantity),
@@ -119,22 +130,35 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [userId],
   );
 
-  const removeItem = useCallback((productId: string) => {
-    setItems((current) =>
-      current.filter((item) => item.productId !== productId),
-    );
-  }, []);
+  const removeItem = useCallback(
+    (productId: string, variantSize?: CartItem["variantSize"]) => {
+      const targetKey = getCartItemKey({ productId, variantSize });
+      setItems((current) =>
+        current.filter((item) => getCartItemKey(item) !== targetKey),
+      );
+    },
+    [],
+  );
 
-  const updateQuantity = useCallback((productId: string, quantity: number) => {
-    const safeQuantity = Math.max(1, Math.floor(quantity));
-    setItems((current) =>
-      current.map((item) =>
-        item.productId === productId
-          ? { ...item, quantity: safeQuantity }
-          : item,
-      ),
-    );
-  }, []);
+  const updateQuantity = useCallback(
+    (
+      productId: string,
+      quantity: number,
+      variantSize?: CartItem["variantSize"],
+    ) => {
+      const targetKey = getCartItemKey({ productId, variantSize });
+      const safeQuantity = Math.max(1, Math.floor(quantity));
+
+      setItems((current) =>
+        current.map((item) =>
+          getCartItemKey(item) === targetKey
+            ? { ...item, quantity: safeQuantity }
+            : item,
+        ),
+      );
+    },
+    [],
+  );
 
   const clearCart = useCallback(() => setItems([]), []);
 

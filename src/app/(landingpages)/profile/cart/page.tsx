@@ -27,6 +27,12 @@ export default function CartPage() {
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [phoneModalKey, setPhoneModalKey] = useState(0);
 
+  const sizeLabelMap = {
+    SMALL: "Small",
+    MEDIUM: "Medium",
+    LARGE: "Large",
+  } as const;
+
   const handlePlaceOrder = () => {
     if (items.length === 0) return;
     setPhoneModalKey((k) => k + 1);
@@ -39,6 +45,7 @@ export default function CartPage() {
         items: items.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
+          variantSize: item.variantSize,
         })),
       },
     });
@@ -94,7 +101,7 @@ export default function CartPage() {
             <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
               {items.map((item) => (
                 <article
-                  key={item.productId}
+                  key={`${item.productId}-${item.variantSize ?? "DEFAULT"}`}
                   className="border-b border-slate-100 p-4 last:border-b-0"
                 >
                   <div className="grid gap-3 md:grid-cols-[1fr_auto_auto] md:items-center">
@@ -102,6 +109,11 @@ export default function CartPage() {
                       <h3 className="font-semibold text-slate-900">
                         {item.name}
                       </h3>
+                      {item.variantSize ? (
+                        <p className="text-xs text-slate-600">
+                          Size: {sizeLabelMap[item.variantSize]}
+                        </p>
+                      ) : null}
                       <p className="text-xs text-slate-600">
                         Rs. {item.price.toFixed(2)} each
                       </p>
@@ -112,7 +124,11 @@ export default function CartPage() {
                         variant="outline"
                         size="icon"
                         onClick={() =>
-                          updateQuantity(item.productId, item.quantity - 1)
+                          updateQuantity(
+                            item.productId,
+                            item.quantity - 1,
+                            item.variantSize,
+                          )
                         }
                       >
                         <Minus className="h-4 w-4" />
@@ -127,6 +143,7 @@ export default function CartPage() {
                           updateQuantity(
                             item.productId,
                             Number.isFinite(quantity) ? quantity : 1,
+                            item.variantSize,
                           );
                         }}
                       />
@@ -134,7 +151,11 @@ export default function CartPage() {
                         variant="outline"
                         size="icon"
                         onClick={() =>
-                          updateQuantity(item.productId, item.quantity + 1)
+                          updateQuantity(
+                            item.productId,
+                            item.quantity + 1,
+                            item.variantSize,
+                          )
                         }
                       >
                         <Plus className="h-4 w-4" />
@@ -148,7 +169,9 @@ export default function CartPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => removeItem(item.productId)}
+                        onClick={() =>
+                          removeItem(item.productId, item.variantSize)
+                        }
                       >
                         <Trash2 className="h-4 w-4 text-red-600" />
                       </Button>

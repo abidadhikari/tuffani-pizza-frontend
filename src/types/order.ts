@@ -2,6 +2,7 @@ export type OrderStatus = "PENDING" | "CONFIRMED" | "DELIVERED" | "CANCELLED";
 
 export interface CartItem {
   productId: string;
+  variantSize?: "SMALL" | "MEDIUM" | "LARGE";
   name: string;
   price: number;
   crossedPrice?: number | null;
@@ -14,6 +15,7 @@ export interface NormalizedOrderItem {
   id: string;
   productId: string;
   productName: string;
+  variantSize?: "SMALL" | "MEDIUM" | "LARGE";
   quantity: number;
   unitPrice: number;
   totalPrice: number;

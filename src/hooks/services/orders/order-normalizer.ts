@@ -57,6 +57,26 @@ const getStatus = (value: unknown): OrderStatus => {
   return "PENDING";
 };
 
+const getVariantSize = (
+  item: Record<string, unknown>,
+): "SMALL" | "MEDIUM" | "LARGE" | undefined => {
+  const directSize = getString(item, "variantSize") ?? getString(item, "size");
+  const nestedVariant = isRecord(item.variant) ? item.variant : undefined;
+  const nestedProductVariant = isRecord(item.productVariant)
+    ? item.productVariant
+    : undefined;
+  const nestedSize =
+    getString(nestedVariant ?? {}, "size") ??
+    getString(nestedProductVariant ?? {}, "size");
+
+  const size = directSize ?? nestedSize;
+  if (size === "SMALL" || size === "MEDIUM" || size === "LARGE") {
+    return size;
+  }
+
+  return undefined;
+};
+
 const normalizeOrderItem = (
   item: unknown,
   fallbackIndex: number,
@@ -113,6 +133,7 @@ const normalizeOrderItem = (
       getString(productObject ?? {}, "id") ??
       "",
     productName,
+    variantSize: getVariantSize(item),
     quantity,
     unitPrice,
     totalPrice,

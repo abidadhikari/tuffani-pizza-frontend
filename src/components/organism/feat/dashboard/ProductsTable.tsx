@@ -15,6 +15,11 @@ export interface IProductsTableType {
   description: string;
   price: number | string | null;
   crossedPrice: number | string | null;
+  variants?: Array<{
+    size: "SMALL" | "MEDIUM" | "LARGE";
+    price: number;
+    crossedPrice?: number | null;
+  }>;
   visible: boolean;
   type: string | null;
   category: {
@@ -67,6 +72,38 @@ export default function ProductsTable({
       accessorKey: "price",
       header: "Price",
       enableSorting: false,
+      cell: ({ row }) => {
+        const variants = (row.original.variants ?? []).filter(
+          (variant) => Number(variant.price) > 0,
+        );
+
+        if (variants.length === 0) {
+          return row.original.price ?? "-";
+        }
+
+        const order: Record<"SMALL" | "MEDIUM" | "LARGE", number> = {
+          SMALL: 1,
+          MEDIUM: 2,
+          LARGE: 3,
+        };
+        const labels: Record<"SMALL" | "MEDIUM" | "LARGE", string> = {
+          SMALL: "S",
+          MEDIUM: "M",
+          LARGE: "L",
+        };
+
+        return (
+          <div className="text-xs text-slate-700">
+            {variants
+              .sort((a, b) => order[a.size] - order[b.size])
+              .map((variant) => (
+                <div key={variant.size}>
+                  {labels[variant.size]}: Rs.{variant.price}
+                </div>
+              ))}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "crossedPrice",

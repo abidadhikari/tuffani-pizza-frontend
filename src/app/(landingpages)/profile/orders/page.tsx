@@ -343,7 +343,11 @@ export default function OrdersPage() {
                                 )}
 
                                 <p className="text-slate-700">
-                                  {item.productName} x {item.quantity}
+                                  {item.productName}
+                                  {item.variantSize
+                                    ? ` (${item.variantSize})`
+                                    : ""}{" "}
+                                  x {item.quantity}
                                 </p>
                               </div>
                               <p className="font-medium text-slate-900">
