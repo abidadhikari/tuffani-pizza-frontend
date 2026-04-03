@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/atom/Button";
+import BaseModal from "@/components/molecule/BaseModal";
 import OffersTable from "@/components/organism/feat/dashboard/OffersTable";
 import { SiteHeader } from "@/components/site-header";
 import { useGetAllOffers } from "@/hooks/services/offers/useGetAllOffers";
@@ -14,8 +15,10 @@ import { useDeleteOffer } from "@/hooks/services/offers/useDeleteOffer";
 
 export default function OffersPage() {
   const [open, setOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentId, setCurrentId] = useState<string | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const { data, isLoading } = useGetAllOffers();
   const {} = useGetAllProducts({
@@ -33,10 +36,12 @@ export default function OffersPage() {
     setOpen(false);
   });
 
-  const { mutate: deleteOffer } = useDeleteOffer(() => {
-    setCurrentId(null);
-    setOpen(false);
+  const { mutate: deleteOffer, isPending: deleting } = useDeleteOffer(() => {
+    setDeleteId(null);
+    setDeleteOpen(false);
   });
+
+  const selectedOffer = data?.find((offer) => offer.id === deleteId);
   return (
     <section>
       <SiteHeader title="Offers">
@@ -72,7 +77,8 @@ export default function OffersPage() {
           setOpen(true);
         }}
         onDeleteClick={(id) => {
-          deleteOffer(id);
+          setDeleteId(id);
+          setDeleteOpen(true);
         }}
       />
 
@@ -128,6 +134,32 @@ export default function OffersPage() {
           }
         }}
       />
+
+      <BaseModal
+        open={deleteOpen}
+        onOpenChange={(value) => {
+          setDeleteOpen(value);
+          if (!value) {
+            setDeleteId(null);
+          }
+        }}
+        title="Delete Offer"
+        description="This action cannot be undone."
+        submitText="Delete"
+        cancelText="Cancel"
+        loading={deleting}
+        disabled={deleting || !deleteId}
+        onSubmit={() => {
+          if (!deleteId) return;
+          deleteOffer(deleteId);
+        }}
+      >
+        <p className="text-sm text-muted-foreground">
+          Are you sure you want to delete
+          {selectedOffer?.title ? ` \"${selectedOffer.title}\"` : " this offer"}
+          ?
+        </p>
+      </BaseModal>
     </section>
   );
 }

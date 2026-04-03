@@ -38,7 +38,7 @@ export default async function Footer() {
               <Twitter />
             </Link> */}
             <Link
-              href={applicationConfig?.socialMediaLinks?.facebook || "#"}
+              href={applicationConfig?.socialMediaLinks?.instagram || "#"}
               target="_blank"
               className="text-white mx-2"
             >
@@ -52,7 +52,7 @@ export default async function Footer() {
               <MyIcon icon="ic:baseline-tiktok" className="size-7" />
             </Link>
             <Link
-              href={applicationConfig?.socialMediaLinks?.instagram || "#"}
+              href={applicationConfig?.socialMediaLinks?.facebook || "#"}
               target="_blank"
               className="text-white mx-2"
             >

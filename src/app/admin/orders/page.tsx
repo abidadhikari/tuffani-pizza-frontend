@@ -9,7 +9,7 @@ import { useGetAllOrdersForAdmin } from "@/hooks/services/orders/useGetAllOrders
 import { useUpdateOrderStatus } from "@/hooks/services/orders/useUpdateOrderStatus";
 import { NormalizedOrder, OrderStatus } from "@/types/order";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const POLLING_INTERVAL_MS = 15000;
@@ -36,11 +36,6 @@ export default function AdminOrdersPage() {
   const [pageSize, setPageSize] = useState(10);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
-  const [notificationPermission, setNotificationPermission] = useState<
-    NotificationPermission | "unsupported"
-  >("default");
-  const [soundEnabled, setSoundEnabled] = useState(false);
-  const knownOrderIdsRef = useRef<Set<string>>(new Set());
 
   const { data, isLoading, refetch } = useGetAllOrdersForAdmin({
     page: pageNo,
@@ -61,105 +56,12 @@ export default function AdminOrdersPage() {
   }, [searchInput]);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    if (!("Notification" in window)) {
-      setNotificationPermission("unsupported");
-      return;
-    }
-
-    setNotificationPermission(window.Notification.permission);
-  }, []);
-
-  useEffect(() => {
     const intervalId = window.setInterval(() => {
       void refetch();
     }, POLLING_INTERVAL_MS);
 
     return () => window.clearInterval(intervalId);
   }, [refetch]);
-
-  const playNewOrderBeep = () => {
-    if (!soundEnabled || typeof window === "undefined") {
-      return;
-    }
-
-    const AudioCtx = window.AudioContext;
-    if (!AudioCtx) {
-      return;
-    }
-
-    const audioContext = new AudioCtx();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.type = "sine";
-    oscillator.frequency.value = 920;
-    gainNode.gain.value = 0.03;
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.18);
-  };
-
-  useEffect(() => {
-    const orders = data?.data ?? [];
-    const currentIds = new Set(orders.map((order) => order.id));
-
-    if (knownOrderIdsRef.current.size === 0) {
-      knownOrderIdsRef.current = currentIds;
-      return;
-    }
-
-    const newOrders = orders.filter(
-      (order) => !knownOrderIdsRef.current.has(order.id),
-    );
-
-    if (newOrders.length === 0) {
-      knownOrderIdsRef.current = currentIds;
-      return;
-    }
-
-    const label =
-      newOrders.length === 1
-        ? "1 new order received"
-        : `${newOrders.length} new orders received`;
-    toast.success(label);
-
-    if (
-      notificationPermission === "granted" &&
-      typeof window !== "undefined" &&
-      document.visibilityState !== "visible"
-    ) {
-      new window.Notification("Tuffani new order", {
-        body: label,
-      });
-    }
-
-    playNewOrderBeep();
-    knownOrderIdsRef.current = currentIds;
-  }, [data?.data, notificationPermission, soundEnabled]);
-
-  const requestNotificationPermission = async () => {
-    if (typeof window === "undefined" || !("Notification" in window)) {
-      toast.error("Browser notifications are not supported here.");
-      return;
-    }
-
-    const permission = await window.Notification.requestPermission();
-    setNotificationPermission(permission);
-
-    if (permission === "granted") {
-      toast.success("Admin notifications enabled");
-      return;
-    }
-
-    toast.error("Notification permission was not granted");
-  };
 
   const groupedOrders = useMemo(() => {
     const groups = new Map<
@@ -219,37 +121,6 @@ export default function AdminOrdersPage() {
           onValueChange={setSearchInput}
           className="max-w-md"
         />
-
-        <Button
-          variant={soundEnabled ? "default" : "outline"}
-          onClick={() => {
-            const next = !soundEnabled;
-            setSoundEnabled(next);
-            toast.info(
-              next ? "New-order sound enabled" : "New-order sound disabled",
-            );
-          }}
-        >
-          {soundEnabled ? "Sound On" : "Sound Off"}
-        </Button>
-
-        {notificationPermission !== "granted" ? (
-          <Button
-            variant="outline"
-            onClick={() => {
-              void requestNotificationPermission();
-            }}
-            disabled={notificationPermission === "unsupported"}
-          >
-            {notificationPermission === "unsupported"
-              ? "Notifications Unavailable"
-              : "Enable Notifications"}
-          </Button>
-        ) : (
-          <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
-            Notifications enabled
-          </div>
-        )}
       </div>
 
       {isLoading ? (

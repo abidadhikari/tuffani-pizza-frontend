@@ -9,8 +9,11 @@ import {
 import { cn } from "@/lib/utils";
 import { OfferResponseDto } from "@/client";
 import Button from "@/components/atom/Button";
-import { Edit, Eye, EyeClosed, EyeOffIcon, Trash2 } from "lucide-react";
-import { extractTime, extractTime12Hour } from "@/lib/date-time";
+import { Edit, Eye, EyeOffIcon, Trash2 } from "lucide-react";
+import { extractTime } from "@/lib/date-time";
+
+const formatDateForInputLikeView = (value?: string) =>
+  value?.substring(0, 10) || "";
 
 export type IOffersTableType = OfferResponseDto;
 
@@ -69,7 +72,7 @@ export default function OffersTable({
       accessorKey: "validFrom",
       header: "Valid From",
       cell: ({ row }) => {
-        return new Date(row.original.validFrom).toLocaleDateString();
+        return formatDateForInputLikeView(row.original.validFrom);
       },
       enableSorting: false,
     },
@@ -77,7 +80,7 @@ export default function OffersTable({
       accessorKey: "validUntil",
       header: "Valid Until",
       cell: ({ row }) => {
-        return new Date(row.original.validUntil).toLocaleDateString();
+        return formatDateForInputLikeView(row.original.validUntil);
       },
       enableSorting: false,
     },
@@ -85,7 +88,7 @@ export default function OffersTable({
       accessorKey: "startsAt",
       header: "Starts At",
       cell: ({ row }) => {
-        return extractTime12Hour(row.original.startsAt);
+        return extractTime(row.original.startsAt);
       },
       enableSorting: false,
     },
@@ -93,7 +96,7 @@ export default function OffersTable({
       accessorKey: "endsAt",
       header: "Ends At",
       cell: ({ row }) => {
-        return extractTime12Hour(row.original.endsAt);
+        return extractTime(row.original.endsAt);
       },
       enableSorting: false,
     },

@@ -1,6 +1,7 @@
 "use client";
 import { AppSidebar } from "@/components/app-sidebar";
 import PageLoader from "@/components/atom/PageLoader";
+import LiveOrderNotifier from "@/components/organism/feat/dashboard/LiveOrderNotifier";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useGetMe } from "@/hooks/services/users/useGetMe";
 import { DM_Sans } from "next/font/google";
@@ -42,6 +43,7 @@ export default function AdminLayout({
             </div>
           </div>
         </SidebarInset>
+        <LiveOrderNotifier />
       </SidebarProvider>
     </div>
   );

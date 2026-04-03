@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
       <Link href="/">
         <Image src="/logonew.png" alt="Logo" width={120} height={40} />
       </Link>
-      <Card className="p-8 mb-8 ">{children}</Card>
+      <Card className="px-4 py-8 md:p-8 mb-8 max-w-[95vw]">{children}</Card>
     </div>
   );
 }
