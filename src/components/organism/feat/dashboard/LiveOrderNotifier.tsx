@@ -175,14 +175,14 @@ export default function LiveOrderNotifier() {
   };
 
   return (
-    <div className="group fixed right-6 top-1/2 z-30 -translate-y-1/2">
+    <div className="group fixed right-6 top-1/2 z-30 -translate-y-1/2 ">
       {/* Circular Icon Button */}
       <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-emerald-200 bg-white shadow-md transition-all group-hover:bg-emerald-50">
         <Bell className="h-6 w-6 text-emerald-600" />
       </div>
 
       {/* Hover Card - appears on group hover */}
-      <div className="absolute right-16 top-1/2 -translate-y-1/2 w-80 scale-95 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-80 scale-95 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
         <div className="rounded-xl border border-slate-200 bg-white/98 p-3 shadow-lg backdrop-blur">
           <div className="flex items-center gap-2 text-xs text-slate-600 mb-3">
             <Bell className="h-4 w-4 text-emerald-600" />

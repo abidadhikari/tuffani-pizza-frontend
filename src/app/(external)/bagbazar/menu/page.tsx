@@ -1,0 +1,81 @@
+import Image from "next/image";
+import React from "react";
+
+export default function SwadGuleliMenuPage() {
+  return (
+    <div className="bg-[#E22825] flex items-center flex-col">
+      <Image
+        src={"/images/bagbazar/1.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/2.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/3.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/4.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/5.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/6.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/7.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/8.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/9.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/10.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/11.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+      <Image
+        src={"/images/bagbazar/12.jpg"}
+        alt={"menu"}
+        width={1000}
+        height={1000}
+      />
+    </div>
+  );
+}
